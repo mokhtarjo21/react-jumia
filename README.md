@@ -11,3 +11,10 @@ Currently, two official plugins are available:
 
 If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
 # react-jumia
+# for run react project
+1- download Node.js
+2- npm create vite@latest
+choose  react > javascript + sw
+copy all files from repo to your react project
+
+make replace
