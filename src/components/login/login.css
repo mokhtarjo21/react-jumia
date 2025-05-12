@@ -4,18 +4,39 @@
     width: 100%;
     font-family: Arial, sans-serif;
     direction: rtl;
+    text-align: center;
+    margin: auto;
+    
   }
   
+  .logo {
+    height: 3em;
+    width: 3em;
+    font-size: 26px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    margin: auto;
+    color: #1a202c;
+  }
+  
+  .logo .star {
+    color: orange;
+    margin-right: 3px;
+  }
+  
+  /* شريط البحث */
   .login-box {
     flex: 1;
-    padding: 2rem;
+    padding: 1rem;
     max-width: 500px;
     margin: auto;
 
     border-radius: 8px;
     background-color: #fff;
   }
-  
+ 
   .login-left {
     flex: 1;
     background-color: #f2f2f2; /* أو ضع صورة */
@@ -31,7 +52,7 @@
   input {
     width: 100%;
     padding: 10px;
-    margin-top: 1rem;
+    margin-top: .5rem;
     border: 1px solid #ccc;
     background: #fffacd;
     border-radius: 4px;
@@ -44,7 +65,7 @@
     background-color: #f7941d;
     color: white;
     font-weight: bold;
-    margin-top: 1rem;
+    margin-top: .5rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -57,7 +78,7 @@
     background-color: #1877f2;
     color: white;
     font-weight: bold;
-    margin-top: 1rem;
+    margin-top: .5rem;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -73,9 +94,17 @@
     text-decoration: none;
   }
   
-  .footer {
-    margin-top: 1.5rem;
+  .foote {
+   
     font-size: 0.8rem;
-    color: #555;
+
   }
   
+  .jumia {
+    height: 2rem;
+    width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto; /* Center horizontally and vertically */
+  }
