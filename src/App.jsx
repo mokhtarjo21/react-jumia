@@ -9,9 +9,9 @@ function App() {
 
   return (
     <>
-      <Header />
+     
      <JumiaLogin />
-      <Footer />
+      
    
     </>
   )
