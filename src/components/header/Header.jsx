@@ -4,6 +4,8 @@ import { FiSearch } from "react-icons/fi";
 import "./header.css";
 
 const Header = () => {
+
+  
   return (
     <header className="header">
       {/* الشريط العلوي */}
@@ -36,15 +38,15 @@ const Header = () => {
         <div className="header-right">
           <div className="cart">
             <FaShoppingCart />
-            <span>سلة التسوق</span>
+            <span>Cart </span>
           </div>
           <div className="help">
             <FaQuestionCircle />
-            <span>المساعدة</span>
+            <span>Help</span>
           </div>
           <div className="user">
             <FaUser />
-            <span>مرحباً، Elmokhtar</span>
+            <span>Hi, Elmokhtar</span>
           </div>
         </div>
       </div>
