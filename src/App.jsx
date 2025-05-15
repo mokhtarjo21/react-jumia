@@ -1,5 +1,12 @@
-import { useState } from 'react'
 
+import React, { useState,useContext, useEffect } from "react";
+import LoginForm from "./components/login/Loginpass";
+import Login from "./components/login/Login";
+import Active from "./components/login/active";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import './App.css'
 import JumiaLogin from './components/login/HomeLogin'
 import Header from './components/header/Header'
@@ -10,8 +17,17 @@ function App() {
   return (
     <>
      
-     <JumiaLogin />
-      
+     
+      <BrowserRouter>
+
+    
+                <Routes>
+                    <Route path="/login/*" element={<JumiaLogin />} />
+                  
+                </Routes>
+              
+
+            </BrowserRouter>
    
     </>
   )

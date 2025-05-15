@@ -10,24 +10,46 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+  const Summits = async () => {
+    try {
+      const response = await instance.post('/users/api/token/', {
+        username: user.email,
+        password: user.password
+      });
+      if (response.status === 200) {
+        // Assuming the response contains a token or user data
+        localStorage.setItem('access', response.data.access);
+        localStorage.setItem('refresh', response.data.refresh);
+        navigate("/");
+        
+        
+        // navigate("/home");
+      } else {
+         alert("ccurred while logging in. Please try again.");
+      } 
+    } catch (error) {
+      console.error("Login error:", error);
+      document.getElementById("error-message").innerText = "Email or password is incorrect. Please try again.";
+    }
+  }
   return (
     <div className="login-container">
      <img className="logo" alt="jumia logo" src="/myjumia-top-logo.png" id="myjumia-top-logo"></img>
-      <h1 className="login-title">مرحبًا بعودتك!</h1>
-      <p className="login-subtitle">قم بتسجيل الدخول مرة أخرى إلى حساب Jumia الخاص بك.</p>
+      <h1 className="login-title">Welcome back!</h1>
+      <p className="login-subtitle">Log back into your Jumia account.</p>
 
       <div className="login-box">
         <div className="email-box">
           <span>{user.email}</span>
           <button className="edit-btn"
-          onClick={() => navigate("/")}
-          >تعديل</button>
+          onClick={() => navigate("/login")}
+          >Edite</button>
         </div>
 
         <div className="password-box">
           <input
             type={showPassword ? 'text' : 'password'}
-            placeholder="كلمة السر"
+            placeholder="Password"
             value={user.password}
             onChange={(e) => setUser({...user,password:e.target.value})}
           />
@@ -39,13 +61,15 @@ const LoginForm = () => {
             {showPassword ? '👁️' : '🙈'}
           </button>
         </div>
+        <p id="error-message" className="text-danger"></p>
+        <button onClick={()=>Summits()} className="login-btn">Log in</button>
 
-        <button className="login-btn">تسجيل الدخول</button>
-
-        <div className="forgot-password">هل نسيت كلمة المرور؟</div>
+        <div className="forgot-password">Forget your Password</div>
 
         <p className="support-text">
-          لمزيد من الدعم، يمكنك زيارة مركز المساعدة أو الاتصال بفريق خدمة العملاء.
+          
+For further support, you may visit the Help Center or contact our customer service team.
+
         </p>
       </div>
     </div>
