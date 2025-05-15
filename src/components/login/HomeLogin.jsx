@@ -11,15 +11,7 @@ import AddNameAndPhone from "./userInfo3";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 function JumiaLogin() {
   
-  useEffect(() => {
-    const checkuser = async () => {
-      
-       const response = await instance.get("/users/api/",);
-       const csrfToken = response.data.csrfToken;
-       document.cookie = `csrfToken=${csrfToken}; path=/; secure; samesite=strict`;
-    };
-    checkuser();
-}, []);
+
   return (
     <>
   

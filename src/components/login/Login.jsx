@@ -31,7 +31,7 @@ export default function Login() {
         console.log(response.data);
         if (response.data.user === "1") {
           
-          navigate("/login");
+          navigate("/login/login");
         } else {
           createuser();
           navigate("active");

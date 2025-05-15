@@ -30,13 +30,14 @@ const PersonalDetailsForm = () => {
 
     const accessapi = async () => {
       try {
-        const response = await instance.post('/users/api/token/', {username: user.email, password: user.password});
+        const response = await instance.post('/users/api/token/', {username: user.email, password: "user.password"});
         if (response.status === 200) {
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh', response.data.refresh);
           console.log('Token received:', response.data);
           console.log('Personal details submitted successfully');
-          // navigate('/login/'); // Navigate to the next step
+          navigate('/'); // Navigate to the next step
+         
         } else {
           console.error('Failed to submit personal details');
         }
@@ -44,7 +45,7 @@ const PersonalDetailsForm = () => {
         console.error('Error submitting personal details:', error);
       }
     }
-    // accessapi();
+    accessapi();
   };
 
   return (

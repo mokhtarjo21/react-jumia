@@ -9,5 +9,42 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      function refreshAccessToken() {
+  const refresh = localStorage.getItem('refresh');
+
+  fetch('http://localhost:8000/users/api/token/refresh/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ refresh }),
+  })
+    .then(res => res.json())
+    .then(data => {
+      localStorage.setItem('access', data.access);
+    })
+    .catch(err => {
+      console.error('Refresh token expired, need to log in again');
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      // redirect to login
+    });
+}
+  refreshAccessToken();
+  const checkuser = async () => {
+    fetch('http://localhost:8000/users/api/', {
+    method: 'get',
+    headers: { 'Content-Type': 'application/json' },
+   
+  })
+  .then(res => res.json())
+    .then(data => {
+      const csrfToken = data.csrfToken;
+       document.cookie = `csrfToken=${csrfToken}; path=/; secure; samesite=strict`;
+
+    })
+      
+           };
+    checkuser();
+    </script>
   </body>
 </html>

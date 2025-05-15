@@ -12,21 +12,24 @@ const LoginForm = () => {
   const { user, setUser } = useContext(UserContext);
   const Summits = async () => {
     try {
-      const response = await instance.post('/login', {
-        email: user.email,
+      const response = await instance.post('/users/api/token/', {
+        username: user.email,
         password: user.password
       });
-      if (response.data.success) {
+      if (response.status === 200) {
         // Assuming the response contains a token or user data
-        setUser(response.data.user);
-        document.getElementById("error-message").innerText = "Login failed. Please check your credentials.";
-        navigate("/home");
+        localStorage.setItem('access', response.data.access);
+        localStorage.setItem('refresh', response.data.refresh);
+        navigate("/");
+        
+        
+        // navigate("/home");
       } else {
-        document.getElementById("error-message").innerText = "Login failed. Please check your credentials.";
-      }
+         alert("ccurred while logging in. Please try again.");
+      } 
     } catch (error) {
       console.error("Login error:", error);
-      alert("An error occurred while logging in. Please try again.");
+      document.getElementById("error-message").innerText = "Email or password is incorrect. Please try again.";
     }
   }
   return (
@@ -58,7 +61,7 @@ const LoginForm = () => {
             {showPassword ? '👁️' : '🙈'}
           </button>
         </div>
-        <p id="error-message" className="error-message"></p>
+        <p id="error-message" className="text-danger"></p>
         <button onClick={()=>Summits()} className="login-btn">Log in</button>
 
         <div className="forgot-password">Forget your Password</div>
