@@ -3,22 +3,48 @@ import React, { useState,useContext } from "react";
 
 
 import { useNavigate } from "react-router-dom";
-
+import { instance } from "../../axiosInstance/instance";
 import { UserContext } from '../../Context/user';
 function EmailVerification() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [touched, setTouched] = useState(false);
-  
-
+  const [vendor, setVendor] = useState(false);
+   const createVendor = async () => {
+        try {
+          const response = await instance.post('/users/api/register_vendor', {email: user.email});
+          if (response.status === 200) {
+            console.log('User created successfully');
+          }
+        } catch (error) {
+          console.error('Error creating user:', error);
+        }
+      };
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTouched(true);
-    if (user.email.trim() === '') return;
-    
-    // Handle submission (e.g., API call)
+    const checkemail= async () => {
+          try {
+            const response = await instance.post("/users/api/check_email", {
+             email: user.email,
+            },  { headers: { 'Content-Type': 'application/json' } });
+            console.log(response.data);
+            if (response.data.user === "1") {
+              
+              setVendor(true);
+            } else {
+              createVendor();
+              navigate('/loginvendor/step3'); 
+             
+            }
+          } catch (error) {
+            
+            console.error("Error during login:", error);
+            alert("خطأ في تسجيل الدخول");
+          }
+        }
+        checkemail();
     console.log("Verifying email:");
-    navigate('/loginvendor/step3'); 
+   
   };
 
   return (
@@ -39,7 +65,7 @@ function EmailVerification() {
           <p className="text-muted small mb-4">
             Please provide your email address to create your seller account
           </p>
-
+          {/* Email Input Form */}<p className="text-danger text-center">{vendor ? 'Is Account Already Exist' : ''}</p>
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
               <label htmlFor="email" className="form-label">

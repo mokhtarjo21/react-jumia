@@ -2,21 +2,31 @@ import React, { useState,useContext } from "react";
 
 
 import { useNavigate } from "react-router-dom";
-
+import { instance } from "../../axiosInstance/instance";
 import { UserContext } from '../../Context/user';
 function EmailVerification() {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const [touched, setTouched] = useState(false);
-  
+  const [called, setCalled] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    setTouched(true);
-    if (user.email.trim() === '') return;
-    
+   try {
+         const response = await instance.post('/users/api/active', { email:user.email,code: user.code });
+         if (response.status === 200) {
+            
+           console.log('OTP verified successfully');
+           navigate('/loginvendor/step4'); // Navigate to the next step
+         }
+       } catch (error) {
+         setCalled(true);
+         console.error('Error verifying OTP:', error);
+       }
+   
     // Handle submission (e.g., API call)
-    console.log("Verifying email:", email);
+    console.log(response.data);
+    console.log("Verifying email:", user.email);
   };
 
   return (
@@ -37,7 +47,9 @@ function EmailVerification() {
           <p className="text-muted small mb-4">
             Please provide your email address to create your seller account
           </p>
-
+          <p className="text-danger text-center">
+            {called ? 'The code is incorrect, please try again' : ''}
+          </p>
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
               
@@ -54,7 +66,10 @@ function EmailVerification() {
                 id="code"
                 className={`form-control ${touched ? 'is-invalid' : ''}`}
                
-                onChange={(e) => setUser({...user, code: e.target.value})}
+                onChange={(e) => {
+                  setUser({ ...user, code: e.target.value });
+                  setCalled(false); // Reset touched state on change
+                }}
                 
                 required
               />

@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState,useContext, useEffect } from "react";
 
+
+import { useNavigate } from "react-router-dom";
+import { instance } from "../../axiosInstance/instance";
+import { UserContext } from '../../Context/user';
 const ShopInformationForm = () => {
-  const [accountType, setAccountType] = useState('Business');
-  const [shopName, setShopName] = useState('');
-  const [shippingZone, setShippingZone] = useState('');
-  const [referralSource, setReferralSource] = useState('');
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
   const [agreed, setAgreed] = useState(false);
-
+  useEffect(() => {
+    setUser({
+      ...user,
+      accountType: 'Business',})
+  }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!agreed) {
       alert("You must agree to the terms to proceed.");
       return;
     }
-    console.log({ accountType, shopName, shippingZone, referralSource });
+    console.log(user);
+    navigate('/loginvendor/step5'); // Navigate to the next step
   };
 
   return (
@@ -41,8 +48,8 @@ const ShopInformationForm = () => {
                     name="accountType"
                     id="business"
                     value="Business"
-                    checked={accountType === 'Business'}
-                    onChange={() => setAccountType('Business')}
+                    checked={user.accountType === 'Business'}
+                    onChange={() => setUser({...user,accountType:'Business'})}
                   />
                   <label className="btn btn-outline-warning" htmlFor="business">
                     <i className="bi bi-briefcase-fill me-2"></i>Business
@@ -54,8 +61,8 @@ const ShopInformationForm = () => {
                     name="accountType"
                     id="individual"
                     value="Individual"
-                    checked={accountType === 'Individual'}
-                    onChange={() => setAccountType('Individual')}
+                    checked={user.accountType === 'Individual'}
+                    onChange={() => setUser({...user,accountType:'Individual'})}
                   />
                   <label className="btn btn-outline-warning" htmlFor="individual">
                     <i className="bi bi-person-fill me-2"></i>Individual
@@ -69,8 +76,8 @@ const ShopInformationForm = () => {
                   type="text"
                   className="form-control"
                   placeholder="Shop name *"
-                  value={shopName}
-                  onChange={(e) => setShopName(e.target.value)}
+                  value={user.shopName}
+                  onChange={(e) => setUser({...user,shopName:e.target.value})}
                   required
                 />
               </div>
@@ -79,8 +86,8 @@ const ShopInformationForm = () => {
               <div className="mb-3">
                 <select
                   className="form-select"
-                  value={shippingZone}
-                  onChange={(e) => setShippingZone(e.target.value)}
+                  value={user.shippingZone}
+                  onChange={(e) => setUser({...user,shippingZone:e.target.value})}
                   required
                 >
                   <option value="">Shipping Zone *</option>
@@ -94,8 +101,8 @@ const ShopInformationForm = () => {
               <div className="mb-3">
                 <select
                   className="form-select"
-                  value={referralSource}
-                  onChange={(e) => setReferralSource(e.target.value)}
+                  value={user.referralSource}
+                  onChange={(e) => setUser({...user,referralSource:e.target.value})}
                   required
                 >
                   <option value="">How did you hear about Jumia? *</option>
