@@ -1,21 +1,65 @@
-import React, { useState } from 'react';
+import React, { useState,useContext, useEffect } from "react";
+
+
+import { useNavigate } from "react-router-dom";
+import { instance } from "../../axiosInstance/instance";
+import { UserContext } from '../../Context/user';
 import { Eye, EyeOff } from 'lucide-react'; // Optional for toggle icons
 
 const PersonalInfoForm = () => {
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
+    console.log("Submitting personal details:", user);
+    if (user.password !== user.confirmPassword) {
       alert("Passwords do not match.");
       return;
     }
-    console.log({ phone, password });
-  };
+    const submitData = async () => {
+          try {
+            const response = await instance.post('/users/api/info/', user,
+              { headers: { 'Content-Type': 'application/json',
+                // x-:  {localStorage.getItem('csrfToken')}
+               } }
+            );
+            if (response.status === 200) {
+              
+              console.log('Token received:', response.data);
+              console.log('Personal details submitted successfully');
+              // navigate('/login/'); // Navigate to the next step
+            } else {
+              console.error('Failed to submit personal details');
+            }
+          } catch (error) {
+            console.error('Error submitting personal details:', error);
+          }
+        }
+        submitData();
+    
+        const accessapi = async () => {
+          try {
+            const response = await instance.post('/users/api/token/', {username: user.email, password: user.password});
+            if (response.status === 200) {
+              localStorage.setItem('access', response.data.access);
+              localStorage.setItem('refresh', response.data.refresh);
+              console.log('Token received:', response.data);
+              console.log('Personal details submitted successfully');
+              navigate('/vendor'); // Navigate to the next step
+             
+            } else {
+              console.error('Failed to submit personal details');
+            }
+          } catch (error) {
+            console.error('Error submitting personal details:', error);
+          }
+        }
+        accessapi();
+      };
 
   return (
     <div className="container my-5">
@@ -34,13 +78,24 @@ const PersonalInfoForm = () => {
             <form onSubmit={handleSubmit}>
               {/* Phone Input */}
               <div className="mb-3 d-flex">
-                <span className="input-group-text px-3">+20</span>
+                <select
+              className="form-select me-2"
+              value={user.countryCode || ""}
+              onChange={(e) => setUser({...user,countryCode:e.target.value})}
+              required
+              style={{ maxWidth: '90px' }}
+            >
+              <option value="+20">+20</option>
+              <option value="+966">+966</option>
+              <option value="+971">+971</option>
+              <option value="+1">+1</option>
+            </select>
                 <input
                   type="tel"
                   className="form-control"
                   placeholder="Phone number *"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  value={user.phone}
+                  onChange={(e) => setUser({...user, phone: e.target.value})}
                   required
                 />
               </div>
@@ -51,8 +106,8 @@ const PersonalInfoForm = () => {
                   type={showPassword ? 'text' : 'password'}
                   className="form-control pe-5"
                   placeholder="Password *"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={user.password}
+                  onChange={(e) => setUser({...user, password: e.target.value})}
                   required
                 />
                 <span
@@ -69,8 +124,8 @@ const PersonalInfoForm = () => {
                   type={showConfirm ? 'text' : 'password'}
                   className="form-control pe-5"
                   placeholder="Confirm Password *"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  value={user.confirmPassword}
+                  onChange={(e) => setUser({...user, confirmPassword: e.target.value})}
                   required
                 />
                 <span

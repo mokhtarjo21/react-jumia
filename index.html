@@ -39,7 +39,8 @@
   .then(res => res.json())
     .then(data => {
       const csrfToken = data.csrfToken;
-       document.cookie = `csrfToken=${csrfToken}; path=/; secure; samesite=strict`;
+       document.cookie = `csrftoken=${csrfToken}; path=/; secure; samesite=strict`;
+       localStorage.setItem('csrfToken', csrfToken);
 
     })
       

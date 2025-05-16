@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useContext, useEffect } from "react";
 
 
 import { useNavigate } from "react-router-dom";
@@ -12,16 +12,25 @@ const CountrySelection = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setTouched(true);
-    if (user.country.trim() === '') return;
+
+    if (user.country.trim() === '') {
+      setTouched(true);
+     
+      return;}
     console.log('Selected country:', country);
     navigate('/loginvendor/step2'); // Navigate to the next step
   };
-
+  useEffect(() => {
+    // Reset touched state when user changes country
+    setUser({ ...user, country: '' });
+    
+  }, []);
+ 
   const countries = ['Nigeria', 'Kenya', 'Egypt', 'Morocco', 'South Africa']; // Add more as needed
 
   return (
     <div className="d-flex vh-100 bg-light">
-      {/* Left image/illustration */}
+      
       <div className="w-50 d-flex justify-content-center align-items-center bg-white">
         <img
           src="/signup-background.svg"
@@ -41,7 +50,7 @@ const CountrySelection = () => {
               <label htmlFor="country" className="form-label d-none">Country</label>
               <select
                 id="country"
-                className={`form-select ${touched && !country ? 'is-invalid' : ''}`}
+                className={`form-select ${touched  ? 'is-invalid' : ''}`}
                 value={user.country}
                 onChange={(e) => setUser({ ...user, country: e.target.value })}
                 onBlur={() => setTouched(true)}
