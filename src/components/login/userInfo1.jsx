@@ -11,7 +11,8 @@ const CreateAccountForm = () => {
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
   const email =user.email;
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [conshowPassword, setconShowPassword] = useState(false);
   const handleSubmit = (e) => {
     e.preventDefault();
     if (user.password !== user.confirmPassword) {
@@ -42,9 +43,15 @@ const CreateAccountForm = () => {
           <div className="mb-3">
             <label htmlFor="password" className="form-label visually-hidden">Password</label>
             <div className="input-group">
-              <span className="input-group-text"><i className="bi bi-eye-slash"></i></span>
+              <span className="input-group-text"><button
+            type="button"
+            onClick={() => setconShowPassword(!conshowPassword)}
+            className="show-password-btn"
+          >
+            {conshowPassword ? '👁️' : '🙈'}
+          </button></span>
               <input
-                type="password"
+                type={conshowPassword ? 'text' : 'password'}
                 id="password"
                 className="form-control"
                 placeholder="Password"
@@ -58,9 +65,15 @@ const CreateAccountForm = () => {
           <div className="mb-3">
             <label htmlFor="confirmPassword" className="form-label visually-hidden">Confirm password</label>
             <div className="input-group">
-              <span className="input-group-text"><i className="bi bi-eye-slash"></i></span>
+              <span className="input-group-text"><button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="show-password-btn"
+          >
+            {showPassword ? '👁️' : '🙈'}
+          </button></span>
               <input
-                type="password"
+                type={showPassword ? 'text' : 'password'}
                 id="confirmPassword"
                 className="form-control"
                 placeholder="Confirm password" 

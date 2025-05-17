@@ -38,7 +38,7 @@ export default function Login() {
          
         }
       } catch (error) {
-        navigate("active");
+        
         console.error("Error during login:", error);
         alert("خطأ في تسجيل الدخول");
       }
