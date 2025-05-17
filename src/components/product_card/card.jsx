@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
+import { addFavorite, removeFavorite } from "../../store/favoritesSlice";
 import "./card.css";
+// Import the Jumia Express logo
+import jexpressLogo from "../../assets/jexpress-logo.png";
 
 function ProductCard({ product }) {
-  const [isFavorite, setIsFavorite] = useState(false);
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.favorites.items);
+  const isFavorite = favorites.some(item => item.id === product.id);
+  console.log(favorites);
 
   // Get the primary image or fallback
   const primaryImage = product.product_images?.find(img => img.is_primary) || product.product_images?.[0];
@@ -18,8 +25,16 @@ function ProductCard({ product }) {
   const discount =
     product.sale_price && product.price
       ? Math.round(
-          ((parseFloat(product.price) - parseFloat(product.sale_price)) / parseFloat(product.price))*100)
+          ((parseFloat(product.price) - parseFloat(product.sale_price)) / parseFloat(product.price)) * 100)
       : null;
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      dispatch(removeFavorite(product.id));
+    } else {
+      dispatch(addFavorite(product));
+    }
+  };
 
   // Render stars
   const renderStars = (rating) => {
@@ -37,33 +52,27 @@ function ProductCard({ product }) {
     return stars;
   };
 
-//   jumia express svg
-{/* <svg aria-label="Express Shipping" viewBox="0 0 114 12" class="ic xprss" width="94" height="10">
-  <use xlink:href="https://www.jumia.com.eg/assets_he/images/i-shop-jumia.9dea3b69.svg#express"></use>
-</svg> */}
+  
 
   return (
-    <Card className="product-card shadow-sm ">
-      {/* Free Shipping Badge */}
-      {product.is_featured && (
-        <Badge
-          bg="warning"
-          className="position-absolute"
-          style={{ top: 10, left: 10, zIndex: 2, fontSize: 12 }}
-        >
-          Free Shipping*
-        </Badge>
+    <Card className="product-card shadow-sm">
+      {/* low stocks Badge */}
+      {product.stock_quantity < 50 && (
+      <Badge
+        className="low-stocks-badge"
+      >
+        only {product.stock_quantity} left in stock
+      </Badge>
       )}
 
       {/* Favorite Button */}
-      <Button
-        variant="light"
-        className="position-absolute p-2"
-        style={{ top: 10, right: 10, borderRadius: "50%" }}
-        onClick={() => setIsFavorite((f) => !f)}
+      <div 
+        className="position-absolute"
+        style={{ top: 170, right: 10, cursor: "pointer", zIndex: 2 }}
+        onClick={handleFavoriteClick}
       >
-        <FaHeart color={isFavorite ? "#ff4d4f" : "#ccc"} />
-      </Button>
+        <FaHeart size={24} color={isFavorite ? "#ff4d4f" : "#ccc"} />
+      </div>
 
       {/* Product Image */}
       <Card.Img
@@ -73,23 +82,17 @@ function ProductCard({ product }) {
         className="product-card-img"
       />
 
-      <Card.Body style={{ paddingBottom: 48 }}>
-        <Card.Title style={{ fontSize: 16, fontWeight: 500 }}>
+      <Card.Body>
+        <Card.Title className="mb-1" style={{ fontSize: 14, fontWeight: 600, lineHeight: 1.3 }}>
           {product.name}
         </Card.Title>
-        <div style={{ fontSize: 13, color: '#888', marginBottom: 4 }}>{product.brand_name}</div>
+        <div style={{ fontSize: 13, color: '#888', marginBottom: 8 }}>{product.brand_name}</div>
 
         {/* Price Section */}
-        <div style={{ fontWeight: 700, fontSize: 18, color: "#222" }}>
-          {product.sale_price ? (
-            <>
-              EGP {product.sale_price} {"-"} EGP {product.price}
-              
-            </>
-          ) : (
-            <>EGP {product.price}</>
-          )}
+        <div className="fw-bold mb-1" style={{ fontSize: 18, color: "#222" }}>
+          EGP {product.sale_price || product.price}
         </div>
+        
         {product.sale_price && (
           <div className="d-flex align-items-center mb-2">
             <span
@@ -102,7 +105,8 @@ function ProductCard({ product }) {
             >
               EGP {product.price}
             </span>
-            <Badge bg="warning" text="dark" style={{ fontSize: 12 }}>
+            
+            <Badge className="discount-badge" text="dark" >
               -{discount}%
             </Badge>
           </div>
@@ -111,23 +115,24 @@ function ProductCard({ product }) {
         {/* Rating */}
         <div className="d-flex align-items-center mb-2">
           {renderStars(product.rating_average)}
-          <span style={{ fontSize: 15, color: "#888", marginLeft: 6 }}>
+          <span style={{ fontSize: 13, color: "#888", marginLeft: 6 }}>
             ({product.rating_count})
           </span>
         </div>
       </Card.Body>
 
-      {/* Add to Cart Button (only on hover) */}
+      {/* Jumia Express Badge */}
+      {product.is_featured && (
+        <div className="jumia-express-badge">
+          <span className="Jumia-express">
+            <img className="jumia-express-logo" src={jexpressLogo} alt="Jumia Express" />
+          </span>
+        </div>
+      )}
+
       <Button
         variant="warning"
-        className="add-to-cart-btn w-100"
-        style={{
-          color: "#fff",
-          fontWeight: 600,
-          background: "#ff9900",
-          border: "none",
-          borderRadius: 8,
-        }}
+        className="add-to-cart-btn"
       >
         Add to cart
       </Button>
