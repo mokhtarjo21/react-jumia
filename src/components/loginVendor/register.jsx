@@ -1,109 +1,66 @@
-import React, { useState,useContext } from "react";
+import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-import { useNavigate } from "react-router-dom";
-
-import { UserContext } from '../../Context/user';
-const CountrySelection = () => {
-  const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
-  const [touched, setTouched] = useState(false);
+function ResetPassword() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTouched(true);
-    if (user.country.trim() === '') return;
-    console.log('Selected country:', country);
-    navigate('/loginvendor/step2'); // Navigate to the next step
+    // Replace this with an actual API call to your backend or Keycloak endpoint
+    console.log('Reset password requested for:', email);
+    setSubmitted(true);
   };
 
-  const countries = ['Nigeria', 'Kenya', 'Egypt', 'Morocco', 'South Africa']; // Add more as needed
-
   return (
-    <div className="d-flex vh-100 bg-light">
-      {/* Left image/illustration */}
-      <div className="w-50 d-flex justify-content-center align-items-center bg-white">
-        <img
-          src="/signup-background.svg"
-          alt="Store Illustration"
-          style={{ maxHeight: '70%', objectFit: 'contain' }}
-        />
-      </div>
+    <div className="bg-light vh-100 d-flex justify-content-center align-items-center">
+      <div className="card shadow-sm p-4" style={{ maxWidth: '450px', width: '100%' }}>
+        
 
-      {/* Right form section */}
-      <div className="w-50 d-flex justify-content-center align-items-center">
-        <div style={{ maxWidth: '400px', width: '100%' }}>
-          <h4 className="mb-2">Sell on Jumia</h4>
-          <p className="text-muted small mb-4">Choose the country of your shop</p>
-
+        {!submitted ? (
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
-              <label htmlFor="country" className="form-label d-none">Country</label>
-              <select
-                id="country"
-                className={`form-select ${touched && !country ? 'is-invalid' : ''}`}
-                value={user.country}
-                onChange={(e) => setUser({ ...user, country: e.target.value })}
-                onBlur={() => setTouched(true)}
-              >
-                <option value="">Select your country *</option>
-                {countries.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-              {touched && !country && (
-                <div className="invalid-feedback">Please select a country.</div>
-              )}
+              <label htmlFor="email" className="form-label text-muted small">Email</label>
+              <div className="input-group">
+                <span className="input-group-text bg-white border-warning">
+                  <i className="bi bi-person" />
+                </span>
+                <input
+                  type="email"
+                  className="form-control border-warning"
+                  id="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
             </div>
 
-            <button type="submit" className="btn btn-warning w-100 text-white">
-              NEXT
-            </button>
+            <div className="d-flex justify-content-between mb-3">
+              <a href="/login" className="btn btn-link p-0">← Back</a>
+              <button type="submit" className="btn btn-warning text-white">
+                Submit
+              </button>
+            </div>
           </form>
-
-          {/* OR Section */}
-          <div className="text-center my-3">
-            <span className="text-muted">OR</span>
+        ) : (
+          <div className="alert alert-success text-center">
+            If the email exists, a reset link has been sent.
           </div>
+        )}
 
-          <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-center">
-            <i className="bi bi-globe2 me-2"></i>
-            Sell Globally on Jumia
-          </button>
+        <hr />
+        <p className="text-muted small text-center">
+          Enter your email address and we will send you instructions on how to create a new password.
+        </p>
 
-          <p className="text-muted mt-2 small text-center">
-            Register as a Jumia Global seller and sell your products across Africa.
-            <br />
-            <a href="https://www.jumia-global.com/" target="_blank" rel="noopener noreferrer">
-              Know more about Jumia Global
-            </a>
-          </p>
-
-          {/* Already have account */}
-          <p className="text-center mt-4">
-            Already have an account? <span onClick={()=>navigate('/loginvendor')}>Sign in</span>
-          </p>
-
-          <div className="mt-4 text-center">
-            <div className="d-flex justify-content-center gap-2">
-              <span className="bg-warning rounded-circle" style={dotStyle(true)}></span>
-              <span className="bg-secondary rounded-circle" style={dotStyle(false)}></span>
-              <span className="bg-secondary rounded-circle" style={dotStyle(false)}></span>
-              <span className="bg-secondary rounded-circle" style={dotStyle(false)}></span>
-              <span className="bg-secondary rounded-circle" style={dotStyle(false)}></span>
-            </div>
-          </div>
+        <div className="text-center mt-3">
+          
         </div>
       </div>
     </div>
   );
-  
-};
-const dotStyle = (active) => ({
-  height: '10px',
-  width: '10px',
-  display: 'inline-block',
-  backgroundColor: active ? 'orange' : '#ccc',
-  borderRadius: '50%',
-});
-export default CountrySelection;
+}
+
+export default ResetPassword;
