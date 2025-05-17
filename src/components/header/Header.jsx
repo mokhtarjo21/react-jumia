@@ -116,7 +116,7 @@ export default function JumiaNavbar() {
           </div>
 
           {/* Cart */}
-          <div className="d-flex align-items-center" style={{ cursor: 'pointer' }}>
+          <div onClick={()=>navigate('/cart')} className="d-flex align-items-center" style={{ cursor: 'pointer' }}>
             <FaShoppingCart size={18} />
             <span className="ms-1">Cart</span>
           </div>
