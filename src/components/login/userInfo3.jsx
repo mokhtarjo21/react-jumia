@@ -30,7 +30,7 @@ const PersonalDetailsForm = () => {
 
     const accessapi = async () => {
       try {
-        const response = await instance.post('/users/api/token/', {username: user.email, password: "user.password"});
+        const response = await instance.post('/users/api/token/', {username: user.email, password: user.password});
         if (response.status === 200) {
           localStorage.setItem('access', response.data.access);
           localStorage.setItem('refresh', response.data.refresh);
