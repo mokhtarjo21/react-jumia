@@ -93,7 +93,8 @@ export default function JumiaNavbar() {
                 className="dropdown-menu show position-absolute end-0 mt-2"
                 style={{ zIndex: 999 }}
               >
-                <span className="dropdown-item" onClick={()=>navigate('/order')}>Orders</span>
+              <span className="dropdown-item" onClick={()=>navigate('/profile')}>Profile</span>
+              <span className="dropdown-item" onClick={()=>navigate('/order')}>Orders</span>
                
                 <span className="dropdown-item" onClick={sublogout}>Logout</span>
               </div>):( <div
