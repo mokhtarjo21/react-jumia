@@ -1,19 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-
+import { Provider } from 'react-redux';
+import store from './store';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-// import './App.css'
 import JumiaLogin from "./components/login/HomeLogin";
 import VendorLogin from "./components/loginVendor/homelogin";
 import ProductDetials from "./components/productDetail/home";
-
 import TestHomePage from "./components/test_homepage/test_homepage";
 import CategoryPage from "./components/category_page/category_main";
 import Layout from "./components/productDetail/Layout";
+import FavoritesInitializer from "./components/FavoritesInitializer";
+
 function App() {
   return (
-    <>
+    <Provider store={store}>
+      <FavoritesInitializer />
       <BrowserRouter>
         <Routes>
           <Route path="/login/*" element={<JumiaLogin />} />
@@ -25,7 +27,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </>
+    </Provider>
   );
 }
 
