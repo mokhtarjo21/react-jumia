@@ -16,7 +16,7 @@ const EmailVerification = () => {
 
   const handleSubmit = async (e) => {
    
-    const otpString = otp.reverse().join('');
+    const otpString = otp.join('');
    
     console.log('OTP:', otpString);
     try {
