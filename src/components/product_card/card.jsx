@@ -18,10 +18,7 @@ function ProductCard({ product }) {
   const discount =
     product.sale_price && product.price
       ? Math.round(
-          ((parseFloat(product.price) - parseFloat(product.sale_price)) /
-            parseFloat(product.price)) *
-            100
-        )
+          ((parseFloat(product.price) - parseFloat(product.sale_price)) / parseFloat(product.price))*100)
       : null;
 
   // Render stars
@@ -40,8 +37,13 @@ function ProductCard({ product }) {
     return stars;
   };
 
+//   jumia express svg
+{/* <svg aria-label="Express Shipping" viewBox="0 0 114 12" class="ic xprss" width="94" height="10">
+  <use xlink:href="https://www.jumia.com.eg/assets_he/images/i-shop-jumia.9dea3b69.svg#express"></use>
+</svg> */}
+
   return (
-    <Card className="product-card shadow-sm position-relative">
+    <Card className="product-card shadow-sm ">
       {/* Free Shipping Badge */}
       {product.is_featured && (
         <Badge
@@ -82,6 +84,7 @@ function ProductCard({ product }) {
           {product.sale_price ? (
             <>
               EGP {product.sale_price} {"-"} EGP {product.price}
+              
             </>
           ) : (
             <>EGP {product.price}</>

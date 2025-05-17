@@ -16,8 +16,8 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/login/*" element={<JumiaLogin />} />
-          <Route path="/loginvendor/*" element={<VendorLogin />} />
+          {/* <Route path="/login/*" element={<JumiaLogin />} /> */}
+          {/* <Route path="/loginvendor/*" element={<VendorLogin />} /> */}
           <Route path="/" element={<Layout />}>
             <Route path="product/" element={<ProductDetials />} />
             <Route path="test" element={<TestHomePage />} />
