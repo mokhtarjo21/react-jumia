@@ -1,0 +1,105 @@
+/* src/components/LoginForm.css */
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: white;
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  
+  .login-icon {
+    font-size: 40px;
+    color: orange;
+    margin-bottom: 10px;
+  }
+  
+  .login-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .login-subtitle {
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .login-box {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .email-box {
+    display: flex;
+    justify-content: space-between;
+    background: #f0f0f0;
+    padding: 12px;
+    border-radius: 6px;
+  }
+  
+  .edit-btn {
+    background: none;
+    border: none;
+    color: orange;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .password-box {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    position: relative;
+  }
+  
+  .password-box input {
+    padding: 12px;
+    padding-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .show-password-btn {
+   
+    right: 10px;
+    top: 10px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .login-btn {
+    background: orange;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .login-btn:hover {
+    background: darkorange;
+  }
+  
+  .forgot-password {
+    color: orange;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .support-text {
+    text-align: center;
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+  }
+  
