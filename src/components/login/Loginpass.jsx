@@ -18,6 +18,7 @@ const LoginForm = () => {
       });
       if (response.status === 200) {
         // Assuming the response contains a token or user data
+        console.log('Token received:', response.data);
         localStorage.setItem('access', response.data.access);
         localStorage.setItem('refresh', response.data.refresh);
         navigate("/");

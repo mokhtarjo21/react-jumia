@@ -55,7 +55,7 @@ const PersonalDetailsForm = () => {
               id="dob"
               type="date"
               className="form-control"
-              value={user.dob || ""}
+              value={user.dob }
               onChange={(e) => setUser({ ...user, gender: e.target.value })}
 
               required
