@@ -11,6 +11,7 @@ import TestHomePage from "./components/test_homepage/test_homepage";
 import CategoryPage from "./components/category_page/category_main";
 import Layout from "./components/productDetail/Layout";
 import FavoritesInitializer from "./components/FavoritesInitializer";
+import Cart from "./components/cart/CartPage";
 
 function App() {
   return (
@@ -24,6 +25,8 @@ function App() {
             <Route path="product/" element={<ProductDetials />} />
             <Route path="test" element={<TestHomePage />} />
             <Route path=":category/" element={<CategoryPage />} />
+            <Route path="cart/" element={<Cart />} />
+
           </Route>
         </Routes>
       </BrowserRouter>
