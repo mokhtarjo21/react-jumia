@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
@@ -11,6 +12,7 @@ import jexpressLogo from "../../assets/jexpress-logo.png";
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const favorites = useSelector((state) => state.favorites.items);
   const isFavorite = favorites.some(item => item.id === product.id);
   console.log(favorites);
@@ -36,6 +38,14 @@ function ProductCard({ product }) {
     }
   };
 
+  const handleCardClick = (e) => {
+    // Prevent click if clicking on favorite button or add to cart button
+    if (e.target.closest('.position-absolute') || e.target.closest('.add-to-cart-btn')) {
+      return;
+    }
+    navigate(`/product/${product.id}`);
+  };
+
   // Render stars
   const renderStars = (rating) => {
     const stars = [];
@@ -55,7 +65,11 @@ function ProductCard({ product }) {
   
 
   return (
-    <Card className="product-card shadow-sm">
+    <Card 
+      className="product-card shadow-sm" 
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
       {/* low stocks Badge */}
       {product.stock_quantity < 50 && (
       <Badge

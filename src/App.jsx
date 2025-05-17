@@ -21,7 +21,7 @@ function App() {
           <Route path="/login/*" element={<JumiaLogin />} />
           <Route path="/loginvendor/*" element={<VendorLogin />} />
           <Route path="/" element={<Layout />}>
-            <Route path="product/" element={<ProductDetials />} />
+            <Route path="product/:product_id" element={<ProductDetials />} />
             <Route path="test" element={<TestHomePage />} />
             <Route path=":category/" element={<CategoryPage />} />
           </Route>
