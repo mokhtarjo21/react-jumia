@@ -4,8 +4,8 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import './App.css'
-// import JumiaLogin from "./components/login/HomeLogin";
-// import VendorLogin from "./components/loginVendor/homelogin";
+import JumiaLogin from "./components/login/HomeLogin";
+import VendorLogin from "./components/loginVendor/homelogin";
 import ProductDetials from "./components/productDetail/home";
 
 import TestHomePage from "./components/test_homepage/test_homepage";

@@ -1,0 +1,88 @@
+.verify-container {
+    text-align: center;
+    font-family: sans-serif;
+    padding: 40px 20px;
+    max-width: 400px;
+    margin: auto;
+  }
+  
+  .verify-icon {
+    width: 3rem;
+    color: orange;
+    margin-bottom: 10px;
+  }
+  
+  .verify-title {
+    font-size: 20px;
+    margin-bottom: 5px;
+  }
+  
+  .verify-subtitle {
+    color: #555;
+    margin: 0;
+  }
+  
+  .verify-email {
+    color: #444;
+    margin-bottom: 20px;
+  }
+  
+  .otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .otp-inputs input {
+    width: 50px;
+    height: 50px;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+  
+  .send-btn {
+    background-color: orange;
+    color: white;
+    padding: 12px;
+    width: 100%;
+    border: none;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  
+  .resend-text {
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .resend-text span {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  .support-text {
+    font-size: 13px;
+    color: #777;
+    margin-top: 30px;
+  }
+  
+  .logo {
+    margin-top: 20px;
+    font-weight: bold;
+    color: black;
+    font-size: 18px;
+  }
+  
+  .logo .star {
+    color: orange;
+  }
+  #erorrotp {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+  }
