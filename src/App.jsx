@@ -25,8 +25,6 @@ function App() {
                     <Route path="/test" element={<TestHomePage />} />
                     <Route path="/:category/" element={<CategoryPage />} />
                 </Routes>
-              
-
             </BrowserRouter>
    
     </>
