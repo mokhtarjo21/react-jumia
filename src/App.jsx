@@ -17,6 +17,7 @@ import CategoryPage from "./components/category_page/category_main";
 // Layout & Shared
 import Layout from "./components/productDetail/Layout";
 import FavoritesInitializer from "./components/FavoritesInitializer";
+import Cart from "./components/cart/CartPage";
 
 function App() {
   return (
@@ -27,10 +28,16 @@ function App() {
           <Route path="/login/*" element={<JumiaLogin />} />
           <Route path="/loginvendor/*" element={<VendorLogin />} />
           <Route path="/" element={<Layout />}>
+
             <Route index element={<Home />} />
             <Route path="product/:product_id" element={<ProductDetails />} />
             <Route path=":category/" element={<CategoryPage />} />
-            {/* <Route path="cart/" element={<Cart />} /> */}
+           
+
+         
+
+            <Route path="cart/" element={<Cart />} />
+
           </Route>
         </Routes>
       </BrowserRouter>
