@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { instance } from '../../axiosInstance/instance';
 import CartItem from './CartItem';
 import './Cart.css';
-import { getCartFromCookies } from '../../utils/cartCookie';
+import {
+  getCartFromCookies,
+  updateCartItem,
+  removeCartItem
+} from '../../utils/cartCookie'; // 🔄 make sure these exist
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
@@ -10,23 +14,44 @@ const CartPage = () => {
 
   useEffect(() => {
     if (accessToken) {
-      // Logged in — fetch from backend
       instance.get('/api/cart/', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
+        headers: { Authorization: `Bearer ${accessToken}` }
       })
       .then(res => setCart(res.data))
-      .catch(err => {
-        console.error('Error fetching backend cart:', err);
-        setCart([]);  // fallback
-      });
+      .catch(() => setCart([]));
     } else {
-      // Guest — load from cookies
-      const localCart = getCartFromCookies();
-      setCart(localCart);
+      setCart(getCartFromCookies());
     }
   }, [accessToken]);
+
+  const handleQuantityChange = (productId, color, size, delta) => {
+    const updatedCart = cart.map(item => {
+      if (
+        item.product.id === productId &&
+        item.color === color &&
+        item.size === size
+      ) {
+        const newQty = item.quantity + delta;
+        if (newQty > 0) {
+          item.quantity = newQty;
+          updateCartItem(item.product.id, color, size, newQty);
+        }
+      }
+      return item;
+    });
+    setCart([...updatedCart]);
+  };
+
+  const handleRemoveItem = (productId, color, size) => {
+    const filtered = cart.filter(
+      item =>
+        !(item.product.id === productId &&
+          item.color === color &&
+          item.size === size)
+    );
+    removeCartItem(productId, color, size);
+    setCart(filtered);
+  };
 
   return (
     <div className="cart-container">
@@ -36,7 +61,12 @@ const CartPage = () => {
       ) : (
         <div className="cart-items">
           {cart.map((item, idx) => (
-            <CartItem key={item.id || idx} item={item} />
+            <CartItem
+              key={item.id || idx}
+              item={item}
+              onQuantityChange={handleQuantityChange}
+              onRemove={handleRemoveItem}
+            />
           ))}
         </div>
       )}
