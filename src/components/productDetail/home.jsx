@@ -45,14 +45,14 @@ const ProductDetailHome = () => {
       {/* Reviews */}
       <div className="row mt-4">
         <div className="col-md-8">
-          <CustomerReviews />
+          <CustomerReviews  />
         </div>
       </div>
 
       {/* Related Products */}
       <div className="row mt-5">
         <div className="col-12">
-          <RelatedProducts />
+          <RelatedProducts category ={product.category_name}/>
         </div>
       </div>
     </div>
