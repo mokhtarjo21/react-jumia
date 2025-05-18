@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import ProductCard from '../product_card/card';
 import FiltersSidebar from './filter_sidebar';
+import Products from './products';
 import { useParams, useSearchParams } from 'react-router-dom';
 import "./category_page.css";
 
@@ -43,7 +43,6 @@ function CategoryPage() {
   }, [searchParams, category]);
 
   const fetchProducts = async () => {
-    // Build params from searchParams
     const params = Object.fromEntries([...searchParams]);
     try {
       const { data } = await axios.get(API_URL, { params });
@@ -85,51 +84,12 @@ function CategoryPage() {
             brands={brands} 
           />
         </aside>
-        {/* Main Content */}
-        <main className="col-md-9">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h1>{category ? category.charAt(0).toUpperCase() + category.slice(1) : 'Category'}</h1>
-          </div>
-          <hr />
-          {products.length === 0 ? (
-            <div className="text-center py-5">
-              <h3>No products found</h3>
-              <p>Try adjusting your filters or search criteria</p>
-            </div>
-          ) : (
-            <div className="row">
-              {products.map(product => (
-                <div className="col-12 col-sm-6 col-lg-3 mb-4" key={product.id}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
-          )}
-          {/* Pagination Controls */}
-          {pagination.total_pages > 1 && (
-            <nav>
-              <ul className="pagination justify-content-center">
-                <li className={`page-item ${pagination.current_page === 1 ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => handlePageChange(pagination.current_page - 1)}>
-                    Previous
-                  </button>
-                </li>
-                {[...Array(pagination.total_pages)].map((_, idx) => (
-                  <li key={idx} className={`page-item ${pagination.current_page === idx + 1 ? 'active' : ''}`}>
-                    <button className="page-link" onClick={() => handlePageChange(idx + 1)}>
-                      {idx + 1}
-                    </button>
-                  </li>
-                ))}
-                <li className={`page-item ${pagination.current_page === pagination.total_pages ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => handlePageChange(pagination.current_page + 1)}>
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-        </main>
+        {/* Products Component */}
+        <Products 
+          products={products}
+          pagination={pagination}
+          handlePageChange={handlePageChange}
+        />
       </div>
     </div>
   );
