@@ -4,18 +4,34 @@ import KeyFeatures from './KeyFeatures';
 import Specifications from './Specifications';
 import CustomerReviews from './CustomerReviews';
 import RelatedProducts from './RelatedProducts';
-
+import { useParams } from 'react-router-dom';
+import { useEffect ,useState} from 'react';
+import { instance } from '../../axiosInstance/instance';
 const ProductDetailHome = () => {
+ 
+  const path = location.pathname;
+  const id = path.split('/').pop(); // Extract the product ID from the URL
+  console.log("Product ID:", id); // Log the product ID for debugging
+  const [product , setProduct] = useState(null);
+  useEffect(() => {
+    const fetchProductDetails = async () => {
+      const response= await instance.get(`/api/products/${id}/`);
+      console.log(response.data);
+      setProduct(response.data);
+    }
+    fetchProductDetails();
+
+  }
+  , []);
+   if (!product) return <p>Loading product details...</p>;
   return (
     <div className="container my-4">
       {/* Top Section: Image + Info */}
       <div className="row">
-        <div className="col-md-6">
-          <ImageGallery />
-        </div>
-        <div className="col-md-6">
-          <ProductInfo />
-        </div>
+       
+          <ImageGallery  info={product}/>
+       
+        
       </div>
 
       {/* Key Features & Specs */}

@@ -22,3 +22,4 @@ const Specifications = () => {
     </div>
   );
 };
+export default Specifications;
