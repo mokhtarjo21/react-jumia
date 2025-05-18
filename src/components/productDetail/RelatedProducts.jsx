@@ -1,17 +1,33 @@
-const RelatedProducts = () => {
+import { useEffect,useState } from "react";
+import { instance } from '../../axiosInstance/instance';
+
+const RelatedProducts = ({category}) => {
+  const [products, setProducts] = useState([]);
+useEffect(() => {
+  const getproducts = async () => {
+    
+      const response = await instance.get(`/api/category/${category}/products/`);
+      if (response.status === 200) {
+        console.log(response.data);
+        setProducts(response.data);
+      }else {
+        console.error("Failed to fetch related products");
+      }
+    
+
+  }
+  getproducts();
+}
+, []);
   return (
     <div>
       <h5>Related Products</h5>
       <div className="d-flex overflow-auto gap-3">
-        {[1,2,3].map((i) => (
-          <div key={i} className="card" style={{ minWidth: '200px' }}>
-            <img src="https://via.placeholder.com/200" className="card-img-top" alt="Related" />
-            <div className="card-body">
-              <h6 className="card-title">Product {i}</h6>
-              <p className="text-warning">$99.99</p>
-            </div>
-          </div>
-        ))}
+       {products.map(product => (
+                <div className="col-12 col-sm-6 col-lg-3 mb-4" key={product.id}>
+                  <ProductCard product={product} />
+                </div>
+              ))}
       </div>
     </div>
   );
