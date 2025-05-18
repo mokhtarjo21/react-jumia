@@ -1,14 +1,20 @@
+// src/App.jsx
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { Provider } from 'react-redux';
-import store from './store';
+import { Provider } from "react-redux";
+import store from "./store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+// Screens & Pages
 import JumiaLogin from "./components/login/HomeLogin";
 import VendorLogin from "./components/loginVendor/homelogin";
-import ProductDetials from "./components/productDetail/home";
-import TestHomePage from "./components/test_homepage/test_homepage";
+import ProductDetails from "./components/productDetail/home";
+import Home from "./components/home/Home"; // ✅ your real Jumia homepage
 import CategoryPage from "./components/category_page/category_main";
+
+
+// Layout & Shared
 import Layout from "./components/productDetail/Layout";
 import FavoritesInitializer from "./components/FavoritesInitializer";
 
@@ -21,9 +27,10 @@ function App() {
           <Route path="/login/*" element={<JumiaLogin />} />
           <Route path="/loginvendor/*" element={<VendorLogin />} />
           <Route path="/" element={<Layout />}>
-            <Route path="product/" element={<ProductDetials />} />
-            <Route path="test" element={<TestHomePage />} />
+            <Route index element={<Home />} />
+            <Route path="product/:product_id" element={<ProductDetails />} />
             <Route path=":category/" element={<CategoryPage />} />
+            {/* <Route path="cart/" element={<Cart />} /> */}
           </Route>
         </Routes>
       </BrowserRouter>
