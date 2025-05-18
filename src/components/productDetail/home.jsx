@@ -52,7 +52,7 @@ const ProductDetailHome = () => {
       {/* Related Products */}
       <div className="row mt-5">
         <div className="col-12">
-          <RelatedProducts category ={product.category_name}/>
+          <RelatedProducts category ={product.category_slug}/>
         </div>
       </div>
     </div>

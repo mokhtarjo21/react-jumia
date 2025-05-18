@@ -1,8 +1,11 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaStar, FaHeart, FaFacebookF, FaTwitter, FaWhatsapp } from 'react-icons/fa';
-
+import { useState } from 'react';
 const ProductCard = ({info}) => {
+  const [selectedColor, setSelectedColor] = useState("");
+const [selectedSize, setSelectedSize] = useState("");
+
   return (
     <div className="container my-4">
       <div className="card p-3 shadow-sm">
@@ -49,17 +52,18 @@ const ProductCard = ({info}) => {
 
             {/* Sizes */}
             <div className="mb-3">
-              <strong>Variation Available</strong>
+              <p>{info.sizes? 'Size Available':''} </p>
               <div className="mt-2">
                 {info.sizes.map(size => (
-                  <button key={size} className="btn btn-outline-secondary btn-sm me-2">
+                  <button key={size}  value={size.name}  onChange={(e) => setSelectedSize(e.target.value)} className="btn btn-outline-secondary btn-sm me-2">
                     {size.name}
                   </button>
                 ))}
               </div>
               <div className="mt-2">
+                  <p>{info.colors? 'Colors Available':''} </p>
                 {info.colors.map(size => (
-                  <button key={size} className="btn btn-outline-secondary btn-sm me-2">
+                  <button key={size} value={size.name} onChange={(e) => setSelectedColor(e.target.value)} className="btn btn-outline-secondary btn-sm me-2">
                     {size.name}
                   </button>
                 ))}
