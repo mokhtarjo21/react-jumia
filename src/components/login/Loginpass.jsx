@@ -4,35 +4,57 @@ import { UserContext } from '../../Context/user';
 
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../axiosInstance/instance";
+import { getCartFromCookies, clearCart } from '../../utils/cartCookie';
 
 const LoginForm = () => {
   
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
-  const Summits = async () => {
+  const syncCartToBackend = async (token) => {
+  const cart = getCartFromCookies();
+  for (let item of cart) {
     try {
-      const response = await instance.post('/users/api/token/', {
-        username: user.email,
-        password: user.password
+      await instance.post('/api/cart/', {
+        product: item.product.id,
+        quantity: item.quantity
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
-      if (response.status === 200) {
-        // Assuming the response contains a token or user data
-        console.log('Token received:', response.data);
-        localStorage.setItem('access', response.data.access);
-        localStorage.setItem('refresh', response.data.refresh);
-        navigate("/");
-        
-        
-        // navigate("/home");
-      } else {
-         alert("ccurred while logging in. Please try again.");
-      } 
-    } catch (error) {
-      console.error("Login error:", error);
-      document.getElementById("error-message").innerText = "Email or password is incorrect. Please try again.";
+    } catch (err) {
+      console.error("Cart sync error:", err);
     }
   }
+  clearCart();
+};
+
+  const Summits = async () => {
+  try {
+    const response = await instance.post('/users/api/token/', {
+      username: user.email,
+      password: user.password
+    });
+
+    if (response.status === 200) {
+      console.log('Token received:', response.data);
+      const access = response.data.access;
+
+      localStorage.setItem('access', access);
+      localStorage.setItem('refresh', response.data.refresh);
+
+      await syncCartToBackend(access); // ✅ sync cookie cart now
+
+      navigate("/");
+    } else {
+      alert("Error occurred while logging in. Please try again.");
+    }
+  } catch (error) {
+    console.error("Login error:", error);
+    document.getElementById("error-message").innerText = "Email or password is incorrect. Please try again.";
+  }
+};
   return (
     <div className="login-container">
      <img className="logo" alt="jumia logo" src="/myjumia-top-logo.png" id="myjumia-top-logo"></img>
@@ -44,7 +66,7 @@ const LoginForm = () => {
           <span>{user.email}</span>
           <button className="edit-btn"
           onClick={() => navigate("/login")}
-          >Edite</button>
+          >Edit</button>
         </div>
 
         <div className="password-box">
