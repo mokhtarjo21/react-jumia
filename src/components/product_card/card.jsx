@@ -7,8 +7,14 @@ import Badge from "react-bootstrap/Badge";
 import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
 import { addFavorite, removeFavorite } from "../../store/favoritesSlice";
 import "./card.css";
+import { addToCart } from '../../utils/cartCookie';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 // Import the Jumia Express logo
 import jexpressLogo from "../../assets/jexpress-logo.png";
+
 
 function ProductCard({ product }) {
   const dispatch = useDispatch();
@@ -146,6 +152,11 @@ function ProductCard({ product }) {
 
       <Button
         variant="warning"
+        onClick={(e) => {
+  e.stopPropagation();
+  addToCart(product, 1);
+  toast.success("Added to cart!");
+}}
         className="add-to-cart-btn"
       >
         Add to cart

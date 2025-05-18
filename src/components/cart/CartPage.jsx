@@ -1,21 +1,32 @@
-// src/components/Cart/CartPage.jsx
 import React, { useEffect, useState } from 'react';
-import { instance } from "../../axiosInstance/instance";
+import { instance } from '../../axiosInstance/instance';
 import CartItem from './CartItem';
 import './Cart.css';
+import { getCartFromCookies } from '../../utils/cartCookie';
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
+  const accessToken = localStorage.getItem('access');
 
   useEffect(() => {
-    instance.get('/api/cart/', {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('access')}`
-      }
-    })
-    .then(res => setCart(res.data))
-    .catch(err => console.log(err));
-  }, []);
+    if (accessToken) {
+      // Logged in — fetch from backend
+      instance.get('/api/cart/', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(res => setCart(res.data))
+      .catch(err => {
+        console.error('Error fetching backend cart:', err);
+        setCart([]);  // fallback
+      });
+    } else {
+      // Guest — load from cookies
+      const localCart = getCartFromCookies();
+      setCart(localCart);
+    }
+  }, [accessToken]);
 
   return (
     <div className="cart-container">
@@ -24,8 +35,8 @@ const CartPage = () => {
         <p>Your cart is empty.</p>
       ) : (
         <div className="cart-items">
-          {cart.map(item => (
-            <CartItem key={item.id} item={item} />
+          {cart.map((item, idx) => (
+            <CartItem key={item.id || idx} item={item} />
           ))}
         </div>
       )}

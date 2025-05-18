@@ -5,6 +5,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { Provider } from "react-redux";
 import store from "./store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 // Screens & Pages
 import JumiaLogin from "./components/login/HomeLogin";
@@ -24,25 +27,25 @@ function App() {
     <Provider store={store}>
       <FavoritesInitializer />
       <BrowserRouter>
-        <Routes>
-          <Route path="/login/*" element={<JumiaLogin />} />
-          <Route path="/loginvendor/*" element={<VendorLogin />} />
-          <Route path="/" element={<Layout />}>
+        <>
+          <Routes>
+            <Route path="/login/*" element={<JumiaLogin />} />
+            <Route path="/loginvendor/*" element={<VendorLogin />} />
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Home />} />
+              <Route path="product/:product_id" element={<ProductDetails />} />
+              <Route path=":category/" element={<CategoryPage />} />
+              <Route path="cart/" element={<Cart />} />
+            </Route>
+          </Routes>
 
-            <Route index element={<Home />} />
-            <Route path="product/:product_id" element={<ProductDetails />} />
-            <Route path=":category/" element={<CategoryPage />} />
-           
-
-         
-
-            <Route path="cart/" element={<Cart />} />
-
-          </Route>
-        </Routes>
+          {/* ✅ Add this below Routes */}
+          <ToastContainer position="top-right" autoClose={2000} />
+        </>
       </BrowserRouter>
     </Provider>
   );
 }
+
 
 export default App;
