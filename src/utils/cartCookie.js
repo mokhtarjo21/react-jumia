@@ -11,6 +11,13 @@ export const getCartFromCookies = () => {
 export const addToCart = (product, quantity = 1, color = null, size = null) => {
   const cart = getCartFromCookies();
 
+  // Flatten image if available
+  const primaryImage = product.product_images?.find(img => img.is_primary) || product.product_images?.[0];
+  const productWithImage = {
+    ...product,
+    image: primaryImage?.image || null,
+  };
+
   const existing = cart.find(item =>
     item.product.id === product.id &&
     item.color === color &&
@@ -20,11 +27,12 @@ export const addToCart = (product, quantity = 1, color = null, size = null) => {
   if (existing) {
     existing.quantity += quantity;
   } else {
-    cart.push({ product, quantity, color, size });
+    cart.push({ product: productWithImage, quantity, color, size });
   }
 
   Cookies.set(CART_COOKIE, JSON.stringify(cart), { expires: 7 });
 };
+
 
 export const updateCartItem = (productId, color = null, size = null, newQty) => {
   const cart = getCartFromCookies().map(item => {

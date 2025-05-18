@@ -6,8 +6,11 @@ import './Cart.css';
 const CartItem = ({ item, onQuantityChange, onRemove }) => {
   const { product, quantity, color, size } = item;
 
-  const imageUrl = product.image || '/placeholder.jpg';
-  const totalPrice = (product.price * quantity).toFixed(2);
+const imageUrl =
+  product.image ||
+  (product.product_images?.[0]?.image
+    ? `http://127.0.0.1:8000${product.product_images[0].image}`
+    : '/placeholder.jpg');  const totalPrice = (product.price * quantity).toFixed(2);
 
   return (
     <div className="row cart-item py-3 border-bottom align-items-center">

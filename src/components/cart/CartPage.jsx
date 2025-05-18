@@ -56,6 +56,8 @@ const CartPage = () => {
   return (
     <div className="cart-container">
       <h2>My Cart</h2>
+          <pre>{JSON.stringify(cart, null, 2)}</pre> {/* TEMPORARY DEBUGGING */}
+
       {cart.length === 0 ? (
         <p>Your cart is empty.</p>
       ) : (
