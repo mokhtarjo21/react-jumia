@@ -6,7 +6,7 @@ import {
   getCartFromCookies,
   updateCartItem,
   removeCartItem
-} from '../../utils/cartCookie'; // 🔄 make sure these exist
+} from '../../utils/cartCookie'; 
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
