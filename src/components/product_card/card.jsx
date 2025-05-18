@@ -7,9 +7,9 @@ import Badge from "react-bootstrap/Badge";
 import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
 import { addFavorite, removeFavorite } from "../../store/favoritesSlice";
 import "./card.css";
-import { addToCart } from '../../utils/cartCookie';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { addToCart, getCartFromCookies } from '../../utils/cartCookie';
 
 
 // Import the Jumia Express logo
@@ -155,6 +155,13 @@ function ProductCard({ product }) {
         onClick={(e) => {
   e.stopPropagation();
   addToCart(product, 1);
+  try {
+  const currentCart = getCartFromCookies();
+  console.log("Cart now:", currentCart);
+} catch (err) {
+  console.error("Cookie parse error:", err);
+}
+
   toast.success("Added to cart!");
 }}
         className="add-to-cart-btn"
