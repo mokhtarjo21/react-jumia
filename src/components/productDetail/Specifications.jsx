@@ -1,32 +1,24 @@
-import React from 'react';
-import { Table } from 'react-bootstrap';
-
 const Specifications = () => {
   return (
-    <div className="mt-4">
+    <div className="mt-3">
       <h5>Specifications</h5>
-      <Table striped bordered>
+      <table className="table table-bordered">
         <tbody>
           <tr>
-            <td>Weight</td>
-            <td>0.15 kg</td>
+            <th>Brand</th>
+            <td>Samsung</td>
           </tr>
           <tr>
-            <td>SKU</td>
-            <td>NI226ST0A5VVZNAFAMZ</td>
+            <th>Operating System</th>
+            <td>Android</td>
           </tr>
           <tr>
-            <td>Product Line</td>
-            <td>Black & White Invisible Silky Smooth</td>
+            <th>Battery Capacity</th>
+            <td>5000mAh</td>
           </tr>
-          <tr>
-            <td>Size (L x W x H)</td>
-            <td>5 x 5 x 18 cm</td>
-          </tr>
+          {/* Add more rows */}
         </tbody>
-      </Table>
+      </table>
     </div>
   );
 };
-
-export default Specifications;

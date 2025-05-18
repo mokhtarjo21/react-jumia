@@ -2,6 +2,29 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 
 const CustomerReviews = () => {
+
+
+
+
+
+
+
+
+const CustomerReviews = () => {
+  return (
+    <div>
+      <h5>Customer Reviews</h5>
+      <div>
+        <strong>4.5 ★</strong> based on 232 reviews
+      </div>
+      <p>“Great phone for the price!” – Ahmed</p>
+      {/* More reviews */}
+    </div>
+  );
+};
+
+
+
   return (
     <div className="mt-4">
       <h5>Customer Reviews</h5>
@@ -24,3 +47,4 @@ const CustomerReviews = () => {
 };
 
 export default CustomerReviews;
+
