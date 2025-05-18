@@ -1,11 +1,15 @@
-const ProductInfo = () => {
+const ProductInfo = ({info}) => {
+  const add = () => {
+    // Placeholder for add to cart functionality
+    console.log("Add to cart clicked");
+  };
   return (
     <div>
-      <h2>Samsung Galaxy A14</h2>
-      <p className="text-muted">Brand: Samsung | 4.5 ★ (232 ratings)</p>
-      <h3 className="text-warning">$159.99</h3>
+      <h2>{info.name}</h2>
+      <p className="text-muted">Brand:{info.brand_name} | {info.rating_average} ★ ({info.rating_count} ratings)</p>
+      <h3 className="text-warning">{`$ ${info.price}`}</h3>
       <p>+ Shipping from EGP 20</p>
-      <button className="btn btn-warning mt-3">Add to Cart</button>
+      <button onClick={add} className="btn btn-warning mt-3">Add to Cart</button>
     </div>
   );
 };
