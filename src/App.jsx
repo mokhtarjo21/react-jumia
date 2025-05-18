@@ -22,6 +22,8 @@ import Layout from "./components/productDetail/Layout";
 import FavoritesInitializer from "./components/FavoritesInitializer";
 import Cart from "./components/cart/CartPage";
 
+import "./App.css";
+
 function App() {
   return (
     <Provider store={store}>
