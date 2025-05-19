@@ -1,4 +1,3 @@
-// src/utils/cartCookie.js
 import Cookies from 'js-cookie';
 
 const CART_COOKIE = 'cart_items';
@@ -11,11 +10,12 @@ export const getCartFromCookies = () => {
 export const addToCart = (product, quantity = 1, color = null, size = null) => {
   const cart = getCartFromCookies();
 
-  // Flatten image if available
-  const primaryImage = product.product_images?.find(img => img.is_primary) || product.product_images?.[0];
-  const productWithImage = {
-    ...product,
-    image: primaryImage?.image || null,
+  // أهم التفاصيل فقط
+  const productSummary = {
+    id: product.id,
+    name: product.name,
+    price: product.sale_price || product.price,
+    image: product.product_images?.find(img => img.is_primary)?.image || product.product_images?.[0]?.image || null,
   };
 
   const existing = cart.find(item =>
@@ -27,12 +27,16 @@ export const addToCart = (product, quantity = 1, color = null, size = null) => {
   if (existing) {
     existing.quantity += quantity;
   } else {
-    cart.push({ product: productWithImage, quantity, color, size });
+    cart.push({
+      product: productSummary,
+      quantity,
+      color,
+      size
+    });
   }
 
   Cookies.set(CART_COOKIE, JSON.stringify(cart), { expires: 7 });
 };
-
 
 export const updateCartItem = (productId, color = null, size = null, newQty) => {
   const cart = getCartFromCookies().map(item => {

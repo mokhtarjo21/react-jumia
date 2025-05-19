@@ -1,75 +1,127 @@
+// src/pages/CartPage.jsx
 import React, { useEffect, useState } from 'react';
-import { instance } from '../../axiosInstance/instance';
-import CartItem from './CartItem';
-import './Cart.css';
 import {
   getCartFromCookies,
+  removeCartItem,
   updateCartItem,
-  removeCartItem
-} from '../../utils/cartCookie'; 
+  clearCart,
+} from '../../utils/cartCookie';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CartPage = () => {
   const [cart, setCart] = useState([]);
-  const accessToken = localStorage.getItem('access');
+
+  const refreshCart = () => {
+    setCart(getCartFromCookies());
+  };
 
   useEffect(() => {
-    if (accessToken) {
-      instance.get('/api/cart/', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      })
-      .then(res => setCart(res.data))
-      .catch(() => setCart([]));
-    } else {
-      setCart(getCartFromCookies());
-    }
-  }, [accessToken]);
+    refreshCart();
+  }, []);
 
-  const handleQuantityChange = (productId, color, size, delta) => {
-    const updatedCart = cart.map(item => {
-      if (
-        item.product.id === productId &&
-        item.color === color &&
-        item.size === size
-      ) {
-        const newQty = item.quantity + delta;
-        if (newQty > 0) {
-          item.quantity = newQty;
-          updateCartItem(item.product.id, color, size, newQty);
-        }
-      }
-      return item;
-    });
-    setCart([...updatedCart]);
+  const handleQtyChange = (item, newQty) => {
+    if (newQty < 1) return;
+    updateCartItem(item.productid, item.color, item.size, newQty);
+    refreshCart();
   };
 
-  const handleRemoveItem = (productId, color, size) => {
-    const filtered = cart.filter(
-      item =>
-        !(item.product.id === productId &&
-          item.color === color &&
-          item.size === size)
-    );
-    removeCartItem(productId, color, size);
-    setCart(filtered);
+  const handleRemove = (item) => {
+    removeCartItem(item.productid, item.color, item.size);
+    refreshCart();
   };
+
+  const handleClear = () => {
+    clearCart();
+    refreshCart();
+  };
+
+  
+  const totalPrice = cart.reduce(
+    (acc, item) => acc + item.product.price * item.quantity,
+    0
+  );
 
   return (
-    <div className="cart-container">
-      <h2>My Cart</h2>
-          <pre>{JSON.stringify(cart, null, 2)}</pre> {/* TEMPORARY DEBUGGING */}
+    <div className="container my-5">
+      <h2 className="mb-4 text-center fw-bold">🛒Your cart</h2>
 
       {cart.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <div className="alert alert-info text-center py-4 shadow-sm">
+        Empty Cart
+        </div>
       ) : (
-        <div className="cart-items">
-          {cart.map((item, idx) => (
-            <CartItem
-              key={item.id || idx}
-              item={item}
-              onQuantityChange={handleQuantityChange}
-              onRemove={handleRemoveItem}
-            />
-          ))}
+        <div className="row">
+         
+          <div className="col-lg-8">
+            {cart.map((item, index) => (
+              <div
+                key={index}
+                className="d-flex align-items-center border rounded mb-3 p-3 shadow-sm"
+                style={{ backgroundColor: '#fff' }}
+              >
+                <img
+                  src={'http://localhost:8000'+item.product.image || '/media/default.jpg'}
+                  alt={item.product.name}
+                  style={{ width: 120, height: 120, objectFit: 'contain' }}
+                  className="me-3"
+                />
+                <div className="flex-grow-1">
+                  <h5 className="mb-1">{item.product.name}</h5>
+                  <p className="mb-1 text-muted">
+                    Color: <strong>{item.color || 'Null'}</strong> | Size:{' '}
+                    <strong>{item.size || 'Null'}</strong>
+                  </p>
+                  <p className="mb-2 fw-bold" style={{ color: '#ff6600' }}>
+                    : {item.product.price.toLocaleString()} EGP
+                  </p>
+                  <div className="d-flex align-items-center gap-3">
+                    <input
+                      type="number"
+                      min={1}
+                      value={item.quantity}
+                      onChange={(e) =>
+                        handleQtyChange(item, parseInt(e.target.value))
+                      }
+                      className="form-control"
+                      style={{ width: 70 }}
+                    />
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={() => handleRemove(item)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="col-lg-4">
+            <div className="border rounded p-4 shadow-sm sticky-top" style={{ top: '20px' }}>
+              <h4 className="fw-bold mb-4">Cart</h4>
+              <p className="d-flex justify-content-between mb-2">
+                <span>Quantity :</span>
+                <span>{cart.length}</span>
+              </p>
+              <p className="d-flex justify-content-between mb-3">
+                <span>Total Price :</span>
+                <span className="fw-bold" style={{ color: '#ff6600' }}>
+                  {totalPrice.toLocaleString()} EGP
+                </span>
+              </p>
+              <button className="btn btn-warning w-100 fw-bold" onClick={handleClear}>
+                🧹Remove Cart
+              </button>
+              <button
+                className="btn btn-primary w-100 mt-3 fw-bold"
+                
+                onClick={() => alert('Checkout functionality not implemented yet')}
+              >
+               Check out
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
