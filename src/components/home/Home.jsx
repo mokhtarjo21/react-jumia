@@ -11,6 +11,12 @@ import NewArrivalsRow from "./NewArrivalsRow";
 import TopDealsRow from "./TopDealsRow";
 import RecentlyViewedRow from "./RecentlyViewedRow";
 import TopPromoStrip from "./TopPromoStrip";
+import ExtraPromotionsRow from "./ExtraPromotionsRow";
+import FeaturedEssentialsRow from "./FeaturedEssentialsRow";
+import BrandPromoStrip from "./BrandPromoStrip";
+import CategoryTileStrip from "./CategoryTileStrip";
+import CartPreviewRow from "./CartPreviewRow";
+
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -89,9 +95,14 @@ const Home = () => {
         <div className="px-3 mt-4">
           <HomePromotions />
           <InfoPromoGrid />
+          <ExtraPromotionsRow />   {/*  !!@@ row */}
+          <FeaturedEssentialsRow />
           <FlashSaleStrip products={flashProducts} onAddToCart={handleAddToCart} />
           <RecommendedRow />
+          <CartPreviewRow />
+          <BrandPromoStrip />
           <NewArrivalsRow />
+          <CategoryTileStrip />
           <TopDealsRow />
           <RecentlyViewedRow />
         </div>
