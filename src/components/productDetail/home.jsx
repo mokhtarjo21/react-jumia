@@ -34,18 +34,11 @@ const ProductDetailHome = () => {
         
       </div>
 
-      {/* Key Features & Specs */}
-      <div className="row mt-4">
-        <div className="col-md-8">
-          <KeyFeatures />
-          <Specifications />
-        </div>
-      </div>
-
+      
       {/* Reviews */}
       <div className="row mt-4">
         <div className="col-md-8">
-          <CustomerReviews  />
+          <CustomerReviews info={product} />
         </div>
       </div>
 
