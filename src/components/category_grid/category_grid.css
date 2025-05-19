@@ -1,0 +1,105 @@
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+  scroll-behavior: smooth;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+
+/* Add smooth hover effect for the cards */
+.category-card {
+  transition: transform 0.2s ease-in-out;
+}
+
+.category-card:hover {
+  transform: translateY(-4px);
+}
+
+.category-grid-outer {
+  background: #f4f4f6;
+  border-radius: 1px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  padding: 18px 0;
+  margin: 0 auto;
+  max-width: 1600px;
+  position: relative;
+}
+.category-grid-outer:hover .category-grid-arrow {
+  display: flex;
+}
+
+
+.category-grid-header {
+  background: #32339a;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 5px 5px 0 0;
+  padding: 12px  0;
+  margin-bottom: 18px;
+  letter-spacing: 0.5px;
+}
+
+.category-grid-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 22px;
+  overflow-x: auto;
+  padding: 0 15px 0 15px;
+  scrollbar-width: none;
+}
+.category-grid-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.category-grid-arrow {
+  position: absolute;
+  top: 55%;
+  z-index: 10;
+  background: rgba(87, 87, 87, 0.92);
+  opacity: 0.5;
+  color: #fff;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(50,51,154,0.18);
+  transition: opacity 0.3s, box-shadow 0.2s, transform 0.2s;
+
+}
+.category-grid-arrow:hover {
+  opacity: 1;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(43,182,230,0.18);
+}
+.category-grid-arrow-left {
+  left: 14px;
+  margin-left: -18px;
+}
+.category-grid-arrow-right {
+  right: 14px;
+  margin-right: -18px;
+}
+
+@media (max-width: 900px) {
+  .category-grid-outer {
+    padding: 8px 2px 16px 2px;
+  }
+  .category-grid-header {
+    font-size: 1.2rem;
+    padding: 12px 0 10px 0;
+  }
+  .category-grid-scroll {
+    gap: 12px;
+  }
+  .category-grid-arrow {
+    display: none;
+  }
+}

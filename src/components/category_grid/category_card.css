@@ -1,0 +1,51 @@
+.card-container {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    overflow: hidden;
+    width: 220px;
+    height: 240px;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    transition: box-shadow 0.2s, transform 0.1s;
+}
+.card-container:hover {
+    box-shadow: 0 6px 18px rgba(50,51,154,0.18);
+    transform:  scale(1.03);
+}
+
+.image-div {
+    background: url('data:image/svg+xml;utf8,<svg width="100%25" height="100%25" xmlns="http://www.w3.org/2000/svg"><rect width="100%25" height="100%25" fill="%23f4f4f6"/><path d="M0 20 Q55 40 110 20 T220 20 V120 H0 Z" fill="%23e6eaf3"/></svg>') center/cover no-repeat;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* padding: 18px 10px 10px 10px; */
+    border-radius: 12px 12px 0 0;
+}
+
+.image-div img{
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: fill;
+    margin: 0 auto;
+    display: block;
+}
+
+.CardTitle {
+    background: linear-gradient(90deg, #32339a 60%, #2bb6e6 100%);
+    color: #fff;
+    font-size: 1.35rem;
+    font-weight: 700;
+    text-align: center;
+    padding: 12px 0 10px 0;
+    border-radius: 0 0 12px 12px;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.link-wrapper {
+    text-decoration: none;
+}

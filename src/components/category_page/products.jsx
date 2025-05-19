@@ -4,7 +4,7 @@ import './products.css';
 function Products({ products, pagination, handlePageChange }) {
     console.log(products);
   return (
-    <main className="col-md-9">
+    <main className="col-md-9 products-div">
       <div className="d-flex gap-2 align-items-center mb-3">
         <h1>{products.length > 0 ? products[0].category_name : 'No Products'}</h1> <span className='muted-text'>({products.length? products.length : '0' } products found)</span>
       </div>
