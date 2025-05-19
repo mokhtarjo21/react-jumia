@@ -21,7 +21,6 @@ function ProductCard({ product }) {
   const navigate = useNavigate();
   const favorites = useSelector((state) => state.favorites.items);
   const isFavorite = favorites.some(item => item.id === product.id);
-  console.log(favorites);
 
   // Get the primary image or fallback
   const primaryImage = product.product_images?.find(img => img.is_primary) || product.product_images?.[0];
@@ -157,9 +156,7 @@ function ProductCard({ product }) {
   addToCart(product, 1);
   try {
   const currentCart = getCartFromCookies();
-  console.log("Cart now:", currentCart);
 } catch (err) {
-  console.error("Cookie parse error:", err);
 }
 
   toast.success("Added to cart!");

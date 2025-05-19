@@ -59,9 +59,9 @@ const CategoryGrid = ({ categories, header }) => {
       <div className="category-grid-scroll" ref={scrollRef} onScroll={updateArrows}>
         {categories.map((category) => (
           <CategoryCard
-            key={category.id}
+            key={category.slug}
             title={category.name}
-            imageSrc={category.image}
+            imageSrc={category.image || null}
             href={category.slug}
           />
         ))}

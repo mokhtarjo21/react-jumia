@@ -1,15 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import './nav_item.css';
 const BreadcrumbItem = ({ name, slug, isLast }) => {
   return (
     <span className="breadcrumb-item">
       {!isLast ? (
-        <Link to={`/category/${slug}`}>{name}</Link>
+        <Link to={`/${slug}`}> {name} </Link>
       ) : (
-        <span>{name}</span>
+        <span  className="muted-text"> {name}</span>
       )}
-      {!isLast && <span> &gt; </span>}
     </span>
   );
 };

@@ -23,7 +23,7 @@ function FiltersSidebar({ subCategories, filters, setFilters, brands }) {
 
   const subcategory_li = (category) => {
     return (
-      <li className="sub-category-li">
+      <li className="sub-category-li" key={category.slug}>
         <Link 
           to={`/${category.slug}`}
         >
