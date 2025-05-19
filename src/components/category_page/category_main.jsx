@@ -248,6 +248,7 @@ function CategoryPage() {
         {/* Sidebar */}
         <aside className="col-md-3 border-end">
           <FiltersSidebar
+            subCategories={category_details.children}
             filters={filters}
             setFilters={handleFilterChange}
             handlePriceFilterApply={handlePriceFilterApply}

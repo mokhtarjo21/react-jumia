@@ -3,8 +3,10 @@ import { FaSearch } from "react-icons/fa";
 import "./filter_sidebar.css";
 import Checkbox from "./checkbox";
 import PriceSearch from "./price_search";
+import { Link } from 'react-router-dom';
 
-function FiltersSidebar({ filters, setFilters, brands }) {
+
+function FiltersSidebar({ subCategories, filters, setFilters, brands }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBrands, setFilteredBrands] = useState(brands);
   
@@ -19,14 +21,30 @@ function FiltersSidebar({ filters, setFilters, brands }) {
     }
   }, [searchTerm, brands]);
 
+  const subcategory_li = (category) => {
+    return (
+      <li className="sub-category-li">
+        <Link 
+          to={`/${category.slug}`}
+        >
+          {category.name}
+        </Link>
+      </li>
+    );
+  };
+  
   return (
     <div className="filter-sidebar">
-      <h5>CATEGORY</h5>
-      <ul>
-        <li>Fashion</li>
-        <li>Home & Office</li>
-        <li>Health & Beauty</li>
-      </ul>
+      {subCategories?.length > 0 && (
+        <div className="sub-categories">
+          <h5>CATEGORY</h5>
+          <ul>
+          {subCategories.map((category) => (
+            subcategory_li(category)
+          ))}
+          </ul>
+        </div>
+      )}
 
       <h5>EXPRESS DELIVERY</h5>
       <Checkbox

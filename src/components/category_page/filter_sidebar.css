@@ -160,3 +160,20 @@
   background-color: #f68b1e;
   border-color: #f68b1e;
 }
+
+.sub-category-li a{
+  text-decoration: none;
+  color: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.sub-category-li:hover {  
+  background-color: #e7e7e7;
+}
+
+.sub-category-li:hover a {
+  font-weight: 00;
+  padding-left: 10px;
+
+}
