@@ -12,7 +12,7 @@ function FiltersSidebar({ filters, setFilters, brands }) {
   useEffect(() => {
     if (searchTerm) {
       setFilteredBrands(brands.filter(brand => 
-        brand.toLowerCase().includes(searchTerm.toLowerCase())
+        brand.name.toLowerCase().includes(searchTerm.toLowerCase())
       ));
     } else {
       setFilteredBrands(brands);
@@ -97,9 +97,9 @@ function FiltersSidebar({ filters, setFilters, brands }) {
       <div style={{ maxHeight: 200, overflowY: "auto" }}>
         {filteredBrands.map(brand => (
           <Checkbox
-            key={brand}
-            label={brand}
-            slug={brand.toLowerCase().replace(/\s+/g, '-')}
+            key={brand.slug}
+            label={brand.name}
+            slug={brand.slug}
             paramName="brand"
           />
         ))}
