@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaStar } from 'react-icons/fa';
 
+
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
+import { addFavorite, removeFavorite } from "../../store/favoritesSlice";
+
+import { toast } from 'react-toastify';
+import { addToCart, getCartFromCookies } from '../../utils/cartCookie';
 const ProductCard = ({ info }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -102,7 +109,20 @@ const ProductCard = ({ info }) => {
             </div>
 
             {/* Add to Cart */}
-            <button className="btn btn-warning w-100 fw-bold mt-3">Add to cart</button>
+            <button 
+            onClick={(e) => {
+  e.stopPropagation();
+  addToCart(info, 1,selectedColor, selectedSize);
+  try {
+  const currentCart = getCartFromCookies();
+  console.log("Cart now:", currentCart);
+} catch (err) {
+  console.error("Cookie parse error:", err);
+}
+
+  toast.success("Added to cart!");
+}}
+            className="btn btn-warning w-100 fw-bold mt-3">Add to cart</button>
           </div>
         </div>
       </div>
