@@ -57,13 +57,48 @@ function CategoryPage() {
   // Handle filter change and update URL
   const handleFilterChange = (newFilters) => {
     const params = { ...Object.fromEntries([...searchParams]) };
-    if (newFilters.brandList) params.brand = newFilters.brandList.join(',');
-    if (newFilters.min_price !== undefined) params.min_price = newFilters.min_price;
-    if (newFilters.max_price !== undefined) params.max_price = newFilters.max_price;
-    if (newFilters.discount !== undefined) params.discount_min = newFilters.discount;
-    if (newFilters.express_delivery !== undefined) params.express_delivery = newFilters.express_delivery ? '1' : undefined;
-    if (newFilters.shipped_from !== undefined) params.shipped_from = newFilters.shipped_from;
+    
+    // Handle non-price filters
+    if (newFilters.brandList !== undefined) {
+      params.brand = newFilters.brandList.join(',');
+    }
+    if (newFilters.discount !== undefined) {
+      params.discount_min = newFilters.discount;
+    }
+    if (newFilters.express_delivery !== undefined) {
+      params.express_delivery = newFilters.express_delivery ? '1' : undefined;
+    }
+    if (newFilters.shipped_from !== undefined) {
+      params.shipped_from = newFilters.shipped_from || undefined;
+    }
+    
+    // Handle price filters separately
+    if (newFilters.min_price !== undefined || newFilters.max_price !== undefined) {
+      setFilters(prev => ({
+        ...prev,
+        min_price: newFilters.min_price !== undefined ? newFilters.min_price : prev.min_price,
+        max_price: newFilters.max_price !== undefined ? newFilters.max_price : prev.max_price
+      }));
+      return; // Don't update URL for price changes
+    }
+    
+    // Remove undefined parameters
+    Object.keys(params).forEach(key => {
+      if (params[key] === undefined) {
+        delete params[key];
+      }
+    });
+    
     params.page = 1; // Reset to first page on filter change
+    setSearchParams(params);
+  };
+
+  // Handle price filter application
+  const handlePriceFilterApply = (minPrice, maxPrice) => {
+    const params = { ...Object.fromEntries([...searchParams]) };
+    params.min_price = minPrice;
+    params.max_price = maxPrice;
+    params.page = 1;
     setSearchParams(params);
   };
 
@@ -80,7 +115,8 @@ function CategoryPage() {
         <aside className="col-md-3 border-end">
           <FiltersSidebar 
             filters={filters} 
-            setFilters={handleFilterChange} 
+            setFilters={handleFilterChange}
+            handlePriceFilterApply={handlePriceFilterApply}
             brands={brands} 
           />
         </aside>
