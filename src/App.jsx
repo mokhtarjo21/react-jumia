@@ -13,10 +13,10 @@ import 'react-toastify/dist/ReactToastify.css';
 import JumiaLogin from "./components/login/HomeLogin";
 import VendorLogin from "./components/loginVendor/homelogin";
 import ProductDetails from "./components/productDetail/home";
-import Home from "./components/home/Home"; // ✅ your real Jumia homepage
+import Home from "./components/home/Home"; 
 import CategoryPage from "./components/category_page/category_main";
 
-
+import VendorDashboard from "./components/VendorDashboard/home";
 // Layout & Shared
 import Layout from "./components/productDetail/Layout";
 import FavoritesInitializer from "./components/FavoritesInitializer";
@@ -39,6 +39,10 @@ function App() {
               <Route path=":category/" element={<CategoryPage />} />
               <Route path="cart/" element={<Cart />} />
             </Route>
+
+
+
+            <Route path="/vendor" element={<VendorDashboard />} />
           </Routes>
 
           {/* ✅ Add this below Routes */}
