@@ -46,6 +46,7 @@
 .category-grid-scroll {
   display: flex;
   flex-direction: row;
+  /* justify-content: center; */
   gap: 22px;
   overflow-x: auto;
   padding: 0 15px 0 15px;
