@@ -13,6 +13,9 @@ function CategoryPage() {
   const [products, setProducts] = useState([]);
   const [category_details, setCategoryDetails] = useState({});
   const [brands, setBrands] = useState([]);
+  const [min_price, setMinPrice] = useState(0);
+  const [max_price, setMaxPrice] = useState(0);
+  const [colors, setColors] = useState([]);
   const [pagination, setPagination] = useState({
     count: 0,
     current_page: 1,
@@ -20,8 +23,8 @@ function CategoryPage() {
   });
   const [filters, setFilters] = useState({
     brandList: [],
-    min_price: "",
-    max_price: "",
+    min_price: null,
+    max_price: null,
     discount: null,
     express_delivery: false,
     shipped_from: "",
@@ -57,6 +60,9 @@ function CategoryPage() {
       const { data } = await axios.get(API_products, { params });
       setProducts(data.products);
       setBrands(data.brands);
+      setMinPrice(data.min_price);
+      setMaxPrice(data.max_price);
+      setColors(data.colors);
       setPagination(data.pagination);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -135,51 +141,53 @@ function CategoryPage() {
     setSearchParams(params);
   };
 
+  // changing style on page mount 
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F1F1F2";
+
+    // Reset it on unmount
+    return () => {
+      document.body.style.backgroundColor = ""; // or your default like "#fff"
+    };
+  }, []);
 
   return (
-    <div className="container-fluid category-page">
+    <div className="">
       {category_details?.children?.length > 0 && (
-        <div className="row">
-          <div className="col-md-12">
             <CategoryGrid
               categories={category_details.children}
               header="Category"
             />
-          </div>
-        </div>
       )}
-      <hr />
 
       {brands.length > 0 && !category_details.parent && (
-        <div className="row">
-          <div className="col-md-12">
             <CategoryGrid categories={brands} header="Brand" />
-          </div>
-        </div>
       )}
-      {/* 
-      <hr />
-      <hr /> */}
-      <div className="row">
-        {/* <div className="col-md-12 breadcrumb-container"> */}
+
+      <div className="col-md-12 breadcrumb-container">
         <Breadcrumb category={category_details} />
-        {/* </div> */}
-        {/* Sidebar */}
-        <aside className="col-md-3 border-end">
-          <FiltersSidebar
+      </div>
+      <div className="row ">
+
+        <aside className="col-md-3 aside-wrapper">
+          <FiltersSidebar 
             subCategories={category_details.children}
             filters={filters}
             setFilters={handleFilterChange}
             handlePriceFilterApply={handlePriceFilterApply}
             brands={brands}
+            min_price={min_price}
+            max_price={max_price}
+            colors={colors}
           />
         </aside>
-        {/* Products Component */}
+        <div className="col-md-9">
         <Products
           products={products}
           pagination={pagination}
-          handlePageChange={handlePageChange}
-        />
+            handlePageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

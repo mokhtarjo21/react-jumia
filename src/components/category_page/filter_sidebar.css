@@ -1,5 +1,8 @@
 .filter-sidebar {
   padding: 15px;
+  background-color: #faf9f8!important;
+  border-radius: 8px;
+
 }
 
 .filter-sidebar h5 {
