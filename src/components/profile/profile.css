@@ -1,0 +1,209 @@
+.profile-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 30px 60px;
+    background-color: #f1f1f1;
+    direction: rtl;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+      
+    
+  }
+
+  .profile-sidebar {
+    width: 230px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .profile-sidebar h3 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .profile-sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .profile-sidebar li {
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .profile-sidebar li:hover {
+    color: #ff9900;
+  }
+  .profile-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .overview-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .overview-section h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .overview-box {
+    background-color: #fff;
+    border: 1px solid #dedede;
+    border-radius: 4px;
+    padding: 15px;
+  }
+  
+  .overview-box h4 {
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .overview-box p {
+    font-size: 14px;
+    color: #666;
+    margin: 5px 0;
+  }
+  
+  .overview-box button {
+    font-size: 13px;
+    background: none;
+    color: #ff9900;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  .product-section {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+  }
+  
+  .product-section h3 {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .products-row {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+  
+  .product-card {
+    width: 150px;
+    background-color: #fff;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+  }
+  
+  .product-card img {
+    width: 100%;
+    border-radius: 3px;
+    margin-bottom: 8px;
+  }
+  
+  .product-card p {
+    margin: 4px 0;
+    color: #333;
+  }
+  
+  .product-card .price {
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .product-card .old-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 12px;
+  }
+
+  .profile-wrapper {
+    max-width: 1400px; 
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 30px;
+    padding: 40px 20px;
+    background-color: #f1f1f1;
+    direction: rtl;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  .profile-sidebar {
+    width: 280px;
+  }
+  .profile-sidebar {
+    height: 118vh;
+  }
+  
+  .profile-content {
+    flex: 1;
+  }
+  
+
+  .profile-wrapper {
+    font-size: 30px;
+  }
+  
+  .profile-sidebar h3 {
+    font-size: 22px; /* بدل 18px */
+  }
+  
+  .overview-section h2 {
+    font-size: 22px;
+  }
+  
+  .overview-box h4 {
+    font-size: 16px;
+  }
+  
+  .product-section h3 {
+    font-size: 20px;
+  }
+  .overview-box p, .product-card p {
+    font-size: 25px;
+  }
+    
+
+  .profile-sidebar h3 {
+    font-size: 25px;
+  }ش
+
+  .profile-sidebar li {
+    font-size: 20px; 
+    font-weight: 500; 
+  }
+
+  .profile-wrapper {
+    display: flex;
+    flex-direction: row; 
+    direction: ltr; 
+    
+  }
+

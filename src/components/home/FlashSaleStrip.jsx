@@ -4,7 +4,7 @@ import React from "react";
 const FlashSaleStrip = ({ products, onAddToCart }) => {
   return (
     <div className="bg-white p-3 rounded shadow-sm mt-4">
-      <h5 className="fw-bold mb-3 text-danger">🔥 Flash Sale</h5>
+      <h5 className="fw-bold mb-3 text-danger">🔥 Flash Sale Don't Miss !!</h5>
       <div className="d-flex overflow-auto gap-3">
         {products.map((product) => (
           <div

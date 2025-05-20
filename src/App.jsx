@@ -15,17 +15,17 @@ import VendorLogin from "./components/loginVendor/homelogin";
 import ProductDetails from "./components/productDetail/home";
 import Home from "./components/home/Home"; // ✅ your real Jumia homepage
 import CategoryPage from "./components/category_page/category_main";
+import ProfilePage from './components/profile/ProfilePage'
 
 
 // Layout & Shared
 import Layout from "./components/productDetail/Layout";
-import FavoritesInitializer from "./components/FavoritesInitializer";
 import Cart from "./components/cart/CartPage";
 
 function App() {
   return (
     <Provider store={store}>
-      <FavoritesInitializer />
+      
       <BrowserRouter>
         <>
           <Routes>
@@ -36,6 +36,7 @@ function App() {
               <Route path="product/:product_id" element={<ProductDetails />} />
               <Route path=":category/" element={<CategoryPage />} />
               <Route path="cart/" element={<Cart />} />
+              <Route path="/profile" element={<ProfilePage />} />
             </Route>
           </Routes>
 
