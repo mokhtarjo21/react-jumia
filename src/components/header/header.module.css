@@ -1,0 +1,125 @@
+:root {
+  --header-bg: #fff;
+  --header-border: #eee;
+  --header-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  --header-height: 60px;
+  --header-radius: 8px;
+  --header-search-btn-bg: #ff9900;
+  --header-search-btn-color: #fff;
+  --header-search-btn-hover: #e68a00;
+  --header-cart-badge-bg: #ff9900;
+  --header-cart-badge-color: #222;
+}
+
+.header {
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: var(--header-shadow);
+  min-height: var(--header-height);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  font-size: 15px;
+  z-index: 1000;
+}
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* Left section */
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.header__menuBtn {
+  background: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  margin-right: 8px;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.header__logo {
+  height: 32px;
+  margin-left: 4px;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* Center section: Search */
+/* .header__searchForm {}
+.header__searchIcon {}
+.header__searchInput {}
+.header__searchBtn {} */
+
+/* Right section */
+.header__right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.header__icon {
+  cursor: pointer;
+  vertical-align: middle;
+}
+.header__account {
+  display: flex;
+  align-items: center;
+  min-width: 90px;
+  position: relative;
+}
+.header__accountText {
+  margin-left: 6px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.header__dropdown {
+  z-index: 999;
+}
+.header__help {
+  display: flex;
+  align-items: center;
+  min-width: 60px;
+  cursor: pointer;
+}
+.header__helpText {
+  margin-left: 6px;
+  font-weight: 500;
+}
+.header__cart {
+  display: flex;
+  align-items: center;
+  min-width: 60px;
+  position: relative;
+  cursor: pointer;
+}
+.header__cartText {
+  margin-left: 6px;
+  font-weight: 500;
+}
+.header__cartBadge {
+  position: absolute;
+  top: -8px;
+  left: 32px;
+  min-width: 20px;
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 50%;
+  background: var(--header-cart-badge-bg);
+  color: var(--header-cart-badge-color);
+  border: 2px solid #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  font-size: 12px;
+  padding: 0 4px;
+}

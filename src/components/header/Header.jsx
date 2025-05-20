@@ -1,32 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { instance } from "../../axiosInstance/instance";
-import { Dropdown } from 'react-bootstrap';
-import { FaUser, FaQuestionCircle, FaShoppingCart } from 'react-icons/fa';
+import { FaUser, FaQuestionCircle, FaShoppingCart, FaBars,  } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
-import { fetchCartFromBackend,deletecart } from '../../utils/cartCookie';
+import { fetchCartFromBackend, deletecart } from '../../utils/cartCookie';
+import styles from './header.module.css';
+import jumiaLogo from '../../assets/jumia_header_logo.png';
+import { Link } from 'react-router-dom';
+import SearchBar from './header_search_component/search';
+
 export default function JumiaNavbar() {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
-  const [userinfo, setUserinfo] = useState()
+  const [userinfo, setUserinfo] = useState();
   const [showuserinfo, setShowUserInfo] = useState(false);
+  const [cartCount, setCartCount] = useState(3); // Placeholder for cart badge
+
   useEffect(() => {
     const userinfo = async () => {
       try {
-        const access =localStorage.getItem('access')
+        const access = localStorage.getItem('access');
         const response = await instance.get('/users/api/who', {
           headers: {
             'Authorization': `Bearer ${access}`,
-             
           }
         });
         if (response.status === 200) {
           const data = response.data.response;
-          console.log('User info fetched successfully:', data);
           fetchCartFromBackend();
-          setUserinfo(data,);
+          setUserinfo(data);
           setShowUserInfo(true);
-          console.log('User info:', userinfo);
-          // You can set user info in state or context here
         } else {
           console.error('Failed to fetch user info');
         }
@@ -35,98 +37,81 @@ export default function JumiaNavbar() {
       }
     }
     userinfo();
-  }
-  , []);
+  }, []);
+
   const toggleDropdown = () => setShowDropdown(!showDropdown);
-  
-    const sublogout = async () => {
-      const access =localStorage.getItem('access')
-       const refresh = localStorage.getItem('refresh');
-         try {
-  const responsee=  await instance.post('/users/api/logout', { refresh }, {
-      headers: {
-        Authorization: `Bearer ${access}`
+
+  const sublogout = async () => {
+    const access = localStorage.getItem('access');
+    const refresh = localStorage.getItem('refresh');
+    try {
+      const responsee = await instance.post('/users/api/logout', { refresh }, {
+        headers: {
+          Authorization: `Bearer ${access}`
+        }
+      });
+      if (responsee.status === 200) {
+        deletecart();
+        localStorage.removeItem('access');
+        localStorage.removeItem('refresh');
+        navigate('/login');
+      } else {
+        console.error('Logout failed');
       }
-    });
-
-    if (responsee.status === 200) {
-      deletecart();
-      console.log('Logout successful');
-      localStorage.removeItem('access');
-      localStorage.removeItem('refresh');
-      navigate('/login');
-    } else {
-      console.error('Logout failed');
+    } catch (error) {
+      console.error('Logout error:', error.response?.data || error.message);
     }
-  } catch (error) {
-    console.error('Logout error:', error.response?.data || error.message);
-  } 
   }
+  const in_home = true;
   return (
-    <div className="bg-light py-2 border-bottom">
-      <div className="container-fluid d-flex justify-content-around align-items-center">
-        {/* Left side */}
-        <div className="d-flex justify-content-between align-items-center">
-                <img src="/myjumia-bottom-logo.png" className="jumia" alt="bottomLogo" id="myjumia-bottom-logo"></img>
-          <form className="d-flex w-100" style={{ maxWidth: '500px' }}>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search products, brands and categories"
-            />
-            <button className="btn btn-warning ms-2">Search</button>
-          </form>
-        </div>
-
-        {/* Right side */}
-        <div className="d-flex align-items-center gap-3">
-          {/* Account */}
-          <div className="position-relative">
-            <FaUser
-              size={20}
-              style={{ cursor: 'pointer' }}
-              onClick={toggleDropdown}
-            />
-            <span className="ms-1" style={{ cursor: 'pointer' }} onClick={toggleDropdown}>
-              {showuserinfo ? userinfo.first_name :'Account'}
-            </span>
-            {showDropdown && (
-              showuserinfo ?(
-                <div
-                className="dropdown-menu show position-absolute end-0 mt-2"
-                style={{ zIndex: 999 }}
-              >
-              <span className="dropdown-item" onClick={()=>navigate('/profile')}>Profile</span>
-              <span className="dropdown-item" onClick={()=>navigate('/order')}>Orders</span>
-               
-                <span className="dropdown-item" onClick={sublogout}>Logout</span>
-              </div>):( <div
-                className="dropdown-menu show position-absolute end-0 mt-2"
-                style={{ zIndex: 999 }}
-              >
-                <span className="dropdown-item" onClick={()=>navigate('/login')}>Login</span>
-               
-               
-              </div>)
-             
-            )}
+    <header className={styles.header}>
+      <div className="container-fluid p-0">
+        <div className={styles.header__container}>
+          {/* Left Section: Hamburger + Logo */}
+          <div className={styles.header__left}>
+          {!in_home && <button className={styles.header__menuBtn} aria-label="Open menu">
+              <FaBars size={24} />
+            </button>}
+            <Link to="/"><img src={jumiaLogo} alt="Jumia" className={styles.header__logo} /></Link>
           </div>
-
-          {/* Help */}
-          <div className="d-flex align-items-center" style={{ cursor: 'pointer' }}>
-            <FaQuestionCircle size={18} />
-            <span className="ms-1">Help</span>
-          </div>
-
-          {/* Cart */}
-          <div onClick={()=>navigate('/cart')} className="d-flex align-items-center" style={{ cursor: 'pointer' }}>
-            <FaShoppingCart size={18} />
-            <span className="ms-1">Cart</span>
+          {/* Center Section: Search */}
+          <SearchBar />
+          {/* Right Section: Account, Help, Cart */}
+          <div className={styles.header__right}>
+            {/* Account */}
+            <div className={styles.header__account}>
+              <FaUser size={20} className={styles.header__icon} onClick={toggleDropdown} />
+              <span className={styles.header__accountText} onClick={toggleDropdown}>
+                {showuserinfo ? `Hi, ${userinfo.first_name}` : 'Hi, عمرو'}
+              </span>
+              {showDropdown && (
+                showuserinfo ? (
+                  <div className={styles.header__dropdown + " dropdown-menu show position-absolute end-0 mt-2"}>
+                    <span className="dropdown-item" onClick={() => navigate('/profile')}>Profile</span>
+                    <span className="dropdown-item" onClick={() => navigate('/order')}>Orders</span>
+                    <span className="dropdown-item" onClick={sublogout}>Logout</span>
+                  </div>
+                ) : (
+                  <div className={styles.header__dropdown + " dropdown-menu show position-absolute end-0 mt-2"}>
+                    <span className="dropdown-item" onClick={() => navigate('/login')}>Login</span>
+                  </div>
+                )
+              )}
+            </div>
+            {/* Help */}
+            <div className={styles.header__help}>
+              <FaQuestionCircle size={18} className={styles.header__icon} />
+              <span className={styles.header__helpText}>Help</span>
+            </div>
+            {/* Cart */}
+            <div onClick={() => navigate('/cart')} className={styles.header__cart}>
+              <FaShoppingCart size={20} className={styles.header__icon} />
+              <span className={styles.header__cartText}>Cart</span>
+              <span className={styles.header__cartBadge}>{cartCount}</span>
+            </div>
           </div>
         </div>
       </div>
-
-      
-    </div>
-  )
+    </header>
+  );
 }
