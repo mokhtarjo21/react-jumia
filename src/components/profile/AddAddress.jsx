@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
+import { instance } from "../../axiosInstance/instance";
 
-const AddAddress = ({ onSave }) => {
+const AddAddress = ({ onSave, onCancel }) => {
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -9,6 +10,8 @@ const AddAddress = ({ onSave }) => {
     address: "",
     city: "",
   });
+
+  const [loading, setLoading] = useState(false);
 
   const governorates = [
     "Cairo", "Giza", "Alexandria", "Dakahlia", "Beheira",
@@ -18,13 +21,63 @@ const AddAddress = ({ onSave }) => {
     "Matrouh", "North Sinai", "South Sinai", "Damietta", "Port Said", "Ismailia", "Suez"
   ];
 
+  useEffect(() => {
+    const fetchAddress = async () => {
+      try {
+        const access = localStorage.getItem("access");
+        const res = await instance.get("/users/api/profile/", {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        });
+        if (res.status === 200) {
+          setFormData({
+            first_name: res.data.first_name || "",
+            last_name: res.data.last_name || "",
+            phone: res.data.phone || "",
+            address: res.data.address || "",
+            city: res.data.city || "",
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching address:", error);
+      }
+    };
+
+    fetchAddress();
+  }, []);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSave(formData);
+    setLoading(true);
+
+    try {
+      const access = localStorage.getItem("access");
+      const res = await instance.put(
+        "/users/api/profile/",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${access}`,
+          },
+        }
+      );
+
+      if (res.status === 200 || res.status === 201) {
+        onSave(formData);
+      } else {
+        alert("Something went wrong while saving the address.");
+      }
+    } catch (error) {
+      console.error("Error saving address:", error);
+      alert("Failed to save address.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,7 +115,7 @@ const AddAddress = ({ onSave }) => {
               padding: "10px",
             }}
           />
-        </Form.Group>
+        </Form.Group> 
 
         <Form.Group className="mb-3" controlId="lastName">
           <Form.Label>Last Name</Form.Label>
@@ -79,7 +132,7 @@ const AddAddress = ({ onSave }) => {
               padding: "10px",
             }}
           />
-        </Form.Group>
+        </Form.Group> 
 
         <Form.Group className="mb-3" controlId="phone">
           <Form.Label>Phone Number</Form.Label>
@@ -137,21 +190,36 @@ const AddAddress = ({ onSave }) => {
           </Form.Select>
         </Form.Group>
 
-        <Button
-          type="submit"
-          className="w-100"
-          style={{
-            backgroundColor: "#f68b1e",
-            border: "none",
-            borderRadius: "25px",
-            padding: "12px",
-            fontSize: "1.1rem",
-            fontWeight: "bold",
-            color: "white",
-          }}
-        >
-          Save Address
-        </Button>
+        <div className="d-flex gap-2">
+          <Button
+            type="submit"
+            className="w-100"
+            style={{
+              backgroundColor: "#f68b1e",
+              border: "none",
+              borderRadius: "25px",
+              padding: "12px",
+              fontSize: "1.1rem",
+              fontWeight: "bold",
+              color: "white",
+            }}
+            disabled={loading}
+          >
+            {loading ? "Saving..." : "Save Address"}
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={onCancel}
+            style={{
+              borderRadius: "25px",
+              padding: "12px",
+              fontSize: "1.1rem",
+            }}
+          >
+            Cancel
+          </Button>
+        </div>
       </Form>
     </div>
   );

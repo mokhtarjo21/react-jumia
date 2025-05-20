@@ -18,6 +18,7 @@ import CategoryPage from "./components/category_page/category_main";
 import ProfilePage from './components/profile/ProfilePage'
 
 
+
 // Layout & Shared
 import Layout from "./components/productDetail/Layout";
 import Cart from "./components/cart/CartPage";
@@ -37,6 +38,7 @@ function App() {
               <Route path=":category/" element={<CategoryPage />} />
               <Route path="cart/" element={<Cart />} />
               <Route path="/profile" element={<ProfilePage />} />
+              
             </Route>
           </Routes>
 
