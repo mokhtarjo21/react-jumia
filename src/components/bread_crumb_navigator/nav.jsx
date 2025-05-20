@@ -14,11 +14,11 @@ const Breadcrumb = ({ category }) => {
         const response = await fetch(`http://127.0.0.1:8000/api/category/${currentSlug}`);
         const data = await response.json();
         breadcrumbList.unshift(data);
-        console.log("breadcrumbList", breadcrumbList);
         currentSlug = data.parent_slug; // Assuming the API returns a parentSlug
       }
 
       setBreadcrumbs(breadcrumbList);
+      console.log("breadcrumbList", breadcrumbList);
     };
 
     fetchBreadcrumbs();
@@ -37,6 +37,9 @@ const Breadcrumb = ({ category }) => {
           />
         </React.Fragment>
       ))}
+      {breadcrumbs.length === 0 && (
+        <span className="muted-text"> &gt;  Available Products </span>
+        )}
     </nav>
   );
 };

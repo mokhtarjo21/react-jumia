@@ -1,14 +1,16 @@
 .header__searchForm {
   display: flex;
   align-items: center;
-  flex: 1 1 0%;
-  max-width: 700px;
-  min-width: 400px;
-  margin: 0 2vw;
+  /* flex: 1 1 0%; */
+  /* max-width: 700px; */
+  /* min-width: 400px; */
+  /* margin: 0 2vw; */
   background: #fff;
   border-radius: var(--header-radius);
   box-shadow: 0 1px 2px rgba(0,0,0,0.04);
   border: 1px solid #eee;
+  width: 100%;
+  position: relative;
 }
 .header__searchIcon {
   padding: 0 12px;
@@ -27,16 +29,38 @@
   padding: 0 12px;
   height: 40px;
   background: transparent;
+  padding-right: 40px; /* Make room for clear button */
+}
+.header__clearBtn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  transition: color 0.2s;
+}
+.header__clearBtn:hover {
+  color: #666;
 }
 .header__searchBtn {
   background: var(--header-search-btn-bg);
   color: var(--header-search-btn-color);
   border: none;
-  border-radius: 0 var(--header-radius) var(--header-radius) 0;
+  border-radius: var(--header-radius);
   font-weight: bold;
-  padding: 0 28px;
+  /* padding: 0 auto; */
   height: 40px;
+  margin-left: 8px;
   transition: background 0.2s;
+  white-space: nowrap;
+  width: 92px;
 }
 .header__searchBtn:hover {
   background: var(--header-search-btn-hover);
@@ -44,10 +68,14 @@
 
 .searchWrapper {
   position: relative;
+  width: 50%;
+  display: flex;
+  align-items: center;
 }
 
 .suggestionsDropdown {
   position: absolute;
+  width: calc(100% - 90px);
   top: 100%;
   left: 0;
   right: 0;

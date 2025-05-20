@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 import styles from './search.module.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -75,15 +75,19 @@ function SearchBar() {
         e.preventDefault();
         setShowSuggestions(false);
         if (searchQuery.trim()) {
-            navigate(`/allproducts`, {
-                state: { type: 'product', slug: searchQuery.trim() }
-            });
+            navigate(`/all_${searchQuery.trim()}`);
         }
     };
 
     // Hide suggestions on blur (with delay to allow click)
     const handleBlur = () => {
         setTimeout(() => setShowSuggestions(false), 150);
+    };
+
+    const handleClearSearch = () => {
+        setSearchQuery('');
+        setSuggestions([]);
+        setShowSuggestions(false);
     };
 
     return (
@@ -102,8 +106,24 @@ function SearchBar() {
                     onFocus={() => setShowSuggestions(true)}
                     onBlur={handleBlur}
                 />
-                <button className={styles.header__searchBtn} type="submit">Search</button>
+                {searchQuery && (
+                    <button 
+                        type="button" 
+                        className={styles.header__clearBtn}
+                        onClick={handleClearSearch}
+                        aria-label="Clear search"
+                    >
+                        <FaTimes size={14} color="#888" />
+                    </button>
+                )}
             </form>
+            <button 
+                className={styles.header__searchBtn} 
+                onClick={handleSubmit}
+                type="button"
+            >
+                Search
+            </button>
             {showSuggestions && suggestions.length > 0 && (
                 <ul className={styles.suggestionsDropdown}>
                     {suggestions.map((item) => (
