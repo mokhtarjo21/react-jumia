@@ -2,13 +2,18 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import FiltersSidebar from "./filter_sidebar_component/filter_sidebar";
 import Products from "./products_list_component/products";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import CategoryGrid from "../category_grid/category_grid";
 import Breadcrumb from "../bread_crumb_navigator/nav";
 import "./category_page.css";
 
 function CategoryPage() {
   const { category } = useParams();
+  // to determinte what the hell are we looking for
+  const location = useLocation();
+  const locationState = location.state || {};
+
+  console.log(category);
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
   const [category_details, setCategoryDetails] = useState({});
@@ -30,9 +35,24 @@ function CategoryPage() {
     shipped_from: "",
   });
 
-  // Build API URL dynamically
-  const API_products = `http://127.0.0.1:8000/api/category/${category}/products/`;
-  const API_category_details = `http://127.0.0.1:8000/api/category/${category}`;
+  let search_brand = category?.match(/^brand_(.+)$/);
+  let search_products = category?.match(/^all_(.+)$/);
+
+  // default apis
+  let API_products = `http://127.0.0.1:8000/api/category/${category}/products/`;
+  let API_category_details = `http://127.0.0.1:8000/api/category/${category}`;
+  
+
+  if (search_brand || search_products) {
+    if (search_brand) {
+      API_products = `http://127.0.0.1:8000/api/products/?brand=${search_brand[1]}`;
+    } else if (search_products) {
+      API_products = `http://127.0.0.1:8000/api/products/?q=${search_products[1]}`;
+    }
+    API_category_details = null; 
+  }
+  console.log(API_products);
+  // const API_search_products =  `http://127.0.0.1:8000/api/products/?q=${slug}`;
 
   // Update filters from URL params on mount
   useEffect(() => {
@@ -44,14 +64,15 @@ function CategoryPage() {
       max_price: searchParams.get("max_price") || "",
       discount: searchParams.get("discount_min") || null,
       express_delivery: searchParams.get("express_delivery") === "1",
-      shipped_from: searchParams.get("shipped_from") || "",
     }));
   }, []);
 
   // Fetch products and brands when filters or page change
   useEffect(() => {
     fetchProducts();
-    fetchSubCategories();
+    if (API_category_details) {
+      fetchSubCategories();
+    }
   }, [searchParams, category]);
 
   const fetchProducts = async () => {
@@ -59,19 +80,23 @@ function CategoryPage() {
     try {
       const { data } = await axios.get(API_products, { params });
       setProducts(data.products);
-      setBrands(data.brands);
+      setBrands(data.brands || []);
       setMinPrice(data.min_price);
       setMaxPrice(data.max_price);
       setColors(data.colors);
       setPagination(data.pagination);
+      console.log(data);
+      console.log(API_products);
     } catch (error) {
       console.error("Failed to fetch products:", error);
     }
   };
 
   const fetchSubCategories = async () => {
-    const { data } = await axios.get(API_category_details);
+    if (!API_category_details) return;
+    
     try {
+      const { data } = await axios.get(API_category_details);
       setCategoryDetails(data);
     } catch (error) {
       console.error("Failed to fetch sub categories:", error);
@@ -154,24 +179,23 @@ function CategoryPage() {
   return (
     <div className="">
       {category_details?.children?.length > 0 && (
-            <CategoryGrid
-              categories={category_details.children}
-              header="Category"
-            />
+        <CategoryGrid
+          categories={category_details.children}
+          header="Category"
+        />
       )}
 
       {brands.length > 0 && !category_details.parent && (
-            <CategoryGrid categories={brands} header="Brand" />
+        <CategoryGrid categories={brands} header="Brand" />
       )}
 
       <div className="col-md-12 breadcrumb-container">
-        <Breadcrumb category={category_details} />
+        {category_details && <Breadcrumb category={category_details} />}
       </div>
       <div className="row ">
-
         <aside className="col-md-3 aside-wrapper">
           <FiltersSidebar 
-            subCategories={category_details.children}
+            subCategories={category_details?.children || []}
             filters={filters}
             setFilters={handleFilterChange}
             handlePriceFilterApply={handlePriceFilterApply}
@@ -182,9 +206,9 @@ function CategoryPage() {
           />
         </aside>
         <div className="col-md-9">
-        <Products
-          products={products}
-          pagination={pagination}
+          <Products
+            products={products}
+            pagination={pagination}
             handlePageChange={handlePageChange}
           />
         </div>
