@@ -21,12 +21,13 @@ const CartPage = () => {
 
   const handleQtyChange = (item, newQty) => {
     if (newQty < 1) return;
-    updateCartItem(item.productid, item.color, item.size, newQty);
+    console.log('Updating quantity for item:', item);
+    updateCartItem(item.product.id, item.color, item.size, newQty);
     refreshCart();
   };
 
   const handleRemove = (item) => {
-    removeCartItem(item.productid, item.color, item.size);
+    removeCartItem(item.product.id, item.color, item.size);
     refreshCart();
   };
 

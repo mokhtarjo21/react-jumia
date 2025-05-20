@@ -3,6 +3,7 @@ import { instance } from "../../axiosInstance/instance";
 import { Dropdown } from 'react-bootstrap';
 import { FaUser, FaQuestionCircle, FaShoppingCart } from 'react-icons/fa';
 import { useNavigate } from "react-router-dom";
+import { fetchCartFromBackend,deletecart } from '../../utils/cartCookie';
 export default function JumiaNavbar() {
   const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
@@ -21,6 +22,7 @@ export default function JumiaNavbar() {
         if (response.status === 200) {
           const data = response.data.response;
           console.log('User info fetched successfully:', data);
+          fetchCartFromBackend();
           setUserinfo(data,);
           setShowUserInfo(true);
           console.log('User info:', userinfo);
@@ -48,6 +50,7 @@ export default function JumiaNavbar() {
     });
 
     if (responsee.status === 200) {
+      deletecart();
       console.log('Logout successful');
       localStorage.removeItem('access');
       localStorage.removeItem('refresh');

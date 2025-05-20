@@ -1,9 +1,55 @@
-import React from 'react';
+import React ,{useEffect, useState} from 'react';
 import Orders from './ordders';
 import AddProduct from './add-product';
 import Productslist from './products';
+import { instance } from "../../axiosInstance/instance";
+import { useNavigate } from "react-router-dom";
 const VendorDashboard = () => {
-  const [activeTab, setActiveTab] = React.useState('products');
+  const [activeTab, setActiveTab] = useState('products');
+  const Navigate = useNavigate();
+  const [userinfo, setUserinfo] = useState()
+  const accessToken = localStorage.getItem('access');
+  useEffect(() => {
+     const userinfo = async () => {
+          try {
+            const access =localStorage.getItem('access')
+            const response = await instance.get('/api/my-cart/', {
+              headers: {
+                'Authorization': `Bearer ${access}`,
+                 
+              }
+            });
+            if (response.status === 200) {
+              const data = response.data;
+              console.log('User info fetched successfully:', data);
+              setUserinfo(data,);
+           
+              console.log('User info:', userinfo);
+              // You can set user info in state or context here
+            } else {
+              console.error('Failed to fetch user info');
+            }
+          } catch (error) {
+            console.error('Error fetching user info:', error);
+          }
+        }
+        userinfo();
+  
+  }
+  , []);
+  //  if (accessToken == null || accessToken == 'undefined') {
+  //   // Navigate('/loginvendor');
+  //   return (
+  //     <div className="container-fluid">
+  //       <div className="row justify-content-center align-items-center min-vh-100">
+  //         <div className="col-md-6 text-center">
+  //           <h1 className="text-danger">Please Login to Access Vendor Dashboard</h1>
+  //           <button className="btn btn-primary mt-3" onClick={() => Navigate('/loginvendor')}>Login</button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
   return (
     <div className="container-fluid">
       <div className="row">

@@ -24,9 +24,8 @@
     })
     .catch(err => {
       console.error('Refresh token expired, need to log in again');
-      localStorage.removeItem('access');
-      localStorage.removeItem('refresh');
-      // redirect to login
+     
+     
     });
 }
   refreshAccessToken();
