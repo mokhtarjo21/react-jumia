@@ -1,6 +1,6 @@
 import React from 'react';
-import ProductCard from '../product_card/card';
-import ProductsDroplistMenu from './products_droplist_menu';
+import ProductCard from '../../product_card/card';
+import ProductsDroplistMenu from './products_droplist_menu_component/products_droplist_menu';
 import './products.css';
 
 function Products({ products, pagination, handlePageChange }) {
