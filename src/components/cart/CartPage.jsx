@@ -21,7 +21,7 @@ const CartPage = () => {
 
   useEffect(() => {
     refreshCart();
-  }, []);
+  }, [cart]);
 
   const handleQtyChange = (item, newQty) => {
 
