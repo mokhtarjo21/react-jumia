@@ -3,7 +3,7 @@
   --header-border: #eee;
   --header-shadow: 0 2px 8px rgba(0,0,0,0.03);
   --header-height: 60px;
-  --header-radius: 8px;
+  --header-radius: 6px;
   --header-search-btn-bg: #ff9900;
   --header-search-btn-color: #fff;
   --header-search-btn-hover: #e68a00;
@@ -19,6 +19,11 @@
   font-family: 'Segoe UI', Arial, sans-serif;
   font-size: 15px;
   z-index: 1000;
+  position: sticky;
+  top: 0;
+  height: 80px;
+  display: flex;
+  align-items: center;
 }
 
 .header__container {
@@ -54,11 +59,7 @@
   vertical-align: middle;
 }
 
-/* Center section: Search */
-/* .header__searchForm {}
-.header__searchIcon {}
-.header__searchInput {}
-.header__searchBtn {} */
+
 
 /* Right section */
 .header__right {

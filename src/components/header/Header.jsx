@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { instance } from "../../axiosInstance/instance";
 import { FaUser, FaQuestionCircle, FaShoppingCart, FaBars,  } from 'react-icons/fa';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { fetchCartFromBackend, deletecart } from '../../utils/cartCookie';
 import styles from './header.module.css';
 import jumiaLogo from '../../assets/jumia_header_logo.png';
@@ -10,10 +10,14 @@ import SearchBar from './header_search_component/search';
 
 export default function JumiaNavbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [userinfo, setUserinfo] = useState();
   const [showuserinfo, setShowUserInfo] = useState(false);
   const [cartCount, setCartCount] = useState(3); // Placeholder for cart badge
+
+  // Check if we're on the home page
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const userinfo = async () => {
@@ -62,14 +66,13 @@ export default function JumiaNavbar() {
       console.error('Logout error:', error.response?.data || error.message);
     }
   }
-  const in_home = true;
   return (
     <header className={styles.header}>
       <div className="container-fluid p-0">
         <div className={styles.header__container}>
           {/* Left Section: Hamburger + Logo */}
           <div className={styles.header__left}>
-          {!in_home && <button className={styles.header__menuBtn} aria-label="Open menu">
+            {!isHomePage && <button className={styles.header__menuBtn} aria-label="Open menu">
               <FaBars size={24} />
             </button>}
             <Link to="/"><img src={jumiaLogo} alt="Jumia" className={styles.header__logo} /></Link>
