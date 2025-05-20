@@ -3,8 +3,10 @@ import { FaSearch } from "react-icons/fa";
 import "./filter_sidebar.css";
 import Checkbox from "./checkbox";
 import PriceSearch from "./price_search";
+import { Link } from 'react-router-dom';
 
-function FiltersSidebar({ filters, setFilters, brands }) {
+
+function FiltersSidebar({ subCategories, filters, setFilters, brands }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBrands, setFilteredBrands] = useState(brands);
   
@@ -12,21 +14,37 @@ function FiltersSidebar({ filters, setFilters, brands }) {
   useEffect(() => {
     if (searchTerm) {
       setFilteredBrands(brands.filter(brand => 
-        brand.toLowerCase().includes(searchTerm.toLowerCase())
+        brand.name.toLowerCase().includes(searchTerm.toLowerCase())
       ));
     } else {
       setFilteredBrands(brands);
     }
   }, [searchTerm, brands]);
 
+  const subcategory_li = (category) => {
+    return (
+      <li className="sub-category-li" key={category.slug}>
+        <Link 
+          to={`/${category.slug}`}
+        >
+          {category.name}
+        </Link>
+      </li>
+    );
+  };
+  
   return (
     <div className="filter-sidebar">
-      <h5>CATEGORY</h5>
-      <ul>
-        <li>Fashion</li>
-        <li>Home & Office</li>
-        <li>Health & Beauty</li>
-      </ul>
+      {subCategories?.length > 0 && (
+        <div className="sub-categories">
+          <h5>CATEGORY</h5>
+          <ul>
+          {subCategories.map((category) => (
+            subcategory_li(category)
+          ))}
+          </ul>
+        </div>
+      )}
 
       <h5>EXPRESS DELIVERY</h5>
       <Checkbox
@@ -37,16 +55,11 @@ function FiltersSidebar({ filters, setFilters, brands }) {
         }
         slug="True"
         paramName="is_featured"
+        isRadio={true}
       />
 
-      <h5>SHIPPED FROM</h5>
-      <Checkbox
-        label="Shipped from Egypt"
-        slug="egypt"
-        paramName="shipped_from"
-      />
 
-      <h5>PRICE (EGP)</h5>
+      {/* price search */}
       <PriceSearch />
 
       <h5>DISCOUNT PERCENTAGE</h5>
@@ -97,9 +110,9 @@ function FiltersSidebar({ filters, setFilters, brands }) {
       <div style={{ maxHeight: 200, overflowY: "auto" }}>
         {filteredBrands.map(brand => (
           <Checkbox
-            key={brand}
-            label={brand}
-            slug={brand.toLowerCase().replace(/\s+/g, '-')}
+            key={brand.slug}
+            label={brand.name}
+            slug={brand.slug}
             paramName="brand"
           />
         ))}
