@@ -6,3 +6,10 @@
 .products-div {
   background-color: rgb(255, 255, 255);
 }
+
+.category-header {
+  font-size: 20px;
+  font-weight: 900;
+  padding-top: 20px;
+  padding-left: 20px;
+}

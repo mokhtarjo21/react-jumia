@@ -135,38 +135,36 @@ function CategoryPage() {
     setSearchParams(params);
   };
 
+  // changing style on page mount 
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F1F1F2";
+
+    // Reset it on unmount
+    return () => {
+      document.body.style.backgroundColor = ""; // or your default like "#fff"
+    };
+  }, []);
 
   return (
-    <div className="container-fluid category-page">
+    <div className="">
       {category_details?.children?.length > 0 && (
-        <div className="row">
-          <div className="col-md-12">
             <CategoryGrid
               categories={category_details.children}
               header="Category"
             />
-          </div>
-        </div>
       )}
-      <hr />
 
       {brands.length > 0 && !category_details.parent && (
-        <div className="row">
-          <div className="col-md-12">
             <CategoryGrid categories={brands} header="Brand" />
-          </div>
-        </div>
       )}
-      {/* 
-      <hr />
-      <hr /> */}
-      <div className="row">
-        {/* <div className="col-md-12 breadcrumb-container"> */}
+
+      <div className="col-md-12 breadcrumb-container">
         <Breadcrumb category={category_details} />
-        {/* </div> */}
-        {/* Sidebar */}
-        <aside className="col-md-3 border-end">
-          <FiltersSidebar
+      </div>
+      <div className="row ">
+
+        <aside className="col-md-3 aside-wrapper">
+          <FiltersSidebar 
             subCategories={category_details.children}
             filters={filters}
             setFilters={handleFilterChange}
@@ -174,12 +172,13 @@ function CategoryPage() {
             brands={brands}
           />
         </aside>
-        {/* Products Component */}
+        <div className="col-md-9">
         <Products
           products={products}
           pagination={pagination}
-          handlePageChange={handlePageChange}
-        />
+            handlePageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

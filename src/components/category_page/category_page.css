@@ -1,7 +1,4 @@
-.category-page {
-  padding: 20px 0;
-  background-color: #f5f5f5;
-}
+
 
 .category-page h1 {
   font-size: 24px;
@@ -27,11 +24,15 @@
   font-size: 14px;
 }
 
-.category-page aside {
-  background-color: white;
+.category-page  {
+  background-color: #F1F1F2;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   padding-bottom: 20px;
+
+  height: auto;
+
+
 }
 
 .category-page main {
@@ -82,4 +83,8 @@
   .category-page .sort-by {
     margin-top: 10px;
   }
+}
+
+.aside-wrapper {
+  padding-right: 0px!important;
 }
