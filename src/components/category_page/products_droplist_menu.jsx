@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
+import { FaChevronUp, FaChevronDown } from 'react-icons/fa';
+
+
 import "./products_droplist_menu.css";
 
 const SORT_OPTIONS = [
@@ -24,7 +27,7 @@ function ProductsDroplistMenu() {
   const dropdownRef = useRef(null);
 
   // Get current sort from URL or default to "newest"
-  const currentSort = searchParams.get("sort") || "newest";
+  const currentSort = searchParams.get("ordering") || "newest";
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -45,15 +48,16 @@ function ProductsDroplistMenu() {
   };
 
   return (
+    
     <div className="sort-dropdown" ref={dropdownRef}>
       <button
         className="sort-dropdown-toggle"
         onClick={() => setOpen((o) => !o)}
       >
         <span className="sort-label">
-          Sort by: <strong>{SORT_LABELS[currentSort]}</strong>
+          Sort by: <span className="sort-label-text">{SORT_LABELS[currentSort]}</span>
         </span>
-        <span className="sort-arrow">{open ? "▲" : "▼"}</span>
+        <span className="sort-arrow">{open ?<FaChevronUp />:<FaChevronDown /> }</span>
       </button>
       {open && (
         <div className="sort-dropdown-menu">

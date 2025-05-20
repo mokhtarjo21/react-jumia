@@ -1,21 +1,26 @@
 import React from 'react';
 import ProductCard from '../product_card/card';
-import './products.css';
 import ProductsDroplistMenu from './products_droplist_menu';
+import './products.css';
 
 function Products({ products, pagination, handlePageChange }) {
   return (
     <main className="products-div">
+      <div className="category-header-wrapper d-flex justify-content-between align-items-center">
+
       <div className=" category-header d-flex gap-2 align-items-center">
-        <h1>{products.length > 0 ? products[0].category_name : 'No Products'}</h1> <span className='muted-text'>({products.length? products.length : '0' } products found)</span>
+        <h3>{products.length > 0 ? products[0].category_name : 'No Products'}</h3> <span className='muted-text'>({products.length? products.length : '0' } products found)</span>
+      </div>
+      <div className="category-options">
         <ProductsDroplistMenu />
+      </div>
       </div>
       <hr
         style={{
           height: '1px',
-          backgroundColor: '#6c757d', 
+          backgroundColor: 'rgb(199, 199, 199)',
           border: 'none',
-          marginBottom: '20px'
+          marginBottom: '15px'
         }}
       />
       {products.length === 0 ? (
