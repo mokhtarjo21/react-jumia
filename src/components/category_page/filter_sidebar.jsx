@@ -55,16 +55,11 @@ function FiltersSidebar({ subCategories, filters, setFilters, brands }) {
         }
         slug="True"
         paramName="is_featured"
+        isRadio={true}
       />
 
-      <h5>SHIPPED FROM</h5>
-      <Checkbox
-        label="Shipped from Egypt"
-        slug="egypt"
-        paramName="shipped_from"
-      />
 
-      <h5>PRICE (EGP)</h5>
+      {/* price search */}
       <PriceSearch />
 
       <h5>DISCOUNT PERCENTAGE</h5>
