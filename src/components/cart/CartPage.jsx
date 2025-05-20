@@ -24,6 +24,7 @@ const CartPage = () => {
   }, []);
 
   const handleQtyChange = (item, newQty) => {
+
     if (newQty < 1) {
       removeCartItem(item.product.id, item.color, item.size);
     } else if (newQty > MAX_QTY) {
@@ -31,6 +32,7 @@ const CartPage = () => {
     } else {
       updateCartItem(item.product.id, item.color, item.size, newQty);
     }
+
     refreshCart();
   };
 
