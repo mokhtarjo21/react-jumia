@@ -6,9 +6,11 @@ import PriceSearch from "./price_search";
 import { Link } from 'react-router-dom';
 
 
-function FiltersSidebar({ subCategories, filters, setFilters, brands }) {
+function FiltersSidebar({ subCategories, filters, setFilters, brands, min_price, max_price, colors }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBrands, setFilteredBrands] = useState(brands);
+  const [filteredColors, setFilteredColors] = useState(colors);
+
   
   // Filter brands based on search term
   useEffect(() => {
@@ -60,7 +62,7 @@ function FiltersSidebar({ subCategories, filters, setFilters, brands }) {
 
 
       {/* price search */}
-      <PriceSearch />
+      <PriceSearch min_price={min_price} max_price={max_price} />
 
       <h5>DISCOUNT PERCENTAGE</h5>
       <div className="radio-group">

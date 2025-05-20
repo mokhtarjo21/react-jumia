@@ -1,23 +1,39 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import './price_search.css';
 
-const SLIDER_MIN = 0;
-const SLIDER_MAX = 10000;
 const SLIDER_STEP = 10;
 
-const PriceSearch = () => {
+function PriceSearch({ min_price, max_price }) {
   const [searchParams, setSearchParams] = useSearchParams();
+  // Store the initial min/max in refs
+  const initialMin = useRef(min_price);
+  const initialMax = useRef(max_price);
+
   const [priceRange, setPriceRange] = useState({
-    min: Number(searchParams.get('min_price')) || SLIDER_MIN,
-    max: Number(searchParams.get('max_price')) || SLIDER_MAX
+    min: min_price,
+    max: max_price
   });
   const sliderRef = useRef(null);
   const [dragging, setDragging] = useState(null); // 'min' or 'max' or null
 
+  // Only update state from API props on mount or when they change
+  useEffect(() => {
+    initialMin.current = min_price;
+    initialMax.current = max_price;
+    setPriceRange({ min: min_price, max: max_price });
+  }, [min_price, max_price]);
+
   // Handle input change
   const handlePriceChange = (type, value) => {
-    let val = value === '' ? '' : Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, Number(value)));
+    let val = value === '' ? '' : Number(value);
+    if (val !== '') {
+      if (type === 'min') {
+        val = Math.max(initialMin.current, Math.min(priceRange.max - SLIDER_STEP, val));
+      } else {
+        val = Math.min(initialMax.current, Math.max(priceRange.min + SLIDER_STEP, val));
+      }
+    }
     setPriceRange(prev => ({
       ...prev,
       [type]: val
@@ -26,17 +42,17 @@ const PriceSearch = () => {
 
   // Handle slider drag
   const handleSliderChange = (type, value) => {
-    let val = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, value));
+    let val = value;
     if (type === 'min') {
-      val = Math.min(val, priceRange.max - SLIDER_STEP);
+      val = Math.max(initialMin.current, Math.min(priceRange.max - SLIDER_STEP, value));
     } else {
-      val = Math.max(val, priceRange.min + SLIDER_STEP);
+      val = Math.min(initialMax.current, Math.max(priceRange.min + SLIDER_STEP, value));
     }
     setPriceRange(prev => ({ ...prev, [type]: val }));
   };
 
   // Mouse/touch events for slider
-  const getPercent = (value) => ((value - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN)) * 100;
+  const getPercent = (value) => ((value - initialMin.current) / (initialMax.current - initialMin.current)) * 100;
 
   const handleMouseDown = (type) => (e) => {
     e.preventDefault();
@@ -51,13 +67,13 @@ const PriceSearch = () => {
     const clientX = e.touches ? e.touches[0].clientX : e.clientX;
     let percent = ((clientX - rect.left) / rect.width) * 100;
     percent = Math.max(0, Math.min(100, percent));
-    let value = Math.round(SLIDER_MIN + ((SLIDER_MAX - SLIDER_MIN) * percent) / 100);
+    let value = Math.round(initialMin.current + ((initialMax.current - initialMin.current) * percent) / 100);
     handleSliderChange(dragging, value);
   };
 
   const handleMouseUp = () => setDragging(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (dragging) {
       document.addEventListener('mousemove', handleMouseMove);
       document.addEventListener('touchmove', handleMouseMove);
@@ -75,18 +91,17 @@ const PriceSearch = () => {
       document.removeEventListener('mouseup', handleMouseUp);
       document.removeEventListener('touchend', handleMouseUp);
     };
-    // eslint-disable-next-line
   }, [dragging]);
 
   // Apply button logic
   const handleApply = () => {
     const currentParams = Object.fromEntries([...searchParams]);
-    if (priceRange.min !== '' && priceRange.min !== SLIDER_MIN) {
+    if (priceRange.min !== '' && priceRange.min !== initialMin.current) {
       currentParams.min_price = priceRange.min;
     } else {
       delete currentParams.min_price;
     }
-    if (priceRange.max !== '' && priceRange.max !== SLIDER_MAX) {
+    if (priceRange.max !== '' && priceRange.max !== initialMax.current) {
       currentParams.max_price = priceRange.max;
     } else {
       delete currentParams.max_price;
@@ -129,7 +144,7 @@ const PriceSearch = () => {
           className="form-control"
           placeholder="Min"
           value={priceRange.min}
-          min={SLIDER_MIN}
+          min={initialMin.current}
           max={priceRange.max - SLIDER_STEP}
           onChange={(e) => handlePriceChange('min', e.target.value)}
         />
@@ -140,12 +155,12 @@ const PriceSearch = () => {
           placeholder="Max"
           value={priceRange.max}
           min={priceRange.min + SLIDER_STEP}
-          max={SLIDER_MAX}
+          max={initialMax.current}
           onChange={(e) => handlePriceChange('max', e.target.value)}
         />
       </div>
     </div>
   );
-};
+}
 
 export default PriceSearch; 

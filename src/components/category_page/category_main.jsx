@@ -13,6 +13,9 @@ function CategoryPage() {
   const [products, setProducts] = useState([]);
   const [category_details, setCategoryDetails] = useState({});
   const [brands, setBrands] = useState([]);
+  const [min_price, setMinPrice] = useState(0);
+  const [max_price, setMaxPrice] = useState(0);
+  const [colors, setColors] = useState([]);
   const [pagination, setPagination] = useState({
     count: 0,
     current_page: 1,
@@ -20,8 +23,8 @@ function CategoryPage() {
   });
   const [filters, setFilters] = useState({
     brandList: [],
-    min_price: "",
-    max_price: "",
+    min_price: null,
+    max_price: null,
     discount: null,
     express_delivery: false,
     shipped_from: "",
@@ -57,6 +60,9 @@ function CategoryPage() {
       const { data } = await axios.get(API_products, { params });
       setProducts(data.products);
       setBrands(data.brands);
+      setMinPrice(data.min_price);
+      setMaxPrice(data.max_price);
+      setColors(data.colors);
       setPagination(data.pagination);
     } catch (error) {
       console.error("Failed to fetch products:", error);
@@ -170,6 +176,9 @@ function CategoryPage() {
             setFilters={handleFilterChange}
             handlePriceFilterApply={handlePriceFilterApply}
             brands={brands}
+            min_price={min_price}
+            max_price={max_price}
+            colors={colors}
           />
         </aside>
         <div className="col-md-9">
