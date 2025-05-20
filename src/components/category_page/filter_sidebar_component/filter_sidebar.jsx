@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import "./filter_sidebar.css";
-import Checkbox from "./checkbox";
-import PriceSearch from "./price_search";
+import Checkbox from "./checkbox_component/checkbox";
+import PriceSearch from "./price_search_component/price_search";
 import { Link } from 'react-router-dom';
 
 

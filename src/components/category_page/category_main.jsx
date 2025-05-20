@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import FiltersSidebar from "./filter_sidebar";
-import Products from "./products";
+import FiltersSidebar from "./filter_sidebar_component/filter_sidebar";
+import Products from "./products_list_component/products";
 import { useParams, useSearchParams } from "react-router-dom";
 import CategoryGrid from "../category_grid/category_grid";
 import Breadcrumb from "../bread_crumb_navigator/nav";
