@@ -21,7 +21,7 @@ const filteredProducts = products.filter((product) => {
      const userinfo = async () => {
               try {
                 const access =localStorage.getItem('access')
-                const response = await instance.get('/api/vendor/', {
+                const response = await instance.get('/api/vendor/products', {
                   headers: {
                     'Authorization': `Bearer ${access}`,
                      
