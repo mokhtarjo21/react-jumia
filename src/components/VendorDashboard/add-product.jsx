@@ -5,9 +5,11 @@ const AddProduct = () => {
   const [images, setImages] = useState(Array(8).fill(null)); // ملفات الصور
   const [colors,setColors] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
-  const [sizes,setSizes] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
-
+  const [sizes,setSizes] = useState([]);
+  
+  const [categories, setCategories] = useState([]); 
+  const [brands, setBrands] = useState([]); // قائمة العلامات التجارية
   // البيانات الأساسية مع كل الحقول المطلوبة
   const [product, setProduct] = useState({
     name: '',
@@ -36,9 +38,10 @@ const AddProduct = () => {
                  
                     setSizes(data.sizes);
                     setColors(data.colors);
+                    setCategories(data.categories);
+                    setBrands(data.brands);
                     console.log(sizes);
-                    console.log('User info:', userinfo);
-                    // You can set user info in state or context here
+                   console.log(data);
                   } else {
                     console.error('Failed to fetch user info');
                   }
@@ -62,16 +65,20 @@ const AddProduct = () => {
   };
 
   const handleColorChange = (color) => {
+    setProduct({ ...product, colors: [...colors,color] });
     setSelectedColor(prev =>
       prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
     );
   };
 
   const handleSizeChange = (size) => {
+    setProduct({ ...product, sizes: [...sizes,size] });
     setSelectedSize(prev =>
       prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
     );
   };
+
+
 
   // تحقق من الحقول المطلوبة
   const validate = () => {
@@ -108,15 +115,15 @@ const AddProduct = () => {
         formData.append('discount', product.discount);
       }
 
-      formData.append('colors', JSON.stringify(selectedColor));
-      formData.append('sizes', JSON.stringify(selectedSize));
+      formData.append('colors', product.colors ||null);
+      formData.append('sizes', product.sizes ||null);
 
       images.forEach(file => {
         if (file) {
           formData.append('images', file);
         }
       });
-
+      console.log('FormData:', formData);
       const response = await instance.post('/api/products/create/', formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('access')}`,
@@ -131,7 +138,13 @@ const AddProduct = () => {
         console.error('Error adding product:', response.data);
       }
     } catch (error) {
-      console.error('Error saving product:', error);
+      console.error("Error saving product:");
+  if (error.response) {
+    console.log("Status:", error.response.status);
+    console.log("Data:", error.response.data); // 👈 هنا يظهر الخطأ الحقيقي من السيرفر
+  } else {
+    console.log(error.message);
+  }
     }
   };
 
@@ -181,29 +194,40 @@ const AddProduct = () => {
 
         {/* Category */}
         <div className="col-md-6">
-          <label className="form-label fw-bold">Category (ID) *</label>
-          <input
-            type="text"
-            className={`form-control ${errors.category ? 'is-invalid' : ''}`}
-            placeholder="Category ID"
-            value={product.category}
-            onChange={e => setProduct({ ...product, category: e.target.value })}
-          />
-          {errors.category && <div className="invalid-feedback">{errors.category}</div>}
-        </div>
+  <label className="form-label fw-bold">Category *</label>
+  <select
+    className={`form-select ${errors.category ? 'is-invalid' : ''}`}
+    value={product.category}
+    onChange={e => setProduct({ ...product, category: e.target.value })}
+  >
+    <option value="">-- Select Category --</option>
+    {categories.map(cat => (
+      <option key={cat.id} value={cat.id}>
+        {cat.name}
+      </option>
+    ))}
+  </select>
+  {errors.category && <div className="invalid-feedback">{errors.category}</div>}
+</div>
 
         {/* Brand */}
-        <div className="col-md-6">
-          <label className="form-label fw-bold">Brand *</label>
-          <input
-            type="text"
-            className={`form-control ${errors.brand ? 'is-invalid' : ''}`}
-            placeholder="Brand ID or name"
-            value={product.brand}
-            onChange={e => setProduct({ ...product, brand: e.target.value })}
-          />
-          {errors.brand && <div className="invalid-feedback">{errors.brand}</div>}
-        </div>
+       <div className="col-md-6">
+  <label className="form-label fw-bold">Brand *</label>
+  <select
+    className={`form-select ${errors.brand ? 'is-invalid' : ''}`}
+    value={product.brand}
+    onChange={e => setProduct({ ...product, brand: e.target.value })}
+  >
+    <option value="">-- Select Brand --</option>
+    {brands.map(brand => (
+      <option key={brand.id} value={brand.id}>
+        {brand.name}
+      </option>
+    ))}
+  </select>
+  {errors.brand && <div className="invalid-feedback">{errors.brand}</div>}
+</div>
+
 
         {/* Price */}
         <div className="col-md-6">
@@ -274,20 +298,20 @@ const AddProduct = () => {
           <label className="form-label fw-bold">Available Colors</label>
           <div className="d-flex flex-wrap gap-2">
             {colors.map(color => (
-              <div key={color} className="form-check">
-                <input
-                  className="form-check-input"
-                  type="checkbox"
-                  id={`color-${color}`}
-                  value={color}
-                  checked={selectedColor.includes(color)}
-                  onChange={() => handleColorChange(color)}
-                />
-                <label className="form-check-label" htmlFor={`color-${color}`}>
-                  {color}
-                </label>
-              </div>
-            ))}
+  <div key={color.id} className="form-check">
+    <input
+      className="form-check-input"
+      type="checkbox"
+      id={`color-${color.id}`}
+      value={color.id}
+      checked={selectedColor.includes(color.id)}
+      onChange={() => handleColorChange(color.id)}
+    />
+    <label className="form-check-label" htmlFor={`color-${color.id}`}>
+      {color.name}
+    </label>
+  </div>
+))}
           </div>
         </div>
 
@@ -303,10 +327,10 @@ const AddProduct = () => {
                   id={`size-${size.id}`}
                   value={size.id}
                   checked={selectedSize.includes(size.id)}
-                  onChange={() => handleSizeChange(size)}
+                  onChange={() => handleSizeChange(size.id)}
                 />
                 <label className="form-check-label" htmlFor={`size-${size}`}>
-                  {size}
+                  {size.name}
                 </label>
               </div>
             ))}
