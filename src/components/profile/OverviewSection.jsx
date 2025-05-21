@@ -3,31 +3,42 @@ import { instance } from "../../axiosInstance/instance";
 import AddAddress from "./AddAddress";
 
 const OverviewSection = () => {
-  const [userinfo, setUserinfo] = useState();
+  const [userinfo, setUserinfo] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [addressInfo, setAddressInfo] = useState(null);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
+    const fetchUserData = async () => {
       try {
         const access = localStorage.getItem("access");
-        const response = await instance.get("/users/api/who", {
-          headers: {
-            Authorization: `Bearer ${access}`,
-          },
+
+        
+        const userResponse = await instance.get("/users/api/who", {
+          headers: { Authorization: `Bearer ${access}` },
         });
-        if (response.status === 200) {
-          const data = response.data.response;
-          setUserinfo(data);
-        } else {
-          console.error("Failed to fetch user info");
+        if (userResponse.status === 200) {
+          setUserinfo(userResponse.data.response);
+        }
+
+      
+        const addressResponse = await instance.get("/users/api/profile/", {
+          headers: { Authorization: `Bearer ${access}` },
+        });
+        if (addressResponse.status === 200) {
+          setAddressInfo({
+            first_name: addressResponse.data.first_name,
+            last_name: addressResponse.data.last_name,
+            phone: addressResponse.data.phone,
+            address: addressResponse.data.address,
+            city: addressResponse.data.city,
+          });
         }
       } catch (error) {
-        console.error("Error fetching user info:", error);
+        console.error("Error fetching user or address info:", error);
       }
     };
 
-    fetchUserInfo();
+    fetchUserData();
   }, []);
 
   return (
@@ -41,6 +52,7 @@ const OverviewSection = () => {
             setShowForm(false);
           }}
           onCancel={() => setShowForm(false)}
+          initialData={addressInfo}  
         />
       ) : (
         <div className="overview-grid">
@@ -72,18 +84,21 @@ const OverviewSection = () => {
               </p>
             )}
 
-            <button style={{fontSize: "20px"} }
+            <button
+              style={{ fontSize: "20px" }}
               className="btn btn-outline-primary"
               onClick={() => setShowForm(true)}
             >
-              Edit Address
+              Edit Address & UserName
             </button>
           </div>
 
           <div className="overview-box">
             <h4>Newsletter Preferences</h4>
             <p>Manage your email subscriptions</p>
-            <button style={{fontSize: "20px"} }>Edit Newsletter Preferences</button>
+            <button style={{ fontSize: "20px" }}>
+              Edit Newsletter Preferences
+            </button>
           </div>
 
           <div className="overview-box">
