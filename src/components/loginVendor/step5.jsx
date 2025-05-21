@@ -31,7 +31,7 @@ const PersonalInfoForm = () => {
               
               console.log('Token received:', response.data);
               console.log('Personal details submitted successfully');
-              // navigate('/login/'); // Navigate to the next step
+               navigate('/loginvendor'); // Navigate to the next step
             } else {
               console.error('Failed to submit personal details');
             }
