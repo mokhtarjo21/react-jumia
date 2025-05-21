@@ -1,7 +1,8 @@
 import React, {useEffect, useState } from 'react';
 import { instance } from '../../axiosInstance/instance';
-
+import { useNavigate } from "react-router-dom";
 const AddProduct = () => {
+ const navigate = useNavigate();
   const [images, setImages] = useState(Array(8).fill(null)); // ملفات الصور
   const [colors,setColors] = useState([]);
   const [selectedColor, setSelectedColor] = useState([]);
@@ -13,13 +14,16 @@ const AddProduct = () => {
   // البيانات الأساسية مع كل الحقول المطلوبة
   const [product, setProduct] = useState({
     name: '',
+    images: [],
     category: '',
-    brand: '',
+    brand_name: '',
     price: '',
     sku: '',
     description: '',
-    stock: '',      // مثال: كمية المنتج بالمخزون
-    discount: '',   // مثال: خصم لو موجود (اختياري)
+    stock_quantity: '',     
+    discount: '',  
+     colors: [],
+  sizes: [],
   });
 
 
@@ -65,88 +69,96 @@ const AddProduct = () => {
   };
 
   const handleColorChange = (color) => {
-    setProduct({ ...product, colors: [...colors,color] });
+    console.log(color);
+    setProduct({ ...product, colors: [...product.colors,color] });
     setSelectedColor(prev =>
       prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
     );
+    console.log(selectedColor,product.colors);
   };
 
   const handleSizeChange = (size) => {
-    setProduct({ ...product, sizes: [...sizes,size] });
+    console.log(size);
+    setProduct({ ...product, sizes: [...product.sizes,size] });
     setSelectedSize(prev =>
       prev.includes(size) ? prev.filter(s => s !== size) : [...prev, size]
     );
+    console.log(selectedSize);
   };
 
 
 
-  // تحقق من الحقول المطلوبة
+
   const validate = () => {
     let tempErrors = {};
     if (!product.name.trim()) tempErrors.name = 'Name is required';
     if (!product.category.trim()) tempErrors.category = 'Category is required';
-    if (!product.brand.trim()) tempErrors.brand = 'Brand is required';
+    if (!product.brand_name.trim()) tempErrors.brand_name = 'Brand is required';
     if (!product.price || isNaN(product.price)) tempErrors.price = 'Valid price is required';
     if (!product.sku.trim()) tempErrors.sku = 'SKU is required';
     if (!product.description.trim()) tempErrors.description = 'Description is required';
-    if (!product.stock || isNaN(product.stock)) tempErrors.stock = 'Valid stock quantity is required';
-    // الألوان والأحجام مش لازم تكون required، بس ممكن تضيف شرط لو عايز
+    if (!product.stock_quantity || isNaN(product.stock_quantity)) tempErrors.stock = 'Valid stock quantity is required';
+
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
-
-  const Save = async () => {
-    if (!validate()) {
-      return; // لو في أخطاء متابعش الإرسال
-    }
-
-    try {
-      const formData = new FormData();
-      formData.append('name', product.name);
-      formData.append('category', product.category);
-      formData.append('brand', product.brand);
-      formData.append('price', product.price);
-      formData.append('sku', product.sku);
-      formData.append('description', product.description);
-      formData.append('stock', product.stock);
-
-      if (product.discount) {
-        formData.append('discount', product.discount);
-      }
-
-      formData.append('colors', product.colors ||null);
-      formData.append('sizes', product.sizes ||null);
-
-      images.forEach(file => {
-        if (file) {
-          formData.append('images', file);
-        }
-      });
-      console.log('FormData:', formData);
-      const response = await instance.post('/api/products/create/', formData, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('access')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.status === 201 || response.status === 200) {
-        console.log('Product added successfully:', response.data);
-        // إعادة تعيين الفورم أو رسالة نجاح هنا حسب الرغبة
-      } else {
-        console.error('Error adding product:', response.data);
-      }
-    } catch (error) {
-      console.error("Error saving product:");
-  if (error.response) {
-    console.log("Status:", error.response.status);
-    console.log("Data:", error.response.data); // 👈 هنا يظهر الخطأ الحقيقي من السيرفر
-  } else {
-    console.log(error.message);
+const Save = async () => {
+  if (!validate()) {
+    return;
   }
+
+  const formData = new FormData();
+  formData.append('name', product.name);
+  formData.append('category', product.category);
+  formData.append('brand_name', product.brand_name);
+  formData.append('price', product.price);
+  formData.append('sale_price', product.sale_price);
+  formData.append('sku', product.sku);
+  formData.append('description', product.description);
+  formData.append('stock_quantity', product.stock_quantity);
+
+  // أضف الألوان كمصفوفة
+  product.colors.forEach(color => {
+    formData.append('colors', color); // لاحظ بدون [] في الاسم
+  });
+
+  // أضف المقاسات كمصفوفة
+  product.sizes.forEach(size => {
+    formData.append('sizes', size);
+  });
+
+images.forEach((file, index) => {
+  if (file) {
+    formData.append('images_data', file); // 👈 بدون [] غالبًا كافي حسب إعدادات الباك اند
+  }
+});
+ console.log(formData);
+  try {
+    const response = await instance.post('/api/products/create/', formData, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('access')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+
+    if (response.status === 201 || response.status === 200) {
+      console.log('Product added successfully:', response.data);
+      navigate("/vendor");
+    } else {
+      console.error('Error adding product:', response.data);
     }
-  };
+  } catch (error) {
+    console.error("Error saving product:");
+    if (error.response) {
+      console.log("Status:", error.response.status);
+      console.log("Data:", error.response.data); 
+    } else {
+      console.log(error.message);
+    }
+  }
+};
+
 
   return (
     <div className="col-md-10 p-4">
@@ -216,7 +228,7 @@ const AddProduct = () => {
   <select
     className={`form-select ${errors.brand ? 'is-invalid' : ''}`}
     value={product.brand}
-    onChange={e => setProduct({ ...product, brand: e.target.value })}
+    onChange={e => setProduct({ ...product, brand_name: e.target.value })}
   >
     <option value="">-- Select Brand --</option>
     {brands.map(brand => (
@@ -257,26 +269,26 @@ const AddProduct = () => {
 
         {/* Stock */}
         <div className="col-md-6">
-          <label className="form-label fw-bold">Stock Quantity *</label>
+          <label className="form-label fw-bold"> Quantity *</label>
           <input
             type="number"
             className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
             placeholder="Ex: 100"
-            value={product.stock}
-            onChange={e => setProduct({ ...product, stock: e.target.value })}
+            value={product.stock_quantity}
+            onChange={e => setProduct({ ...product, stock_quantity: e.target.value })}
           />
           {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
         </div>
 
         {/* Discount */}
         <div className="col-md-6">
-          <label className="form-label fw-bold">Discount (%)</label>
+          <label className="form-label fw-bold">Sale Price </label>
           <input
             type="number"
             className="form-control"
             placeholder="Ex: 10"
-            value={product.discount}
-            onChange={e => setProduct({ ...product, discount: e.target.value })}
+            value={product.sale_price}
+            onChange={e => setProduct({ ...product, sale_price: e.target.value })}
           />
         </div>
 

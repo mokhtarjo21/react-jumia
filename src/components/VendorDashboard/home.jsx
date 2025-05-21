@@ -37,19 +37,19 @@ const VendorDashboard = () => {
   
   }
   , []);
-  //  if (accessToken == null || accessToken == 'undefined') {
-  //   // Navigate('/loginvendor');
-  //   return (
-  //     <div className="container-fluid">
-  //       <div className="row justify-content-center align-items-center min-vh-100">
-  //         <div className="col-md-6 text-center">
-  //           <h1 className="text-danger">Please Login to Access Vendor Dashboard</h1>
-  //           <button className="btn btn-primary mt-3" onClick={() => Navigate('/loginvendor')}>Login</button>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }
+   if (accessToken == null || accessToken == 'undefined') {
+    // Navigate('/loginvendor');
+    return (
+      <div className="container-fluid">
+        <div className="row justify-content-center align-items-center min-vh-100">
+          <div className="col-md-6 text-center">
+            <h1 className="text-danger">Please Login to Access Vendor Dashboard</h1>
+            <button className="btn btn-primary mt-3" onClick={() => Navigate('/loginvendor')}>Login</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="container-fluid">
       <div className="row">
@@ -58,7 +58,7 @@ const VendorDashboard = () => {
           <h5 className="text-orange fw-bold">VENDOR CENTER</h5>
           <ul className="nav flex-column mt-4">
             <li className="nav-item"><a onClick={()=>setActiveTab('products')} className={`nav-link ${activeTab == 'products'?' active bg-primary text-white rounded':'text-dark'}`}>Products</a></li>
-            <li className="nav-item"><a  onClick={()=>setActiveTab('addproduct')} className={`nav-link ${activeTab == 'promotions'?' active bg-primary text-white rounded':'text-dark'}`}>Add Product</a></li>
+            <li className="nav-item"><a  onClick={()=>setActiveTab('addproduct')} className={`nav-link ${activeTab == 'addproduct'?' active bg-primary text-white rounded':'text-dark'}`}>Add Product</a></li>
             <li className="nav-item"><a  onClick={()=>setActiveTab('orders')} className={`nav-link ${activeTab == 'orders'?' active bg-primary text-white rounded':'text-dark'}`}>Orders</a></li>
             <li className="nav-item"><a  onClick={()=>setActiveTab('advertise')} className={`nav-link ${activeTab == 'advertise'?' active bg-primary text-white rounded':'text-dark'}`}>Advertise your Products</a></li>
             <li className="nav-item"><a  onClick={()=>setActiveTab('Account')} className={`nav-link ${activeTab == 'Account'?' active bg-primary text-white rounded':'text-dark'}`}>Account Statements</a></li>

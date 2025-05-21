@@ -18,7 +18,7 @@ const filteredProducts = products.filter((product) => {
 });
 
   useEffect(() => { 
-     const userinfo = async () => {
+     const getMyProducts = async () => {
               try {
                 const access =localStorage.getItem('access')
                 const response = await instance.get('/api/vendor/products', {
@@ -29,10 +29,10 @@ const filteredProducts = products.filter((product) => {
                 });
                 if (response.status === 200) {
                   const data = response.data;
-                  console.log('User info fetched successfully:', data);
-                  // setUserinfo(data,);
+                  console.log('User info fetched successfully:', data.results);
+                  setProducts(data.results)
                
-                  console.log('User info:', userinfo);
+                 
                   // You can set user info in state or context here
                 } else {
                   console.error('Failed to fetch user info');
@@ -41,7 +41,7 @@ const filteredProducts = products.filter((product) => {
                 console.error('Error fetching user info:', error);
               }
             }
-            userinfo();
+            getMyProducts();
   }, []);
   const handleExport = () => {
     const csv = Papa.unparse(products);
@@ -116,13 +116,13 @@ const filteredProducts = products.filter((product) => {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Seller SKU</th>
+            <th>SKU</th>
             <th>Price</th>
             <th>Sale Price</th>
-            <th>Currency</th>
+            <th>category</th>
             <th>Quantity</th>
-            <th>Visible</th>
-            <th>Active</th>
+            <th>Rating</th>
+           
             <th>Actions</th>
           </tr>
         </thead>
@@ -139,11 +139,10 @@ const filteredProducts = products.filter((product) => {
       <td>{product.name}</td>
       <td>{product.sku}</td>
       <td>{product.price}</td>
-      <td>{product.salePrice}</td>
-      <td>{product.currency}</td>
-      <td>{product.quantity}</td>
-      <td>{product.visible}</td>
-      <td>{product.active}</td>
+      <td>{product.sale_price}</td>
+      <td>{product.category_name}</td>
+      <td>{product.stock_quantity}</td>
+      <td>{product.rating_average}</td>
       <td>
         <Button
           variant="outline-secondary"
