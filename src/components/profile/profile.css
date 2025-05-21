@@ -92,25 +92,25 @@
     cursor: pointer;
     padding: 0;
   }
-  .product-section {
+  .profile-product-section {
     background-color: #fff;
     padding: 20px;
     border-radius: 4px;
   }
   
-  .product-section h3 {
+  .profile-product-section h3 {
     font-size: 16px;
     margin-bottom: 15px;
     color: #333;
   }
   
-  .products-row {
+  .profile-products-row {
     display: flex;
     gap: 15px;
     flex-wrap: wrap;
   }
   
-  .product-card {
+  .profile-product-card {
     width: 150px;
     background-color: #fff;
     border: 1px solid #eee;
@@ -120,23 +120,23 @@
     text-align: center;
   }
   
-  .product-card img {
+  .profile-product-card img {
     width: 100%;
     border-radius: 3px;
     margin-bottom: 8px;
   }
   
-  .product-card p {
+  .profile-product-card p {
     margin: 4px 0;
     color: #333;
   }
   
-  .product-card .price {
+  .profile-product-card .price {
     color: #000;
     font-weight: bold;
   }
   
-  .product-card .old-price {
+  .profile-product-card .old-price {
     text-decoration: line-through;
     color: #999;
     font-size: 12px;
@@ -183,10 +183,10 @@
     font-size: 16px;
   }
   
-  .product-section h3 {
+  .profile-product-section h3 {
     font-size: 20px;
   }
-  .overview-box p, .product-card p {
+  .overview-box p, .profile-product-card p {
     font-size: 25px;
   }
     
@@ -206,26 +206,26 @@
     
   }
 
-  .product-section {
+  .profile-product-section {
     background-color: #fff;
     padding: 20px;
     border-radius: 4px;
   }
   
-  .product-section h3 {
+  .profile-product-section h3 {
     font-size: 20px;
     margin-bottom: 15px;
     color: #333;
   }
   
-  .products-row {
+  .profile-products-row {
     display: flex;
     gap: 12px;
     overflow-x: auto;
     padding-bottom: 5px;
   }
   
-  .product-card {
+  .profile-product-card {
     width: 150px;
     background-color: #fff;
     border: 1px solid #eee;
@@ -236,19 +236,19 @@
     flex-shrink: 0;
   }
   
-  .product-card img {
+  .profile-product-card img {
     width: 100%;
     border-radius: 3px;
     margin-bottom: 8px;
   }
   
-  .product-card p {
+  .profile-product-card p {
     margin: 4px 0;
     color: #333;
     font-size: 14px;
   }
   
-  .product-card .price {
+  .profile-product-card .price {
     color: #000;
     font-weight: bold;
   }
