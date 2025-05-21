@@ -5,6 +5,7 @@ import {
   updateCartItem,
   clearCart,
 } from '../../utils/cartCookie';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const MAX_QTY = 10;
@@ -14,17 +15,18 @@ const CartPage = () => {
   const [saved, setSaved] = useState([]);
   const [coupon, setCoupon] = useState('');
   const [discount, setDiscount] = useState(0);
+  const navigate = useNavigate();
 
   const refreshCart = () => {
     setCart(getCartFromCookies());
   };
 
+  // ✅ FIX: Only run once on mount
   useEffect(() => {
     refreshCart();
-  }, [cart]);
+  }, []);
 
   const handleQtyChange = (item, newQty) => {
-
     if (newQty < 1) {
       removeCartItem(item.product.id, item.color, item.size);
     } else if (newQty > MAX_QTY) {
@@ -32,7 +34,6 @@ const CartPage = () => {
     } else {
       updateCartItem(item.product.id, item.color, item.size, newQty);
     }
-
     refreshCart();
   };
 
@@ -55,10 +56,10 @@ const CartPage = () => {
   const handleApplyCoupon = () => {
     const code = coupon.trim().toLowerCase();
     if (code === 'save10') {
-      setDiscount(0.1); // 10%
+      setDiscount(0.1);
       alert('Coupon applied: 10% off');
     } else if (code === 'flat50') {
-      setDiscount(50); // EGP 50
+      setDiscount(50);
       alert('Coupon applied: EGP 50 off');
     } else {
       setDiscount(0);
@@ -111,7 +112,6 @@ const CartPage = () => {
       ) : (
         <>
           <div className="row">
-            {/* LEFT SIDE */}
             <div className="col-lg-8">
               {cart.map((item, index) => (
                 <div
@@ -182,7 +182,6 @@ const CartPage = () => {
                 </div>
               ))}
 
-              {/* Saved for Later Section */}
               {saved.length > 0 && (
                 <div className="mt-5">
                   <h5 className="fw-bold mb-3">Saved for Later</h5>
@@ -210,7 +209,6 @@ const CartPage = () => {
               </div>
             </div>
 
-            {/* RIGHT SIDE */}
             <div className="col-lg-4">
               <div
                 className="border rounded p-4 shadow-sm sticky-top"
@@ -252,7 +250,7 @@ const CartPage = () => {
                 </button>
                 <button
                   className="btn btn-warning w-100 fw-bold text-uppercase"
-                  onClick={() => alert('Checkout coming soon')}
+                  onClick={() => navigate('/checkout')}
                 >
                   Proceed to Checkout
                 </button>
@@ -260,14 +258,13 @@ const CartPage = () => {
             </div>
           </div>
 
-          {/* Sticky Bottom Checkout Bar for Mobile */}
           <div className="d-md-none fixed-bottom bg-white border-top p-3 shadow-sm">
             <div className="d-flex justify-content-between align-items-center">
               <strong>Total: EGP {finalPrice.toLocaleString()}</strong>
               <button
                 className="btn btn-warning fw-bold"
                 style={{ minWidth: 140 }}
-                onClick={() => alert('Checkout coming soon')}
+                onClick={() => navigate('/checkout')}
               >
                 Checkout
               </button>
