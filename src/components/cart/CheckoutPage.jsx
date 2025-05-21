@@ -27,11 +27,12 @@ const CheckoutPage = () => {
                 {
                     shipping_address: address,
                     payment_method: paymentMethod,
-                    cart_items: cart, // ✅ send cart from cookies
+                    cart_items: cart, 
+                    total_price: cart.reduce((total, item) => total + item.price * item.quantity, 0),
                 },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem('access')}`,
                     },
                 }
             );
