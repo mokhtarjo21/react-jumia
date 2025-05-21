@@ -7,8 +7,8 @@ import Sidebar from './Sidebar';
 import OverviewSection from './OverviewSection';
 import SuggestedProducts from './SuggestedProducts';
 import RecentlyViewed from './RecentlyViewed';
-import AddressInfo from './AddressInfo'; 
-import FavoriteProductsSection from './FavoriteProductsSection';
+import AddressInfo from './AddAddress'; 
+import FavoriteProductsSection from './SuggestedProducts';
 
 import './profile.css';
 
