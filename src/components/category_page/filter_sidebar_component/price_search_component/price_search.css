@@ -1,0 +1,124 @@
+.price-search {
+  margin-bottom: 20px;
+}
+
+.price-search .price-range {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.price-search .price-range input {
+  width: 45%;
+  font-size: 14px;
+  height: 38px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 0 10px;
+}
+
+.price-search .price-range input:focus {
+  border-color: #f68b1e;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(246, 139, 30, 0.1);
+}
+
+.price-search .price-range .separator {
+  width: 10%;
+  text-align: center;
+  font-weight: bold;
+  color: #666;
+}
+
+.price-search .apply-btn {
+  text-align: right;
+}
+
+.price-search .apply-btn button {
+  background: none;
+  border: none;
+  color: #f68b1e;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: color 0.2s;
+}
+
+.price-search .apply-btn button:hover {
+  color: #d97200;
+  text-decoration: underline;
+}
+
+.price-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.apply-btn-inline {
+  background: none;
+  border: none;
+  color: #f68b1e;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 0 0 0 10px;
+  transition: color 0.2s;
+}
+
+.apply-btn-inline:hover {
+  color: #d97200;
+  text-decoration: underline;
+}
+
+.slider-container {
+  position: relative;
+  height: 24px;
+  margin-bottom: 12px;
+  margin-top: 8px;
+}
+
+.slider-bar {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: #f2f2f2;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.slider-range {
+  position: absolute;
+  top: 50%;
+  height: 8px;
+  background: #f68b1e;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.slider-thumb {
+  position: absolute;
+  top: 50%;
+  width: 24px;
+  height: 24px;
+  background: #f68b1e;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 3;
+  transition: box-shadow 0.2s;
+}
+
+.slider-thumb:hover, .slider-thumb:active {
+  box-shadow: 0 0 0 4px rgba(246,139,30,0.15);
+} 

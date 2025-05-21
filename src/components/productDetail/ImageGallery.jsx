@@ -1,8 +1,18 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaStar, FaHeart, FaFacebookF, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+import React, { useState } from 'react';
 
-const ProductCard = ({info}) => {
+
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import Badge from "react-bootstrap/Badge";
+import { FaStar, FaRegStar, FaHeart } from "react-icons/fa";
+import { addFavorite, removeFavorite } from "../../store/favoritesSlice";
+
+import { toast } from 'react-toastify';
+import { addToCart, getCartFromCookies } from '../../utils/cartCookie';
+const ProductCard = ({ info }) => {
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedSize, setSelectedSize] = useState("");
+
   return (
     <div className="container my-4">
       <div className="card p-3 shadow-sm">
@@ -31,12 +41,22 @@ const ProductCard = ({info}) => {
           <div className="col-md-7">
             <h5>{info.name}</h5>
             <div className="mb-2">
-              <span className="text-danger fs-5 fw-bold">EGP {info.sale_price ?info.sale_price:info.price}</span>
-              {info.sale_price ?`<span className="text-muted text-decoration-line-through ms-2">EGP ${info.price}</span>`:''}
-              <span className="text-white bg-warning px-2 ms-2 rounded">{Math.ceil(100-(info.sale_price/info.price*100)) || " "}%</span>
+              <span className="text-danger fs-5 fw-bold">
+                EGP {info.sale_price ? info.sale_price : info.price}
+              </span>
+              {info.sale_price ? (
+                <span className="text-muted text-decoration-line-through ms-2">
+                  EGP {info.price}
+                </span>
+              ) : null}
+              <span className="text-white bg-warning px-2 ms-2 rounded">
+                {info.sale_price ? Math.ceil(100 - (info.sale_price / info.price) * 100) : " "}{info.sale_price ? '% Off' : null}
+              </span>
             </div>
 
-            <div className="text-success small mb-1"> only {info.stock_quantity} left in stock</div>
+            <div className="text-success small mb-1">
+              Only {info.stock_quantity} left in stock
+            </div>
             <div className="text-muted small mb-2">{info.category_name}</div>
 
             {/* Ratings */}
@@ -49,51 +69,60 @@ const ProductCard = ({info}) => {
 
             {/* Sizes */}
             <div className="mb-3">
-              <strong>Variation Available</strong>
+              {info.sizes?.length > 0 && <p>Size Available</p>}
               <div className="mt-2">
                 {info.sizes.map(size => (
-                  <button key={size} className="btn btn-outline-secondary btn-sm me-2">
-                    {size.name}
-                  </button>
-                ))}
-              </div>
-              <div className="mt-2">
-                {info.colors.map(size => (
-                  <button key={size} className="btn btn-outline-secondary btn-sm me-2">
+                  <button
+                    key={size.name}
+                    value={size.name}
+                    onClick={() => setSelectedSize(size.name)}
+                    className={`btn btn-sm me-2 ${selectedSize === size.name ? 'btn-dark text-white' : 'btn-outline-secondary'}`}
+                  >
                     {size.name}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Add to Cart */}
-            <button className="btn btn-warning w-100 fw-bold">Add to cart</button>
-
-            {/* Promotions */}
-            {/* <div className="mt-4">
-              <h6>PROMOTIONS</h6>
-              <ul className="list-unstyled">
-                <li>🚚 Enjoy free delivery on orders above 400 EGP.</li>
-                <li>💳 Buy Now, Pay Later. Enjoy 0% Interest on Installments</li>
-              </ul>
-            </div> */}
-
-            {/* Share */}
-            {/* <div className="mt-3">
-              <strong>SHARE THIS PRODUCT</strong>
-              <div className="d-flex mt-2">
-                <FaFacebookF className="me-3" />
-                <FaTwitter className="me-3" />
-                <FaWhatsapp />
+            {/* Colors */}
+            <div className="mb-3">
+              {info.colors?.length > 0 && <p>Colors Available</p>}
+              <div className="mt-2">
+                {info.colors.map(color => (
+                  <button
+                    key={color.name}
+                    value={color.name}
+                    onClick={() => setSelectedColor(color.name)}
+                    className={`btn btn-sm me-2 ${selectedColor === color.name ? 'btn-dark text-white' : 'btn-outline-secondary'}`}
+                  >
+                    {color.name}
+                  </button>
+                ))}
               </div>
-            </div> */}
+            </div>
 
-            {/* Report */}
-            {/* <div className="mt-3">
-              <a href="#" className="text-decoration-underline small text-muted">
-                Report incorrect product information
-              </a>
-            </div> */}
+            {/* Selected Info (Optional) */}
+            <div className="mt-2">
+              <small className="text-muted">
+                Selected Size: {selectedSize || "None"}, Color: {selectedColor || "None"}
+              </small>
+            </div>
+
+            {/* Add to Cart */}
+            <button 
+            onClick={(e) => {
+  e.stopPropagation();
+  addToCart(info, 1,selectedColor, selectedSize);
+  try {
+  const currentCart = getCartFromCookies();
+  console.log("Cart now:", currentCart);
+} catch (err) {
+  console.error("Cookie parse error:", err);
+}
+
+  toast.success("Added to cart!");
+}}
+            className="btn btn-warning w-100 fw-bold mt-3">Add to cart</button>
           </div>
         </div>
       </div>

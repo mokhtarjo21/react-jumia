@@ -21,15 +21,18 @@ function VendorLogin() {
         if (checkvendor.data.user === "1") {
           console.log("Vendor exists, proceeding with login");
           try {
-          const response = await instance.post('/users/api/token/', {
-            username: user.email,
-            password: user.password
-          });
-          if (response.status === 200) {
-            // Assuming the response contains a token or user data
-            localStorage.setItem('access', response.data.access);
-            localStorage.setItem('refresh', response.data.refresh);
-            navigate("/");
+            console.log("Logging in with credentials:", user);
+         const response = await instance.post('/users/api/token/', {
+                 username: user.email,
+                 password: user.password
+               });
+         
+               if (response.status === 200) {
+                 const access = response.data.access;
+                 localStorage.setItem('access', access);
+                 localStorage.setItem('refresh', response.data.refresh);
+         
+            navigate("/vendor");
             
             
             // navigate("/home");
@@ -60,7 +63,9 @@ function VendorLogin() {
               <i className="bi bi-person-fill"></i>
               
             </span>
-            <input type="email" className="form-control border-orange" required placeholder="Enter your email" />
+            <input type="email" 
+            onChange={(e) => setUser({ ...user, email: e.target.value })}
+            className="form-control border-orange" required placeholder="Enter your email" />
           </div>
         </div>
          
@@ -68,7 +73,9 @@ function VendorLogin() {
   <span className="input-group-text bg-white">
     <i className="bi bi-key-fill"></i>
   </span>
-  <input type={showPassword ? 'text' : 'password'} className="form-control" required placeholder="Password" aria-label="Recipient’s username" aria-describedby="button-addon2" />
+  <input 
+  onChange={(e)=> setUser({ ...user, password: e.target.value })}
+  type={showPassword ? 'text' : 'password'} className="form-control" required placeholder="Password" aria-label="Recipient’s username" aria-describedby="button-addon2" />
   <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}

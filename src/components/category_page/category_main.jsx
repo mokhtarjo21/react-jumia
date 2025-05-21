@@ -1,70 +1,162 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import ProductCard from '../product_card/card';
-import FiltersSidebar from './filter_sidebar';
-import { useParams, useSearchParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import FiltersSidebar from "./filter_sidebar_component/filter_sidebar";
+import Products from "./products_list_component/products";
+import { useParams, useSearchParams, useLocation } from "react-router-dom";
+import CategoryGrid from "../category_grid/category_grid";
+import Breadcrumb from "../bread_crumb_navigator/nav";
 import "./category_page.css";
 
 function CategoryPage() {
   const { category } = useParams();
+  // to determinte what the hell are we looking for
+  const location = useLocation();
+  const locationState = location.state || {};
+
+  console.log(category);
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState([]);
+  const [category_details, setCategoryDetails] = useState({});
   const [brands, setBrands] = useState([]);
-  const [pagination, setPagination] = useState({ count: 0, current_page: 1, total_pages: 1 });
+  const [min_price, setMinPrice] = useState(0);
+  const [max_price, setMaxPrice] = useState(0);
+  const [colors, setColors] = useState([]);
+  const [pagination, setPagination] = useState({
+    count: 0,
+    current_page: 1,
+    total_pages: 1,
+  });
   const [filters, setFilters] = useState({
     brandList: [],
-    min_price: '',
-    max_price: '',
+    min_price: null,
+    max_price: null,
     discount: null,
     express_delivery: false,
-    shipped_from: ''
+    shipped_from: "",
   });
 
-  // Build API URL dynamically
-  const API_URL = `http://127.0.0.1:8000/api/category/${category}/products/`;
+  let search_brand = category?.match(/^brand_(.+)$/);
+  let search_products = category?.match(/^all_(.+)$/);
+
+  // default apis
+  let API_products = `http://127.0.0.1:8000/api/category/${category}/products/`;
+  let API_category_details = `http://127.0.0.1:8000/api/category/${category}`;
+  
+
+  if (search_brand || search_products) {
+    if (search_brand) {
+      API_products = `http://127.0.0.1:8000/api/products/?brand=${search_brand[1]}`;
+    } else if (search_products) {
+      API_products = `http://127.0.0.1:8000/api/products/?q=${search_products[1]}`;
+    }
+    API_category_details = null; 
+  }
+  console.log(API_products);
+  // const API_search_products =  `http://127.0.0.1:8000/api/products/?q=${slug}`;
 
   // Update filters from URL params on mount
   useEffect(() => {
-    const urlBrands = searchParams.get('brand')?.split(',') || [];
-    setFilters(f => ({
+    const urlBrands = searchParams.get("brand")?.split(",") || [];
+    setFilters((f) => ({
       ...f,
       brandList: urlBrands,
-      min_price: searchParams.get('min_price') || '',
-      max_price: searchParams.get('max_price') || '',
-      discount: searchParams.get('discount_min') || null,
-      express_delivery: searchParams.get('express_delivery') === '1',
-      shipped_from: searchParams.get('shipped_from') || ''
+      min_price: searchParams.get("min_price") || "",
+      max_price: searchParams.get("max_price") || "",
+      discount: searchParams.get("discount_min") || null,
+      express_delivery: searchParams.get("express_delivery") === "1",
     }));
   }, []);
 
   // Fetch products and brands when filters or page change
   useEffect(() => {
     fetchProducts();
+    if (API_category_details) {
+      fetchSubCategories();
+    }
   }, [searchParams, category]);
 
   const fetchProducts = async () => {
-    // Build params from searchParams
     const params = Object.fromEntries([...searchParams]);
     try {
-      const { data } = await axios.get(API_URL, { params });
+      const { data } = await axios.get(API_products, { params });
       setProducts(data.products);
-      setBrands(data.brands.map(b => b.name));
+      setBrands(data.brands || []);
+      setMinPrice(data.min_price);
+      setMaxPrice(data.max_price);
+      setColors(data.colors);
       setPagination(data.pagination);
+      console.log(data);
+      console.log(API_products);
     } catch (error) {
-      console.error('Failed to fetch products:', error);
+      console.error("Failed to fetch products:", error);
+    }
+  };
+
+  const fetchSubCategories = async () => {
+    if (!API_category_details) return;
+    
+    try {
+      const { data } = await axios.get(API_category_details);
+      setCategoryDetails(data);
+    } catch (error) {
+      console.error("Failed to fetch sub categories:", error);
     }
   };
 
   // Handle filter change and update URL
   const handleFilterChange = (newFilters) => {
     const params = { ...Object.fromEntries([...searchParams]) };
-    if (newFilters.brandList) params.brand = newFilters.brandList.join(',');
-    if (newFilters.min_price !== undefined) params.min_price = newFilters.min_price;
-    if (newFilters.max_price !== undefined) params.max_price = newFilters.max_price;
-    if (newFilters.discount !== undefined) params.discount_min = newFilters.discount;
-    if (newFilters.express_delivery !== undefined) params.express_delivery = newFilters.express_delivery ? '1' : undefined;
-    if (newFilters.shipped_from !== undefined) params.shipped_from = newFilters.shipped_from;
+
+    // Handle non-price filters
+    if (newFilters.brandList !== undefined) {
+      params.brand = newFilters.brandList.join(",");
+    }
+    if (newFilters.discount !== undefined) {
+      params.discount_min = newFilters.discount;
+    }
+    if (newFilters.express_delivery !== undefined) {
+      params.express_delivery = newFilters.express_delivery ? "1" : undefined;
+    }
+    if (newFilters.shipped_from !== undefined) {
+      params.shipped_from = newFilters.shipped_from || undefined;
+    }
+
+    // Handle price filters separately
+    if (
+      newFilters.min_price !== undefined ||
+      newFilters.max_price !== undefined
+    ) {
+      setFilters((prev) => ({
+        ...prev,
+        min_price:
+          newFilters.min_price !== undefined
+            ? newFilters.min_price
+            : prev.min_price,
+        max_price:
+          newFilters.max_price !== undefined
+            ? newFilters.max_price
+            : prev.max_price,
+      }));
+      return; // Don't update URL for price changes
+    }
+
+    // Remove undefined parameters
+    Object.keys(params).forEach((key) => {
+      if (params[key] === undefined) {
+        delete params[key];
+      }
+    });
+
     params.page = 1; // Reset to first page on filter change
+    setSearchParams(params);
+  };
+
+  // Handle price filter application
+  const handlePriceFilterApply = (minPrice, maxPrice) => {
+    const params = { ...Object.fromEntries([...searchParams]) };
+    params.min_price = minPrice;
+    params.max_price = maxPrice;
+    params.page = 1;
     setSearchParams(params);
   };
 
@@ -74,62 +166,52 @@ function CategoryPage() {
     setSearchParams(params);
   };
 
+  // changing style on page mount 
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F1F1F2";
+
+    // Reset it on unmount
+    return () => {
+      document.body.style.backgroundColor = ""; // or your default like "#fff"
+    };
+  }, []);
+
   return (
-    <div className="container-fluid category-page">
-      <div className="row">
-        {/* Sidebar */}
-        <aside className="col-md-3 border-end">
+    <div className="">
+      {category_details?.children?.length > 0 && (
+        <CategoryGrid
+          categories={category_details.children}
+          header="Category"
+        />
+      )}
+
+      {brands.length > 0 && !category_details.parent && (
+        <CategoryGrid categories={brands} header="Brand" />
+      )}
+
+      <div className="col-md-12 breadcrumb-container">
+        {category_details && <Breadcrumb category={category_details} />}
+      </div>
+      <div className="row ">
+        <aside className="col-md-3 aside-wrapper">
           <FiltersSidebar 
-            filters={filters} 
-            setFilters={handleFilterChange} 
-            brands={brands} 
+            subCategories={category_details?.children || []}
+            filters={filters}
+            setFilters={handleFilterChange}
+            handlePriceFilterApply={handlePriceFilterApply}
+            brands={brands}
+            min_price={min_price}
+            max_price={max_price}
+            colors={colors}
           />
         </aside>
-        {/* Main Content */}
-        <main className="col-md-9">
-          <div className="d-flex justify-content-between align-items-center mb-3">
-            <h1>{category ? category.charAt(0).toUpperCase() + category.slice(1) : 'Category'}</h1>
-          </div>
-          <hr />
-          {products.length === 0 ? (
-            <div className="text-center py-5">
-              <h3>No products found</h3>
-              <p>Try adjusting your filters or search criteria</p>
-            </div>
-          ) : (
-            <div className="row">
-              {products.map(product => (
-                <div className="col-12 col-sm-6 col-lg-3 mb-4" key={product.id}>
-                  <ProductCard product={product} />
-                </div>
-              ))}
-            </div>
-          )}
-          {/* Pagination Controls */}
-          {pagination.total_pages > 1 && (
-            <nav>
-              <ul className="pagination justify-content-center">
-                <li className={`page-item ${pagination.current_page === 1 ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => handlePageChange(pagination.current_page - 1)}>
-                    Previous
-                  </button>
-                </li>
-                {[...Array(pagination.total_pages)].map((_, idx) => (
-                  <li key={idx} className={`page-item ${pagination.current_page === idx + 1 ? 'active' : ''}`}>
-                    <button className="page-link" onClick={() => handlePageChange(idx + 1)}>
-                      {idx + 1}
-                    </button>
-                  </li>
-                ))}
-                <li className={`page-item ${pagination.current_page === pagination.total_pages ? 'disabled' : ''}`}>
-                  <button className="page-link" onClick={() => handlePageChange(pagination.current_page + 1)}>
-                    Next
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          )}
-        </main>
+        <div className="col-md-9">
+          <Products
+            products={products}
+            pagination={pagination}
+            handlePageChange={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );

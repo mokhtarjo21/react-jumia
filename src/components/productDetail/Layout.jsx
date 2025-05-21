@@ -9,7 +9,7 @@ const Layout = () => {
     <>
       <Header />
 
-      <main className="container my-4">
+      <main className="container my-auto">
         <Outlet />
       </main>
 

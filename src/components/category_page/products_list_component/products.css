@@ -1,0 +1,18 @@
+.muted-text {
+  color: #6c757d;
+  font-size: 14px;
+}
+
+.products-div {
+  background-color: rgb(255, 255, 255);
+}
+
+.category-header {
+  font-size: 20px;
+  /* padding-top: 20px; */
+  margin-top: 10px;
+  padding-left: 20px;
+}
+.category-header h3 {
+  font-weight: 700;
+}

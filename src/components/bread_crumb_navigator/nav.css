@@ -1,0 +1,22 @@
+.breadcrumb-item {
+    display: block;
+    margin-right: 5px;
+    text-decoration: none;
+}
+a{
+    text-decoration: none;
+    color: rgb(19, 18, 18)
+
+}
+
+a:hover {
+    color: #f68b1e;
+}
+
+.breadcrumb {
+    padding-left: 30px;
+    gap: 10px;
+}
+.muted-text{
+    color: #6c757d;
+}
