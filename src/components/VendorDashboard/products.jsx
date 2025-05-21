@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { instance } from '../../axiosInstance/instance';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 import { Button, Table, Form, InputGroup, Modal } from 'react-bootstrap';
@@ -17,7 +17,32 @@ const filteredProducts = products.filter((product) => {
   return sidMatch && skuMatch;
 });
 
-
+  useEffect(() => { 
+     const userinfo = async () => {
+              try {
+                const access =localStorage.getItem('access')
+                const response = await instance.get('/api/vendor/', {
+                  headers: {
+                    'Authorization': `Bearer ${access}`,
+                     
+                  }
+                });
+                if (response.status === 200) {
+                  const data = response.data;
+                  console.log('User info fetched successfully:', data);
+                  // setUserinfo(data,);
+               
+                  console.log('User info:', userinfo);
+                  // You can set user info in state or context here
+                } else {
+                  console.error('Failed to fetch user info');
+                }
+              } catch (error) {
+                console.error('Error fetching user info:', error);
+              }
+            }
+            userinfo();
+  }, []);
   const handleExport = () => {
     const csv = Papa.unparse(products);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
