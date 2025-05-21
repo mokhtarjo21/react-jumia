@@ -1,18 +1,52 @@
-import React from 'react';
+
+
+
+
+import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import OverviewSection from './OverviewSection';
 import SuggestedProducts from './SuggestedProducts';
 import RecentlyViewed from './RecentlyViewed';
-import styles from './profile.module.css';
+import AddressInfo from './AddressInfo'; 
+import FavoriteProductsSection from './FavoriteProductsSection';
+
+import './profile.css';
+
+
 
 const ProfilePage = () => {
+  const [activeSection, setActiveSection] = useState('overview');
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case 'overview':
+        return (
+          <>
+            <OverviewSection />
+            <SuggestedProducts />
+            <RecentlyViewed />
+          </>
+        );
+      case 'addresses':
+        return <AddressInfo />;
+      case 'account':
+        return <AccountManagementSection />; 
+      case 'recently-viewed':
+        return <RecentlyViewed />;
+      case 'orders':
+        return <p>Orders Section</p>;
+        case 'favorites':
+          return <FavoriteProductsSection />;       
+      default:
+        return <OverviewSection />;
+    }
+  };
+
   return (
-    <div className={styles['profile-wrapper']}>
-      <Sidebar />
-      <div className={styles['profile-content']}>
-        <OverviewSection />
-        <SuggestedProducts />
-        <RecentlyViewed />
+    <div className="profile-wrapper">
+      <Sidebar setActiveSection={setActiveSection} />
+      <div className="profile-content">
+        {renderSection()}
       </div>
     </div>
   );
