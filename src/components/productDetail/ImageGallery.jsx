@@ -19,23 +19,29 @@ const ProductCard = ({ info }) => {
         <div className="row">
           {/* Product Image and Thumbnails */}
           <div className="col-md-5 text-center">
-            <img
-              src={`http://localhost:8000${info.product_images[0].image}`}
-              alt={info.product_images[0].alt_text || 'Product Image'}
-              className="img-fluid rounded"
-            />
-            <div className="d-flex justify-content-center mt-2">
-              {info.product_images.slice(1, 5).map((image, index) => (
-                <img
-                  key={index}
-                  src={`http://localhost:8000${image.image}`}
-                  alt={image.alt_text || `Thumbnail ${index + 1}`}
-                  className="img-thumbnail mx-1"
-                  style={{ width: '60px', height: '60px' }}
-                />
-              ))}
-            </div>
-          </div>
+  {info.product_images && info.product_images.length > 0 ? (
+    <>
+      <img
+        src={`http://localhost:8000${info.product_images[0].image}`}
+        alt={info.product_images[0].alt_text || 'Product Image'}
+        className="img-fluid rounded"
+      />
+      <div className="d-flex justify-content-center mt-2">
+        {info.product_images.slice(1, 5).map((image, index) => (
+          <img
+            key={index}
+            src={`http://localhost:8000${image.image}`}
+            alt={image.alt_text || `Thumbnail ${index + 1}`}
+            className="img-thumbnail mx-1"
+            style={{ width: '60px', height: '60px' }}
+          />
+        ))}
+      </div>
+    </>
+  ) : (
+    <div className="text-muted">No images available</div>
+  )}
+</div>
 
           {/* Product Details */}
           <div className="col-md-7">
