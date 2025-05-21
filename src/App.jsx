@@ -7,6 +7,7 @@ import store from "./store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CheckoutPage from './components/cart/CheckoutPage';
 
 
 // Screens & Pages
@@ -39,6 +40,7 @@ function App() {
               <Route path=":category/" element={<CategoryPage />} />
               {/* <Route path="allproducts" element={<CategoryPage />} /> */}
               <Route path="cart/" element={<Cart />} />
+              <Route path="checkout/" element={<CheckoutPage />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
 
