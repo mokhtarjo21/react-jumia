@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { getCartFromCookies } from '../../utils/cartCookie';
+import { getCartFromCookies, clearCart } from '../../utils/cartCookie';
 
 const CheckoutPage = () => {
     const [address, setAddress] = useState('');
@@ -22,13 +22,16 @@ const CheckoutPage = () => {
         }
 
         try {
-            const response = await axios.post(
+            // Prepare cart payload
+            const totalPrice = cart.reduce((total, item) => total + item.product.price * item.quantity, 0);
+
+            const orderResponse = await axios.post(
                 'http://localhost:8000/api/orders/checkout/',
                 {
                     shipping_address: address,
                     payment_method: paymentMethod,
-                    cart_items: cart, 
-                    total_price: cart.reduce((total, item) => total + item.price * item.quantity, 0),
+                    cart_items: cart,
+                    total_price: totalPrice,
                 },
                 {
                     headers: {
@@ -37,13 +40,30 @@ const CheckoutPage = () => {
                 }
             );
 
-            setMessage('✅ Order placed successfully! Order ID(s): ' + response.data.order_ids.join(', '));
-            setError('');
+            const orderIds = orderResponse.data.order_ids;
+
+            if (paymentMethod === 'paymob') {
+                const paymobResponse = await axios.post(
+                    'http://localhost:8000/api/orders/paymob/',
+                    { total_price: totalPrice },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('access')}`,
+                        },
+                    }
+                );
+
+                const iframeUrl = paymobResponse.data.iframe_url;
+                window.location.href = iframeUrl;
+            } else {
+                clearCart();
+                setMessage(`✅ Order placed successfully! Order ID(s): ${orderIds.join(', ')}`);
+                setError('');
+            }
         } catch (err) {
-            console.log("Full Axios Error:", err);
-            console.log("Error Response:", err.response);
+            console.error('Axios error:', err);
             setMessage('');
-            setError(err.response?.data?.error || 'Something went wrong.');
+            setError(err.response?.data?.error || 'Something went wrong during checkout.');
         }
     };
 
