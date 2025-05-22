@@ -4,7 +4,7 @@ import { UserContext } from '../../Context/user';
 import { useNavigate } from "react-router-dom";
 import { instance } from "../../axiosInstance/instance";
 import { getCartFromCookies, clearCart } from '../../utils/cartCookie';
-
+import { toast } from 'react-toastify';
 const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -42,8 +42,9 @@ const LoginForm = () => {
         const access = response.data.access;
         localStorage.setItem('access', access);
         localStorage.setItem('refresh', response.data.refresh);
-
-        await syncCartToBackend(access); // ✅ sync cookie cart now
+        
+        toast.success("Login Successfully");
+         syncCartToBackend(access); // ✅ sync cookie cart now
         navigate("/");
       } else {
         alert("Error occurred while logging in. Please try again.");

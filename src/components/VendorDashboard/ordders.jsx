@@ -3,23 +3,44 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 import { toast } from 'react-toastify';
+import { Modal, Button } from 'react-bootstrap';
+
 import Loader from "../loader/loder"
 import { instance } from '../../axiosInstance/instance';
 const OrdersPage = () => {
-  const [status, setStatus] = useState("Pending");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const [status, setStatus] = useState("All");
   const [loader,setLoader]=useState(true)
-  const dummyOrders = [
-    {
-      orderNumber: '12345',
-      orderDate: '2025-05-18',
-      pendingSince: '2 days',
-      paymentMethod: 'Cash',
-      price: '$100',
-      packedItems: '2',
-      labels: 'Normal',
-      shipmentMethod: 'DHL'
-    },
-  ];
+  const [dummyOrders,setDummyOrders]=useState([])
+//   const filteredProducts = dummyOrders.filter((product) => {
+//   if (status=="All"){
+//     return product
+//   }else{
+//     return product.status==status.toLowerCase()
+//   } 
+  
+// });
+const filteredProducts = dummyOrders.filter((order) => {
+  const matchesStatus = status === "All" || order.status === status.toLowerCase();
+  const matchesSearch = searchTerm === '' ||order.order_id?.toString().includes(searchTerm); 
+  return matchesStatus && matchesSearch;
+});
+
+const [selectedOrder, setSelectedOrder] = useState(null);
+const [selectedCustomer, setSelectedCustmer] = useState(null);
+const [showModal, setShowModal] = useState(false);
+const [showcustomer,setShowcustomer] = useState(false)
+const handleView = (order) => {
+  setSelectedOrder(order);
+  setShowModal(true);
+};
+const handleCustomer=(order)=>{
+  setSelectedCustmer(order)
+  setShowcustomer(true)
+}
+const handleCloseCustomer = () => setShowcustomer(false);
+const handleClose = () => setShowModal(false);
 
   
  useEffect(() => { 
@@ -35,10 +56,8 @@ const OrdersPage = () => {
                   if (response.status === 200) {
                     const data = response.data;
                     console.log(data)
-                    // setSizes(data.sizes);
-                    // setColors(data.colors);
-                    // setCategories(data.categories);
-                    // setBrands(data.brands);
+                    
+                    setDummyOrders(data);
                     setLoader(false)
 
                   
@@ -62,26 +81,66 @@ const OrdersPage = () => {
               userinfo();
     }, []);
 
+    const handleOrder=(newstatus,id)=>{
+       const userinfo = async () => {
+                try {
+                  const access =localStorage.getItem('access')
+                  const response = await instance.patch(`/api/orders/vendor-items/${id}/`,{status:newstatus}, {
+                    headers: {
+                      'Authorization': `Bearer ${access}`,
+                       
+                    }
+                  });
+                  if (response.status === 200) {
+                    const data = response.data;
+                    console.log(data)
+                    
+                  
+                  } else {
+                    console.error('Failed to fetch user info',response.data);
+                  }
+                } catch (error) {
+                     ;
+                      console.error("Error saving product:",error);
+                      if (error.response) {
+                         
+                        console.log("Status:", error.response.status);
+                        console.log("Data:", error.response.data); 
+                      } else {
+                         toast.error(error.message)
+                        console.log(error.message);
+                      }
+                    }
+              }
+              userinfo();
+    }
   const handleExport = () => {
     const csv = Papa.unparse(dummyOrders);
     const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
     saveAs(blob, 'orders.csv');
   };
-
-  const statuses = [
-    "All",
+  const orderstatuses=[
+   
     "Pending",
-    "Ready to Ship",
+    "Processing",
     "Shipped",
     "Delivered",
     "Canceled",
-    "Delivery Failed",
-    "Returned"
+ 
+  ];
+  const statuses = [
+    "All",
+    "Pending",
+    "Processing",
+    "Shipped",
+    "Delivered",
+    "Canceled",
+ 
   ];
 
   return (
     <>
-      <div className="col-md-10 p-4">
+      <div className="col-md-12 p-1">
         <h5 className="fw-bold mb-3">
           Orders &gt; <span className="text-warning">{status}</span>
         </h5>
@@ -100,19 +159,25 @@ const OrdersPage = () => {
         </div>
 
         {/* Filters */}
-        <div className="d-flex gap-2 mb-3 flex-wrap">
-          <button className="btn btn-outline-danger">+ Click to choose (Country)</button>
-          <button className="btn btn-outline-danger">+ Click to choose (Date)</button>
-          <div className="ms-auto d-flex gap-2">
-            <button className="btn btn-outline-warning">Filters</button>
-            <button className="btn btn-warning" onClick={handleExport}>Export</button>
-          </div>
-        </div>
+        <div className="d-flex gap-2 mb-3 flex-wrap align-items-center">
+  <div style={{ width: "80%" }}>
+    <input
+      type="text"
+      className="form-control"
+      placeholder="Search by order number"
+      value={searchTerm}
+  onChange={(e) => setSearchTerm(e.target.value)}
+    />
+  </div>
 
-        {/* Search */}
-        <div className="mb-3">
-          <input type="text" className="form-control" placeholder="Search by order number" />
-        </div>
+  
+  <div className="ms-auto d-flex gap-2">
+    
+    <button className="btn btn-warning" onClick={handleExport}>Export</button>
+  </div>
+</div>
+
+        
 
         {/* Orders Table */}
         <div className="table-responsive border">
@@ -122,29 +187,46 @@ const OrdersPage = () => {
                 <th><input type="checkbox" /></th>
                 <th>Order Number</th>
                 <th>Order Date</th>
-                <th>Pending Since</th>
+                <th>Status</th>
                 <th>Payment Method</th>
                 <th>Price#</th>
                 <th>Packed Items</th>
-                <th>Labels</th>
-                <th>Shipment Method</th>
+                <th>Address</th>
+                <th>customer</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {dummyOrders.length > 0 ? dummyOrders.map((order, index) => (
+
+              {filteredProducts.length > 0 ? filteredProducts.map((order, index) => (
                 <tr key={index}>
                   <td><input type="checkbox" /></td>
-                  <td>{order.orderNumber}</td>
-                  <td>{order.orderDate}</td>
-                  <td>{order.pendingSince}</td>
-                  <td>{order.paymentMethod}</td>
-                  <td>{order.price}</td>
-                  <td>{order.packedItems}</td>
-                  <td>{order.labels}</td>
-                  <td>{order.shipmentMethod}</td>
+                  <td>{order.order_id}</td>
+                  <td>{order.created_at.slice(0,10)}</td>
                   <td>
-                    <button className="btn btn-sm btn-primary">View</button>
+
+
+                  <select
+                className={`form-select `}
+                value={order.status}
+                onChange={e => handleOrder(e.target.value ,order.order_id)}
+              >
+                <option value="">-- Select Brand --</option>
+                {orderstatuses.map((stat,index) => (
+                  <option key={index} value={stat.toLowerCase()}>
+                    {stat}
+                  </option>
+    ))}
+  </select>
+
+                  </td>
+                  <td>{order.payment_method}</td>
+                  <td>{order.product_price}</td>
+                  <td>{order.product_name}</td>
+                  <td>{order.shipping_address}</td>
+                  <td className="btn btn-sm btn-primary" onClick={() => handleCustomer(order.customer) }>{order.customer_name}</td>
+                  <td>
+                    <button className="btn btn-sm btn-primary" onClick={() => handleView(order) }>View</button>
                   </td>
                 </tr>
               )) : (
@@ -155,6 +237,56 @@ const OrdersPage = () => {
             </tbody>
           </table>
         </div>
+<Modal show={showModal} onHide={handleClose}>
+  <Modal.Header closeButton>
+    <Modal.Title>Order Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedOrder ? (
+      <div>
+        <p><strong>Order Number:</strong> {selectedOrder.order_id}</p>
+        <p><strong>Order Date:</strong> {selectedOrder.created_at.slice(0, 10)}</p>
+        <p><strong>Status:</strong> {selectedOrder.status}</p>
+        <p><strong>Payment Method:</strong> {selectedOrder.payment_method}</p>
+        <p><strong>Price:</strong> {selectedOrder.product_price}</p>
+        <p><strong>Product:</strong> {selectedOrder.product_name}</p>
+        <p><strong>Shipping Address:</strong> {selectedOrder.shipping_address}</p>
+        <p><strong>Customer:</strong> {selectedOrder.customer_name}</p>
+      </div>
+    ) : (
+      <p>No order selected.</p>
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleClose}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
+<Modal show={showcustomer} onHide={handleCloseCustomer}>
+  <Modal.Header closeButton>
+    <Modal.Title>Customer Details</Modal.Title>
+  </Modal.Header>
+  <Modal.Body>
+    {selectedCustomer ? (
+      <div>
+        <p><strong>Email: </strong> {selectedCustomer.email}</p>
+        <p><strong>First Name:</strong> {selectedCustomer.first_name}</p>
+        <p><strong>Last Name :</strong> {selectedCustomer.last_name}</p>
+        <p><strong>Payment Method:</strong> {selectedCustomer.payment_method}</p>
+        <p><strong>phone:</strong> {selectedCustomer.phone}</p>
+        
+      </div>
+    ) : (
+      <p>No order selected.</p>
+    )}
+  </Modal.Body>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={handleCloseCustomer}>
+      Close
+    </Button>
+  </Modal.Footer>
+</Modal>
 
         {/* Pagination */}
         <div className="d-flex justify-content-between align-items-center mt-3 flex-wrap">
@@ -163,7 +295,7 @@ const OrdersPage = () => {
             <select className="form-select d-inline-block w-auto ms-2">
               <option>100</option>
               <option>50</option>
-              <option>20</option>
+              <option>5</option>
             </select>
           </div>
           <div>

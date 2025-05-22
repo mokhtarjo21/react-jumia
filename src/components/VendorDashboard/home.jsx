@@ -6,6 +6,7 @@ import { instance } from "../../axiosInstance/instance";
 import { useNavigate } from "react-router-dom";
 
 const VendorDashboard = () => {
+ const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('products');
   const Navigate = useNavigate();
   const [userinfo, setUserinfo] = useState(null);
@@ -20,7 +21,7 @@ const VendorDashboard = () => {
           }
         });
         if (responsee.status === 200) {
-          deletecart();
+          
           localStorage.removeItem('access');
           localStorage.removeItem('refresh');
           navigate('/loginvendor');

@@ -1,7 +1,7 @@
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { useState,useContext } from "react";
-
+import { toast } from 'react-toastify';
 import { UserContext } from '../../Context/user';
 
 import { useNavigate } from "react-router-dom";
@@ -31,7 +31,7 @@ function VendorLogin() {
                  const access = response.data.access;
                  localStorage.setItem('access', access);
                  localStorage.setItem('refresh', response.data.refresh);
-         
+                  toast.success("Login Successfully");
             navigate("/vendor");
             
             
