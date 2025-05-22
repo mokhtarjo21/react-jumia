@@ -1,3 +1,11 @@
+:root{
+  --color-orange: #F2972D;
+  --color-black: #1f2937;
+  --color-white: #ffffff;
+  --color-gray: #6b7280;
+  --color-white2: #f9fafb;
+}
+
 body{
   font-family: "Open Sans", sans-serif;
 }

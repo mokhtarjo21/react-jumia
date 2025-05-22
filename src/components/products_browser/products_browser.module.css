@@ -1,0 +1,105 @@
+.container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 1rem;
+  margin: 1rem 0;
+  background-color: #ffffff;
+}
+
+.header {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1f2937;
+  /* margin-bottom: 1rem; */
+  padding: 0.5rem 1rem;
+  /* background-color: var(--color-orange); */
+  background-color: var(--color-white);
+}
+
+.scrollContainer {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.5rem 0;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.cardsWrapper {
+  display: flex;
+  gap: 1rem;
+  padding: 0 1rem;
+  min-width: min-content; /* This ensures the wrapper takes full width of its content */
+  width: max-content; /* This ensures the wrapper expands to fit all cards */
+}
+
+.scrollButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.scrollButton:hover {
+  background-color: #f3f4f6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.scrollButton:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.scrollButtonLeft {
+  left: 0.5rem;
+}
+
+.scrollButtonRight {
+  right: 0.5rem;
+}
+
+.scrollButtonHidden {
+  display: none;
+}
+
+/* Loading and error states */
+.loadingContainer,
+.errorContainer {
+  padding: 2rem;
+  text-align: center;
+  color: #6b7280;
+}
+
+.errorContainer {
+  color: #ef4444;
+}
+
+.showAllButton {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.8rem;
+  color: black;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  z-index: 20;
+}
+.showAllButton:hover {
+  color: #f97316;
+}

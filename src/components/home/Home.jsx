@@ -16,7 +16,7 @@ import FeaturedEssentialsRow from "./FeaturedEssentialsRow";
 import BrandPromoStrip from "./BrandPromoStrip";
 import CategoryTileStrip from "./CategoryTileStrip";
 import CartPreviewRow from "./CartPreviewRow";
-
+import ProductsBrowser from "../products_browser/products_browser" 
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
@@ -92,10 +92,10 @@ const Home = () => {
           </div>
         </div>
 
-        <div className="px-3 mt-4">
+        <div >
           <HomePromotions />
           <InfoPromoGrid />
-          <ExtraPromotionsRow />   {/*  !!@@ row */}
+          <ExtraPromotionsRow />   
           <FeaturedEssentialsRow />
           <FlashSaleStrip products={flashProducts} onAddToCart={handleAddToCart} />
           <RecommendedRow />
@@ -105,6 +105,10 @@ const Home = () => {
           <CategoryTileStrip />
           <TopDealsRow />
           <RecentlyViewedRow />
+          <ProductsBrowser title="Best Sellers" filter="best_sellers=10" navigateTo="best-sellers"/>
+          <ProductsBrowser title="Recently Arrived" filter="recent=10" navigateTo="recently-added"/>
+          <ProductsBrowser title="Featured Products" filter="is_featured=true" navigateTo="featured-products"/>
+          <ProductsBrowser title="Top Deals" filter="has_discount=true" navigateTo="top-deals"/>
         </div>
       </div>
     </>
