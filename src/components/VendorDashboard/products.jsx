@@ -209,7 +209,7 @@ if(loader){
       <td>{product.rating_average}</td>
       <td>
         <Button
-          variant="outline-secondary"
+          variant="outline-danger"
           size="sm"
           // onClick={() => handleEditClick(product, idx)}
           onClick={()=>handelDelete(product.id)}
