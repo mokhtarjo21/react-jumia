@@ -2,18 +2,18 @@ import React from "react";
 import "./FeaturedEssentialsRow.css";
 
 const essentials = [
-  { img: "/images/anniversary.png", title: "Jumia Anniversary", subtitle: "" },
-  { img: "/images/phones.png", title: "Phones & Accessories", subtitle: "Starting 360 EGP Monthly" },
-  { img: "/images/fashion.png", title: "Fashion", subtitle: "UP TO 80%" },
-  { img: "/images/appliances.png", title: "Small Appliances", subtitle: "Starting 849 EGP" },
-  { img: "/images/beauty.png", title: "Beauty Essentials", subtitle: "Starting 30 EGP" },
-  { img: "/images/home.png", title: "Home & Decor", subtitle: "UP TO 60%" },
-  { img: "/images/baby.png", title: "Baby Products", subtitle: "Starting 69 EGP" },
-  { img: "/images/fridge.png", title: "Large Appliances", subtitle: "Starting 300 EGP Monthly" },
-  { img: "/images/supermarket.png", title: "Supermarket", subtitle: "Starting 19 EGP" },
-  { img: "/images/laptop.png", title: "Computing", subtitle: "Starting 333 EGP Monthly" },
-  { img: "/images/tv.png", title: "Televisions", subtitle: "Starting 350 EGP Monthly" },
-  { img: "/images/kitchen.png", title: "Kitchen Essentials", subtitle: "Starting 9 EGP" },
+  { img: "/images/anniversary.png", title: "Jumia Anniversary" },
+  { img: "/images/phones.png", title: "Phones & Accessories"  },
+  { img: "/images/fashion.png", title: "Fashion"   },
+  { img: "/images/appliances.png", title: "Small Appliances" },
+  { img: "/images/beauty.png", title: "Beauty Essentials"  },
+  { img: "/images/home.png", title: "Home & Decor"   },
+  { img: "/images/baby.png", title: "Baby Products"  },
+  { img: "/images/fridge.png", title: "Large Appliances"  },
+  { img: "/images/supermarket.png", title: "Supermarket"  },
+  { img: "/images/laptop.png", title: "Computing" },
+  { img: "/images/tv.png", title: "Televisions" },
+  { img: "/images/kitchen.png", title: "Kitchen Essentials" },
 ];
 
 const FeaturedEssentialsRow = () => {

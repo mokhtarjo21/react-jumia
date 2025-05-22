@@ -42,11 +42,12 @@ function CategoryPage() {
   let best_sellers = category?.match(/^best-sellers$/);
   let featured_products = category?.match(/^featured-products$/);
   let discount_products = category?.match(/^top-deals$/);
+  let sponsored_products = category?.match(/^sponsored$/);
   // default apis
   let API_products = `http://127.0.0.1:8000/api/category/${category}/products/`;
   let API_category_details = `http://127.0.0.1:8000/api/category/${category}`;
 
-  if (search_brand || search_products || recently_added || best_sellers || featured_products || discount_products) {
+  if (search_brand || search_products || recently_added || best_sellers || featured_products || discount_products || sponsored_products) {
     if (search_brand) {
       API_products = `http://127.0.0.1:8000/api/products/?brand=${search_brand[1]}`;
     } else if (search_products) {
@@ -59,6 +60,8 @@ function CategoryPage() {
       API_products = `http://127.0.0.1:8000/api/products/?is_featured=true`;
     } else if (discount_products) {
       API_products = `http://127.0.0.1:8000/api/products/?has_discount=true`;
+    } else if (sponsored_products) {
+      API_products = `http://127.0.0.1:8000/api/products/?sponsored=true`;
     }
     API_category_details = null; 
   }
