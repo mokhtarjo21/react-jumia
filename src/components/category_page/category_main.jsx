@@ -37,17 +37,28 @@ function CategoryPage() {
 
   let search_brand = category?.match(/^brand_(.+)$/);
   let search_products = category?.match(/^all_(.+)$/);
-
+  // in case of filtering by new arrivals or recently added prodcuts
+  let  recently_added = category?.match(/^recently-added$/);
+  let best_sellers = category?.match(/^best-sellers$/);
+  let featured_products = category?.match(/^featured-products$/);
+  let discount_products = category?.match(/^top-deals$/);
   // default apis
   let API_products = `http://127.0.0.1:8000/api/category/${category}/products/`;
   let API_category_details = `http://127.0.0.1:8000/api/category/${category}`;
-  
 
-  if (search_brand || search_products) {
+  if (search_brand || search_products || recently_added || best_sellers || featured_products || discount_products) {
     if (search_brand) {
       API_products = `http://127.0.0.1:8000/api/products/?brand=${search_brand[1]}`;
     } else if (search_products) {
       API_products = `http://127.0.0.1:8000/api/products/?q=${search_products[1]}`;
+    } else if (recently_added) {
+      API_products = `http://127.0.0.1:8000/api/products/?recent=12`;
+    } else if (best_sellers) {
+      API_products = `http://127.0.0.1:8000/api/products/?best_sellers=12`;
+    } else if (featured_products) {
+      API_products = `http://127.0.0.1:8000/api/products/?is_featured=true`;
+    } else if (discount_products) {
+      API_products = `http://127.0.0.1:8000/api/products/?has_discount=true`;
     }
     API_category_details = null; 
   }
