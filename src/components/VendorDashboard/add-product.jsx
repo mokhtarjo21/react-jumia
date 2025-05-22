@@ -1,6 +1,8 @@
 import React, {useEffect, useState } from 'react';
 import { instance } from '../../axiosInstance/instance';
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import Loader from "../loader/loder"
 const AddProduct = () => {
  const navigate = useNavigate();
   const [images, setImages] = useState(Array(8).fill(null)); // ملفات الصور
@@ -8,7 +10,7 @@ const AddProduct = () => {
   const [selectedColor, setSelectedColor] = useState([]);
   const [selectedSize, setSelectedSize] = useState([]);
   const [sizes,setSizes] = useState([]);
-  
+  const [loader,setLoader] =useState(true)
   const [categories, setCategories] = useState([]); 
   const [brands, setBrands] = useState([]); // قائمة العلامات التجارية
   // البيانات الأساسية مع كل الحقول المطلوبة
@@ -21,7 +23,7 @@ const AddProduct = () => {
     sku: '',
     description: '',
     stock_quantity: '',     
-    discount: '',  
+    sale_price: '',  
      colors: [],
   sizes: [],
   });
@@ -44,6 +46,8 @@ const AddProduct = () => {
                     setColors(data.colors);
                     setCategories(data.categories);
                     setBrands(data.brands);
+                    setLoader(false)
+
                     console.log(sizes);
                    console.log(data);
                   } else {
@@ -98,7 +102,7 @@ const AddProduct = () => {
     if (!product.sku.trim()) tempErrors.sku = 'SKU is required';
     if (!product.description.trim()) tempErrors.description = 'Description is required';
     if (!product.stock_quantity || isNaN(product.stock_quantity)) tempErrors.stock = 'Valid stock quantity is required';
-
+    if (!product.sale_price || isNaN(product.sale_price)) tempErrors.sale_price ="sale price required"
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
@@ -142,26 +146,33 @@ images.forEach((file, index) => {
       },
     });
 
-    if (response.status === 201 || response.status === 200) {
+    if (response.status > 200 && response.status <300) {
       console.log('Product added successfully:', response.data);
+      toast.success("Added Product");
       navigate("/vendor");
     } else {
+      toast.error('Error adding product:',response.data)
       console.error('Error adding product:', response.data);
     }
   } catch (error) {
+   ;
     console.error("Error saving product:");
     if (error.response) {
+       toast.error(error.response.data.non_field_errors[0])
       console.log("Status:", error.response.status);
       console.log("Data:", error.response.data); 
     } else {
+       toast.error(error.message)
       console.log(error.message);
     }
   }
 };
 
-
+if (loader){
+  return <Loader/>;
+}
   return (
-    <div className="col-md-10 p-4">
+    <div className="col-md-12 p-1">
       <h4 className="fw-bold">Add Product</h4>
 
       <div className="d-flex flex-wrap mb-4 gap-2">
@@ -285,7 +296,7 @@ images.forEach((file, index) => {
           <label className="form-label fw-bold">Sale Price </label>
           <input
             type="number"
-            className="form-control"
+            className={`form-control ${errors.sale_price ? 'is-invalid' : ''}`}
             placeholder="Ex: 10"
             value={product.sale_price}
             onChange={e => setProduct({ ...product, sale_price: e.target.value })}
