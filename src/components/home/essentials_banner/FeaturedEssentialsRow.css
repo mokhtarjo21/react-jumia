@@ -1,0 +1,28 @@
+/* FeaturedEssentialsRow.css */
+.hover-zoom {
+  /* overflow: hidden; */
+  transition: all 0.3s ease;
+}
+
+.hover-zoom img {
+  transition: transform 0.3s ease;
+}
+
+.hover-zoom:hover img {
+  transform: scale(1.1);
+}
+
+.hover-zoom:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Link styling */
+.category-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.category-link:hover .category-title {
+  color: #f68b1e; /* Jumia orange color */
+}
