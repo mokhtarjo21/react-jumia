@@ -2,29 +2,3 @@
   display: flex;
   position: relative;
 }
-
-.sidebar {
-  width: 240px;
-  height: 500px;
-  overflow-y: auto;
-  border-radius: 10px 0 0 10px;
-  border: 2px solid #ffd600;
-  background: #fff;
-  z-index: 2;
-}
-
-.subcategoryPanel {
-  width: 700px;
-  height: 500px;
-  overflow-y: auto;
-  border-radius: 0 10px 10px 0;
-  border: 2px solid #ffd600;
-  border-left: none;
-  background: #fff;
-  position: absolute;
-  left: 240px;
-  top: 0;
-  z-index: 10;
-  box-shadow: 4px 0 8px rgba(0,0,0,0.08);
-  display: block;
-}
