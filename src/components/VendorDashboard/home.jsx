@@ -4,7 +4,7 @@ import AddProduct from './add-product';
 import Productslist from './products';
 import { instance } from "../../axiosInstance/instance";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from 'react-toastify';
 const VendorDashboard = () => {
  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('products');
@@ -49,9 +49,11 @@ const VendorDashboard = () => {
       if (response.status === 200 && response.data.user == "1") {
         setUserinfo(1);
       } else {
+        
         setUserinfo(null);
       }
     } catch (error) {
+      toast.error("Please connect to Internet");
       setUserinfo(null);
     }
   }
@@ -63,6 +65,7 @@ const VendorDashboard = () => {
           <div className="col-md-6 text-center">
             <h1 className="text-danger">Please Login to Access Vendor Dashboard</h1>
             <button className="btn btn-primary mt-3" onClick={() => Navigate('/loginvendor')}>Login</button>
+            
           </div>
         </div>
       </div>
@@ -76,6 +79,8 @@ const VendorDashboard = () => {
           <div className="col-md-6 text-center">
             <h1 className="text-danger">Please Login As Vendor to Access Vendor Dashboard</h1>
             <button className="btn btn-primary mt-3" onClick={() => Navigate('/loginvendor')}>Login</button>
+            <h1 className="text-danger">or</h1>
+            <a className="btn btn-primary mt-3" href='/vendor'>Refresh</a>
           </div>
         </div>
       </div>
@@ -85,7 +90,7 @@ const VendorDashboard = () => {
   return (
     <div className="container-fluid">
       <div className="row">
-        {/* Sidebar */}
+    
         <nav className="col-12 col-md-2 bg-light min-vh-100 p-3 d-flex flex-column">
           <h5 className="text-orange fw-bold">VENDOR CENTER</h5>
           <ul className="nav flex-row flex-md-column mt-3 gap-2">
@@ -98,12 +103,6 @@ const VendorDashboard = () => {
             <li className="nav-item">
               <a onClick={() => setActiveTab('orders')} className={`nav-link ${activeTab === 'orders' ? 'active bg-primary text-white rounded' : 'text-dark'}`} style={{ cursor: 'pointer' }}>Orders</a>
             </li>
-            <li className="nav-item">
-              <a onClick={() => setActiveTab('advertise')} className={`nav-link ${activeTab === 'advertise' ? 'active bg-primary text-white rounded' : 'text-dark'}`} style={{ cursor: 'pointer' }}>Advertise your Products</a>
-            </li>
-            <li className="nav-item">
-              <a onClick={() => setActiveTab('Account')} className={`nav-link ${activeTab === 'Account' ? 'active bg-primary text-white rounded' : 'text-dark'}`} style={{ cursor: 'pointer' }}>Account Statements</a>
-            </li>
           </ul>
           <div className="mt-auto pt-3">
             <button className="btn btn-warning w-100 mb-3" onClick={sublogout}>Logout</button>
@@ -111,12 +110,12 @@ const VendorDashboard = () => {
           </div>
         </nav>
 
-        {/* Content Area */}
+     
         <main className="col-12 col-md-10">
           {activeTab === 'addproduct' && <AddProduct />}
           {activeTab === 'orders' && <Orders />}
           {activeTab === 'products' && <Productslist />}
-          {/* ممكن تضيف باقي التابات هنا */}
+         
         </main>
       </div>
     </div>
