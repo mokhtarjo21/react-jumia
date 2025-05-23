@@ -13,14 +13,7 @@ const OrdersPage = () => {
   const [status, setStatus] = useState("All");
   const [loader,setLoader]=useState(true)
   const [dummyOrders,setDummyOrders]=useState([])
-//   const filteredProducts = dummyOrders.filter((product) => {
-//   if (status=="All"){
-//     return product
-//   }else{
-//     return product.status==status.toLowerCase()
-//   } 
-  
-// });
+
 const filteredProducts = dummyOrders.filter((order) => {
   const matchesStatus = status === "All" || order.status === status.toLowerCase();
   const matchesSearch = searchTerm === '' ||order.order_id?.toString().includes(searchTerm); 

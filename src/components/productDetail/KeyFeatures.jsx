@@ -1,13 +1,22 @@
-const KeyFeatures = () => {
+const KeyFeatures = ({info}) => {
   return (
     <div>
-      <h5>Key Features</h5>
+      <h5>Product details</h5>
       <ul>
-        <li>Display: 6.6" PLS LCD</li>
-        <li>Memory: 64GB, 4GB RAM</li>
-        <li>Camera: 50MP Triple Camera</li>
+        <li><strong>Description:</strong>{info.description}</li>
         <li>Battery: 5000 mAh</li>
       </ul>
+      <h5>Specifications</h5>
+      <ul>
+        <li><strong>Category</strong>: {info.category_name}</li>
+        {info.specifications && typeof info.specifications === 'object' &&
+    Object.entries(info.specifications).map(([key, value], index) => (
+      <li key={index}>
+        <strong>{key}:</strong> {value}
+      </li>
+    ))
+  }
+  </ul>
     </div>
   );
 };
