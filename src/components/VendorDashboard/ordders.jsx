@@ -81,7 +81,7 @@ const handleClose = () => setShowModal(false);
               userinfo();
     }, []);
 
-    const handleOrder=(newstatus,id)=>{
+    const handleOrder=(newstatus,id,i)=>{
        const userinfo = async () => {
                 try {
                   const access =localStorage.getItem('access')
@@ -92,15 +92,20 @@ const handleClose = () => setShowModal(false);
                     }
                   });
                   if (response.status === 200) {
-                    const data = response.data;
-                    console.log(data)
-                    
+                    toast.success("Item Updated");
+                    const update=[...dummyOrders]
+                    update[i].status=newstatus 
+                    setDummyOrders(update)
                   
-                  } else {
+                  }else if(response.status===401){
+                    toast.error("Please refresh page");
+                  } 
+                  else {
+                    toast.error("Please refresh page");
                     console.error('Failed to fetch user info',response.data);
                   }
                 } catch (error) {
-                     ;
+                     toast.error("Failed to Edit");
                       console.error("Error saving product:",error);
                       if (error.response) {
                          
@@ -125,7 +130,7 @@ const handleClose = () => setShowModal(false);
     "Processing",
     "Shipped",
     "Delivered",
-    "Canceled",
+    "Cancelled",
  
   ];
   const statuses = [
@@ -134,10 +139,13 @@ const handleClose = () => setShowModal(false);
     "Processing",
     "Shipped",
     "Delivered",
-    "Canceled",
+    "Cancelled",
  
   ];
 
+if(loader){
+  return <Loader/>;
+}
   return (
     <>
       <div className="col-md-12 p-1">
@@ -209,11 +217,11 @@ const handleClose = () => setShowModal(false);
                   <select
                 className={`form-select `}
                 value={order.status}
-                onChange={e => handleOrder(e.target.value ,order.order_id)}
+                onChange={e => handleOrder(e.target.value ,order.id,index)}
               >
                 <option value="">-- Select Brand --</option>
-                {orderstatuses.map((stat,index) => (
-                  <option key={index} value={stat.toLowerCase()}>
+                {orderstatuses.map((stat,ind) => (
+                  <option key={ind} value={stat.toLowerCase()}>
                     {stat}
                   </option>
     ))}
