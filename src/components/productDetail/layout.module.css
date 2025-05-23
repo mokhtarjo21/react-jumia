@@ -1,0 +1,26 @@
+.mainContainer {
+    min-height: calc(100vh - 100px);
+    width: 1200px;
+    margin: 0 auto;
+    padding: 0 5px;
+}
+
+
+  
+  @media (max-width: 1199px) {
+    .mainContainer {
+        width: 968px;
+      }
+      
+  }
+
+/* 
+@media (max-width: 1199px) and (min-width: 968px) {
+
+  } */
+
+  /* @media (max-width: 968px) {
+    .mainContainer {
+        width: 986px;
+      }
+  } */

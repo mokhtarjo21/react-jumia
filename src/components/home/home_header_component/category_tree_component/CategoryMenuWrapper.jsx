@@ -8,12 +8,20 @@ const CategoryMenuWrapper = () => {
   const [categories, setCategories] = useState([]);
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const [isSubcategoryHovered, setIsSubcategoryHovered] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const timeoutRef = useRef(null);
 
   useEffect(() => {
+    setIsLoading(true);
     axios.get('http://127.0.0.1:8000/api/category/tree/')
-      .then(res => setCategories(res.data))
-      .catch(err => console.error('Category fetch error:', err));
+      .then(res => {
+        setCategories(res.data);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error('Category fetch error:', err);
+        setIsLoading(false);
+      });
   }, []);
 
   const handleHover = (category) => {
@@ -55,6 +63,7 @@ const CategoryMenuWrapper = () => {
         onHover={handleHover}
         onLeave={handleLeave}
         hoveredCategory={hoveredCategory}
+        isLoading={isLoading}
       />
       <SubcategoryPanel 
         category={hoveredCategory} 

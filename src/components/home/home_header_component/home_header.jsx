@@ -6,15 +6,17 @@ import RightmostDiv from './rightmost_div/rightmost';
 
 const HomeHeader = () => {
     return (
-        <div className={styles.homeHeaderContainer}>
-            <div className={styles.leftColumn}>
-                <CategoryMenuWrapper />
-            </div>
-            <div className={styles.centerColumn}>
-                <HeaderCarousel />
-            </div>
-            <div className={styles.rightColumn}>
-                <RightmostDiv />
+        <div className={`${styles.homeHeaderContainer}`}>
+            <div className="row g-3">
+                <div className={`col- col-md- ${styles.leftColumn}`}>
+                    <CategoryMenuWrapper />
+                </div>
+                <div className={`col- col-md- ${styles.centerColumn}`}>
+                    <HeaderCarousel />
+                </div>
+                <div className={`col- col-md- ${styles.rightColumn}`}>
+                    <RightmostDiv />
+                </div>
             </div>
         </div>
     );
