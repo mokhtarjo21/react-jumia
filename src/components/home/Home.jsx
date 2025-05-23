@@ -1,7 +1,7 @@
 // src/components/home/Home.jsx
 import { useEffect, useState } from "react";
 import { instance } from "../../axiosInstance/instance";
-import FeaturedEssentialsRow from "./FeaturedEssentialsRow";
+import FeaturedEssentialsRow from "./essentials_banner/FeaturedEssentialsRow";
 import ProductsBrowser from "../products_browser/products_browser";
 import HomeHeader from './home_header_component/home_header'
 const Home = () => {
