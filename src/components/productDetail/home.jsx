@@ -1,7 +1,7 @@
 import ImageGallery from './ImageGallery';
 import ProductInfo from './ProductInfo';
 import KeyFeatures from './KeyFeatures';
-import Specifications from './Specifications';
+
 import CustomerReviews from './CustomerReviews';
 import RelatedProducts from './RelatedProducts';
 import { useParams } from 'react-router-dom';
@@ -30,14 +30,14 @@ const ProductDetailHome = () => {
       <div className="row">
        
           <ImageGallery  info={product}/>
-       
+          <KeyFeatures info={product} />
         
       </div>
 
       
       {/* Reviews */}
       <div className="row mt-4">
-        <div className="col-md-8">
+        <div className="col-md-12">
           <CustomerReviews info={product} />
         </div>
       </div>
