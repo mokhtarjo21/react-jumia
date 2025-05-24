@@ -1,0 +1,648 @@
+/* Footer Main Styles */
+.footerContainer {
+  font-family: 'Roboto', sans-serif;
+}
+
+.topFooter {
+  background-color: #2e2e2e;
+  padding: 30px 0;
+}
+
+.middleFooter {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  background-color: #333;
+  padding: 40px 0;
+}
+
+.mainFooterLinks {
+  margin-bottom: 30px;
+}
+
+.copyrightFooter {
+  background-color: #2e2e2e;
+  padding: 15px 0;
+}
+
+.bottomFooter {
+  background-color: white;
+  padding: 20px 0;
+}
+
+/* Newsletter Subscription Styles */
+.newsletterContainer {
+  margin-bottom: 15px;
+}
+
+.newsletterContainer h2 {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.newsletterContainer p {
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+/* Form layout */
+.inlineSubscribeForm {
+  display: flex;
+  width: 100%;
+  max-width: 450px;
+  margin-bottom: 15px;
+  align-items: stretch;
+}
+
+/* Email input styling */
+.emailInputWrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+input {
+margin-top: 0!important;
+}
+.emailField {
+  width: 100%;
+  height: 40px;
+  padding: 8px 12px 8px 40px;
+  font-size: 14px;
+  border: none;
+  border-radius: 4px 0 0 4px;
+  outline: none;
+}
+
+.emailIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #757575;
+  font-size: 18px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Subscribe button styling */
+.subscribeButton {
+  height: 40px;
+  padding: 0 20px;
+  background-color: #f68b1e;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.subscribeButton:hover {
+  background-color: #e87800;
+}
+
+/* Checkbox styling */
+.checkboxContainer {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 12px;
+}
+
+.checkbox {
+  margin-right: 10px;
+  margin-top: 3px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+}
+
+.checkboxLabel {
+  font-size: 12px;
+  color: #ccc;
+  line-height: 1.4;
+}
+
+/* Message styling */
+.successMessage {
+  background-color: #28a745;
+  color: white;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.errorMessage {
+  color: #ff4d4f;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+/* App Download Section */
+.appDownloadContainer {
+  margin-bottom: 0;
+}
+
+.appDownloadContainer h2 {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.appDownloadContainer p {
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.appLogo {
+  border-radius: 4px;
+  padding: 4px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.appLogoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.appInfo {
+  margin-left: 15px;
+}
+
+.appTitle {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.appSubtitle {
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.storeButtons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.storeButton {
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.storeButton:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.storeIcon {
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.storeText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.storeText small {
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+.storeText span {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.qrSection {
+  margin-top: 15px;
+}
+
+.qrText {
+  color: #ccc;
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+.qrCodes {
+  display: flex;
+  gap: 12px;
+}
+
+.qrCodeContainer {
+  background-color: white;
+  padding: 8px;
+  border-radius: 6px;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.qrCode {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* Footer Links Sections */
+.footerSection {
+  margin-bottom: 30px;
+}
+
+.footerSectionTitle {
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #444;
+}
+
+.linkItem {
+  margin-bottom: 8px;
+}
+
+.linkItem a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 13px;
+  display: block;
+}
+
+.linkItem a:hover {
+  color: #f68b1e;
+}
+
+.socialLinks {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.socialIcon {
+  font-size: 20px;
+  color: white;
+}
+
+.socialIcon:hover {
+  color: #f68b1e;
+}
+
+.paymentMethods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.paymentIcon {
+  font-size: 25px;
+  color: white;
+}
+
+/* About Card Styles */
+.aboutCard {
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.aboutCard h1 {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.aboutCard p {
+  font-size: 13px;
+  line-height: 1.5;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.aboutCard span {
+  font-weight: 600;
+}
+
+/* Copyright Section */
+.copyright {
+  color: #999;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Brand Partners Section */
+.brandPartners {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.brandPartner {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .storeButtons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .subscribeForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .emailInput {
+    width: 100%;
+  }
+  
+  .genderButtons {
+    width: 100%;
+    gap: 8px;
+  }
+  
+  .subscribeButton {
+    width: 100%;
+  }
+}
+
+/* Checkbox Styling */
+.checkboxContainer {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.checkbox {
+  margin-right: 8px;
+  margin-top: 3px;
+}
+
+.checkboxLabel {
+  font-size: 12px;
+  color: #ccc;
+}
+
+.legalLink {
+  color: #f68b1e;
+  text-decoration: none;
+}
+
+.legalLink:hover {
+  text-decoration: underline;
+}
+
+/* Logo Styles */
+
+.mainLogo {
+  padding: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.logoImage {
+  width: 150px;
+  height: auto;
+  object-fit: contain;
+}
+
+.footerLogoLink {
+    background-color: #333;
+    border-radius: 50%;
+}
+
+.footerLogoLink:hover {
+  opacity: 0.8;
+}
+
+.footerLogo {
+  width: 120px;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  transition: transform 0.2s;
+}
+
+.footerLogo:hover {
+  transform: scale(1.05);
+}
+
+.footerTagline {
+  color: #fff;
+  font-size: 12px;
+  margin-top: 8px;
+  opacity: 0.8;
+} 
+
+.jumia_star {
+    width:50px!important;
+    object-fit: contain;
+}
+
+/* Footer Sections Layout */
+.footerSectionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.footerColumn {
+  width: calc(25% - 20px);
+  margin-bottom: 30px;
+}
+
+.footerBottomSection {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #444;
+  padding-top: 20px;
+  margin-top: 10px;
+}
+
+.twoColumnGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 991px) {
+  .footerColumn {
+    width: calc(50% - 15px);
+  }
+}
+
+@media (max-width: 575px) {
+  .footerColumn {
+    width: 100%;
+  }
+  
+  .footerBottomSection {
+    flex-direction: column;
+  }
+}
+
+/* Newsletter Form Updated Styles */
+.inlineSubscribeForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  max-width: 500px;
+}
+
+.emailInputWrapper {
+  /* position: relative;
+  flex-grow: 1;
+  margin-right: -5px; */
+}
+
+.emailField {
+  width: 100%;
+  height: 36px;
+  padding: 8px 8px 8px 35px;
+  font-size: 13px;
+  border: none;
+  border-radius: 2px 0 0 2px;
+  outline: none;
+}
+
+.emailIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #757575;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emailButtonWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.subscribeButton {
+  height: 36px;
+  padding: 0 16px;
+  background-color: #f68b1e;
+  color: white;
+  border: none;
+  border-radius: 0 2px 2px 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.subscribeButton:hover {
+  background-color: #e87800;
+}
+
+.successMessage {
+  background-color: #28a745;
+  color: white;
+  padding: 10px;
+  border-radius: 2px;
+  margin-bottom: 15px;
+}
+
+.errorMessage {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 10px;
+}
+
+.checkbox {
+  margin-right: 8px;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+/* Top Footer Layout */
+.topFooterGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.topFooterColumn {
+  width: 100%;
+}
+
+@media (max-width: 991px) {
+  .topFooterGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .topFooterColumn:last-child {
+    grid-column: span 2;
+  }
+}
+
+@media (max-width: 767px) {
+  .topFooterGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .topFooterColumn:last-child {
+    grid-column: span 1;
+  }
+}

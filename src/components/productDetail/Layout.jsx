@@ -4,6 +4,7 @@ import Header from '../header/Header'
 import Footer from '../footer/Footer'
 import { Outlet } from 'react-router-dom';
 import styles from './layout.module.css';
+import  FooterPrime  from "../NewFooters/FooterPrime";
 
 const Layout = () => {
   return (
@@ -14,7 +15,8 @@ const Layout = () => {
         <Outlet />
       </main>
 
-      <Footer />
+      {/* <Footer /> */}
+      <FooterPrime />
     </>
   );
 };

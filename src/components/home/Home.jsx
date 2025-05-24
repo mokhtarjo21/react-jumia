@@ -4,6 +4,8 @@ import { instance } from "../../axiosInstance/instance";
 import FeaturedEssentialsRow from "./essentials_banner/FeaturedEssentialsRow";
 import ProductsBrowser from "../products_browser/products_browser";
 import HomeHeader from './home_header_component/home_header'
+import HomeDescription from "./home_description/description";
+
 const Home = () => {
   const [categories, setCategories] = useState([]);
   useEffect(() => {
@@ -30,6 +32,7 @@ const Home = () => {
         <ProductsBrowser title="Featured Products" filter="is_featured=true" navigateTo="featured-products"/>
         <ProductsBrowser title="Top Deals" filter="has_discount=true" navigateTo="top-deals"/>
         <ProductsBrowser title="Sponsored Products" filter="sponsored=true" navigateTo="sponsored"/>
+        <HomeDescription />
       </div>
     </>
   );

@@ -1,0 +1,25 @@
+.container {
+    margin-bottom: 70px;
+}
+
+.link {
+    color: #000;
+    /* text-decoration: none; */
+    font-weight: 600;
+    text-decoration: underline;
+}
+.list {
+    margin-bottom: 5px;
+}
+
+.list li {
+    font-size: 14px;
+}
+
+.descriptionText {
+    font-size: 12px;
+}
+
+p{
+    margin-bottom: 5px;
+}
