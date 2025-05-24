@@ -1,25 +1,19 @@
-
-
-
-
-import React, { useState } from 'react';
-import Sidebar from './Sidebar';
-import OverviewSection from './OverviewSection';
-import SuggestedProducts from './SuggestedProducts';
-import RecentlyViewed from './RecentlyViewed';
-import AddressInfo from './AddAddress'; 
-import FavoriteProductsSection from './SuggestedProducts';
-
-import './profile.css';
-
-
+import React, { useState } from "react";
+import Sidebar from "./Sidebar";
+import OverviewSection from "./OverviewSection";
+import SuggestedProducts from "./SuggestedProducts";
+import RecentlyViewed from "./RecentlyViewed";
+import AddressInfo from "./AddressInfo";
+import FavoriteProductsSection from "./FavoriteProductsSection";
+import MyOrders from "./MyOrders";
+import styles from "./profile.module.css";
 
 const ProfilePage = () => {
-  const [activeSection, setActiveSection] = useState('overview');
+  const [activeSection, setActiveSection] = useState("overview");
 
   const renderSection = () => {
     switch (activeSection) {
-      case 'overview':
+      case "overview":
         return (
           <>
             <OverviewSection />
@@ -27,27 +21,27 @@ const ProfilePage = () => {
             <RecentlyViewed />
           </>
         );
-      case 'addresses':
+      case "addresses":
         return <AddressInfo />;
-      case 'account':
-        return <AccountManagementSection />; 
-      case 'recently-viewed':
+      case "account":
+        return <p>Account Management Section</p>;
+      case "recently-viewed":
         return <RecentlyViewed />;
-      case 'orders':
-        return <p>Orders Section</p>;
-        case 'favorites':
-          return <FavoriteProductsSection />;       
+      case "orders":
+        return <MyOrders />; // ✅ Render full orders
+      case "favorites":
+        return <FavoriteProductsSection />;
       default:
         return <OverviewSection />;
     }
   };
 
   return (
-    <div className="profile-wrapper">
-      <Sidebar setActiveSection={setActiveSection} />
-      <div className="profile-content">
-        {renderSection()}
+    <div className={styles.profileWrapper}>
+      <div className={styles.sidebarWrapper}>
+        <Sidebar setActiveSection={setActiveSection} />
       </div>
+      <div className={styles.contentWrapper}>{renderSection()}</div>
     </div>
   );
 };

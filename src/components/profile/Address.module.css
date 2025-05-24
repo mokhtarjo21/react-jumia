@@ -1,0 +1,108 @@
+.formWrapper {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #fff;
+  padding: 30px 25px;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+}
+
+.formWrapper h3 {
+  font-size: 22px;
+  margin-bottom: 25px;
+  color: #f68b1e;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form input,
+.form select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.form input:focus,
+.form select:focus {
+  border-color: #f68b1e;
+}
+
+.helper {
+  font-size: 13px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.error {
+  color: red;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.btnGroup {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.saveBtn {
+  background-color: #f68b1e;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.saveBtn:hover {
+  background-color: #d97706;
+}
+
+.cancelBtn {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cancelBtn:hover {
+  background-color: #bdbdbd;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .row {
+    flex-direction: column;
+  }
+}
