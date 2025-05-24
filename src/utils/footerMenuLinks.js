@@ -44,11 +44,11 @@ export const countries = [
 ];
 
 export const socilaMedia = [
-  { icon: "mdi:facebook", link: "https://facebook.com/jumia" },
-  { icon: "mdi:twitter", link: "https://twitter.com/jumia" },
-  { icon: "mdi:instagram", link: "https://instagram.com/jumia" },
-  { icon: "mdi:youtube", link: "https://youtube.com/jumia" },
-  { icon: "ri:tiktok-fill", link: "https://tiktok.com/@jumia" }
+  { icon: "mdi:linkedin", link: "https://linkedin.com/in/amr-hussain-sayed" },
+  { icon: "mdi:twitter", link: "https://twitter.com/" },
+  { icon: "mdi:instagram", link: "https://instagram.com/" },
+  { icon: "mdi:youtube", link: "https://youtube.com/" },
+  { icon: "ri:tiktok-fill", link: "https://tiktok.com/@" }
 ];
 
 export const paymentMethod = [
