@@ -4,12 +4,15 @@ import Button from "react-bootstrap/Button";
 import Badge from "react-bootstrap/Badge";
 import { FaStar } from "react-icons/fa";
 import { toast } from 'react-toastify';
-import { addToCart, getCartFromCookies } from '../../utils/cartCookie';
+import { addToCart as addToCartCookie, getCartFromCookies } from '../../utils/cartCookie';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/cartSlice';
 
 const ProductCard = ({ info }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
   const mainImageRef = useRef();
+  const dispatch = useDispatch();
 
   const handleImage = (src) => {
     if (mainImageRef.current) {
@@ -20,8 +23,25 @@ const ProductCard = ({ info }) => {
   const handleAddToCart = (e) => {
     e.stopPropagation();
     
-
-    addToCart(info, 1, selectedColor, selectedSize);
+    // Add to cookie
+    addToCartCookie(info, 1, selectedColor, selectedSize);
+    
+    // Add to Redux store
+    const productSummary = {
+      id: info.id,
+      name: info.name,
+      price: info.sale_price || info.price,
+      image: info.product_images?.find(img => img.is_primary)?.image || 
+             info.product_images?.[0]?.image || null,
+    };
+    
+    dispatch(addToCart({
+      product: productSummary,
+      quantity: 1,
+      color: selectedColor,
+      size: selectedSize
+    }));
+    
     try {
       const currentCart = getCartFromCookies();
       console.log("Cart now:", currentCart);

@@ -9,7 +9,8 @@ import { addFavorite, removeFavorite } from "../../store/favoritesSlice";
 import "./card.css";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addToCart, getCartFromCookies } from '../../utils/cartCookie';
+import { addToCart as addToCartCookie, getCartFromCookies } from '../../utils/cartCookie';
+import { addToCart } from '../../store/cartSlice';
 
 
 // Import the Jumia Express logo
@@ -67,7 +68,36 @@ function ProductCard({ product }) {
     return stars;
   };
 
-  
+  const handleAddToCart = (e) => {
+    e.stopPropagation();
+    
+    // Add to cookie
+    addToCartCookie(product, 1);
+    
+    // Add to Redux store
+    const productSummary = {
+      id: product.id,
+      name: product.name,
+      price: product.sale_price || product.price,
+      image: product.product_images?.find(img => img.is_primary)?.image || 
+             product.product_images?.[0]?.image || null,
+    };
+    
+    dispatch(addToCart({
+      product: productSummary,
+      quantity: 1,
+      color: null,
+      size: null
+    }));
+    
+    try {
+      const currentCart = getCartFromCookies();
+    } catch (err) {
+      console.error('Error reading cart from cookies:', err);
+    }
+
+    toast.success("Added to cart!");
+  };
 
   return (
     <Card 
@@ -151,16 +181,7 @@ function ProductCard({ product }) {
 
       <Button
         variant="warning"
-        onClick={(e) => {
-  e.stopPropagation();
-  addToCart(product, 1);
-  try {
-  const currentCart = getCartFromCookies();
-} catch (err) {
-}
-
-  toast.success("Added to cart!");
-}}
+        onClick={handleAddToCart}
         className="add-to-cart-btn"
       >
         Add to cart
