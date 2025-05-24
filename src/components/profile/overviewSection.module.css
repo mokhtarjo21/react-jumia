@@ -1,0 +1,87 @@
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .card {
+    flex: 1;
+    min-width: 48%;
+    border: 1px solid #dcdcdc;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    position: relative;
+  }
+  
+  .cardHeader {
+    font-weight: bold;
+    font-size: 15px;
+    margin-bottom: 10px;
+    color: #444;
+    border-bottom: 1px solid #eaeaea;
+    padding-bottom: 8px;
+    text-transform: uppercase;
+  }
+  
+  .editButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: #f68b1e;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .inlineIcon {
+    margin-right: 5px;
+    color: #f68b1e;
+  }
+  
+  .link {
+    color: #08589c;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+
+  .title {
+    font-size: 22px; /* Previously 20px */
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  .card {
+    font-size: 16px; /* Previously 14px */
+    line-height: 1.6;
+  }
+  
+  .cardHeader {
+    font-size: 17px; /* Previously 15px */
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #444;
+    text-transform: uppercase;
+  }
+  
+  .card p {
+    font-size: 20px;
+  }
+  
+  .link {
+    font-size: 16px;
+    color: #08589c;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .editButton {
+    font-size: 20px; /* To match increased icon size */
+  }
+  

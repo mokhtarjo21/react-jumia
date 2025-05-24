@@ -1,10 +1,23 @@
-import React from "react";
-import { FaHeart, FaClipboardList, FaMapMarkerAlt, FaHistory, FaSignOutAlt, FaUserCircle } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaHeart,
+  FaClipboardList,
+  FaMapMarkerAlt,
+  FaHistory,
+  FaSignOutAlt,
+  FaUserCircle,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "./Sidebar.css";
+import styles from "./Sidebar.module.css";
 
 const Sidebar = ({ setActiveSection }) => {
+  const [activeItem, setActiveItem] = useState("overview");
   const navigate = useNavigate();
+
+  const handleClick = (section) => {
+    setActiveSection(section);
+    setActiveItem(section);
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("access");
@@ -13,34 +26,46 @@ const Sidebar = ({ setActiveSection }) => {
   };
 
   return (
-    <div className="profile-sidebar">
+    <div className={styles.profileSidebar}>
       <h3
-        className="sidebar-title clickable"
-        onClick={() => setActiveSection("overview")}
+        className={`${styles.sidebarTitle} ${styles.clickable}`}
+        onClick={() => handleClick("overview")}
       >
-        <FaUserCircle className="menu-icon" />
+        <FaUserCircle className={styles.menuIcon} />
         My Jumia Account
       </h3>
 
-      <ul className="sidebar-menu">
-        <li onClick={() => setActiveSection("orders")}>
-          <FaClipboardList className="menu-icon" />
+      <ul className={styles.sidebarMenu}>
+        <li
+          className={activeItem === "orders" ? styles.active : ""}
+          onClick={() => handleClick("orders")}
+        >
+          <FaClipboardList className={styles.menuIcon} />
           Orders
         </li>
-        <li onClick={() => setActiveSection("addresses")}>
-          <FaMapMarkerAlt className="menu-icon" />
+        <li
+          className={activeItem === "addresses" ? styles.active : ""}
+          onClick={() => handleClick("addresses")}
+        >
+          <FaMapMarkerAlt className={styles.menuIcon} />
           Addresses
         </li>
-        <li onClick={() => setActiveSection("recently-viewed")}>
-          <FaHistory className="menu-icon" />
+        <li
+          className={activeItem === "recently-viewed" ? styles.active : ""}
+          onClick={() => handleClick("recently-viewed")}
+        >
+          <FaHistory className={styles.menuIcon} />
           Recently Viewed Items
         </li>
-        <li onClick={() => setActiveSection("favorites")}>
-          <FaHeart className="menu-icon" />
+        <li
+          className={activeItem === "favorites" ? styles.active : ""}
+          onClick={() => handleClick("favorites")}
+        >
+          <FaHeart className={styles.menuIcon} />
           My Favourite Products
         </li>
-        <li onClick={handleLogout} className="logout-item">
-          <FaSignOutAlt className="menu-icon" />
+        <li className={styles.logoutItem} onClick={handleLogout}>
+          <FaSignOutAlt className={styles.menuIcon} />
           Logout
         </li>
       </ul>

@@ -1,0 +1,20 @@
+.section {
+    background-color: hashtag#fff;
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0 0 6px rgba(0,0,0,0.05);
+    margin-top: 20px;
+   }
+   
+   .heading {
+    font-size: 18px;
+    font-weight: 600;
+    color: hashtag#1f2937;
+    margin-bottom: 15px;
+   }
+   
+   .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+   }
