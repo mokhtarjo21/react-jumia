@@ -3,8 +3,7 @@ import ProductInfo from './ProductInfo';
 import KeyFeatures from './KeyFeatures';
 
 import CustomerReviews from './CustomerReviews';
-import RelatedProducts from './RelatedProducts';
-import { useParams } from 'react-router-dom';
+import RelatedProducts from "../products_browser/products_browser";
 import { useEffect ,useState} from 'react';
 import { instance } from '../../axiosInstance/instance';
 const ProductDetailHome = () => {
@@ -45,7 +44,8 @@ const ProductDetailHome = () => {
       {/* Related Products */}
       <div className="row mt-5">
         <div className="col-12">
-          <RelatedProducts category ={product.category_slug}/>
+          <RelatedProducts title="Related Products" filter="best_seller=true" navigateTo="best-sellers"/>
+
         </div>
       </div>
     </div>
