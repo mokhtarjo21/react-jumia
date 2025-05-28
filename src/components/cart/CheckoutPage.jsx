@@ -7,7 +7,7 @@ const CheckoutPage = () => {
     const [paymentMethod, setPaymentMethod] = useState('cod');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-
+    const accessToken = localStorage.getItem('access');
     const handlePlaceOrder = async () => {
         const cart = getCartFromCookies();
 
@@ -66,7 +66,19 @@ const CheckoutPage = () => {
             setError(err.response?.data?.error || 'Something went wrong during checkout.');
         }
     };
-
+    if (!accessToken || accessToken === 'undefined') {
+    return (
+      <div className="container-fluid">
+        <div className="row justify-content-center align-items-center min-vh-100">
+          <div className="col-md-6 text-center">
+            <h1 className="text-danger">Please Login to Check out</h1>
+            <button className="btn btn-primary mt-3" onClick={() => Navigate('/login')}>Login</button>
+            
+          </div>
+        </div>
+      </div>
+    );
+  }
     return (
         <div className="container my-5" style={{ maxWidth: 600 }}>
             <div className="text-center mb-4">
