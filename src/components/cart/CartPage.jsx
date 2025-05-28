@@ -105,9 +105,9 @@ const CartPage = () => {
             style={{ width: '200px', marginBottom: '20px' }}
           />
           <h5 className="text-muted mb-3">Your cart is empty</h5>
-          <a href="/" className="btn btn-warning px-4 fw-bold">
+          <span onClick={() => navigate('/')} className="btn btn-warning px-4 fw-bold">
             Continue Shopping
-          </a>
+          </span>
         </div>
       ) : (
         <>
@@ -203,9 +203,11 @@ const CartPage = () => {
               )}
 
               <div className="d-flex justify-content-end mt-4">
-                <a href="/" className="btn btn-outline-dark fw-bold">
+                <span 
+                onClick={() => navigate('/')}
+                className="btn btn-outline-dark fw-bold">
                   ← Continue Shopping
-                </a>
+                </span>
               </div>
             </div>
 
