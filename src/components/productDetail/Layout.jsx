@@ -5,7 +5,7 @@ import Footer from '../footer/Footer'
 import { Outlet } from 'react-router-dom';
 import styles from './layout.module.css';
 import  FooterPrime  from "../NewFooters/FooterPrime";
-
+import Chat from "../chatbot/chat"
 const Layout = () => {
   return (
     <>
@@ -16,6 +16,7 @@ const Layout = () => {
       </main>
 
       {/* <Footer /> */}
+      <Chat />
       <FooterPrime />
     </>
   );
