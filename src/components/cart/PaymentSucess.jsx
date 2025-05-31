@@ -1,23 +1,30 @@
 import React, { useEffect } from 'react';
-import { clearCart } from '../../utils/cartCookie';
 import { useNavigate } from 'react-router-dom';
+import { clearCart } from '../../utils/cartCookie';
 
 const PaymentSuccess = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        clearCart(); // Remove items from cookies
+        clearCart();
         const timer = setTimeout(() => {
             navigate('/');
-        }, 3000); // Redirect after 3 seconds
-
+        }, 4000);
         return () => clearTimeout(timer);
     }, [navigate]);
 
     return (
-        <div className="container text-center mt-5">
-            <h2 className="text-success">✅ Payment Successful!</h2>
-            <p className="mt-3">Thank you for your purchase. Redirecting you to the homepage...</p>
+        <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '80vh', textAlign: 'center' }}>
+            <img
+                src="https://cdn-icons-png.flaticon.com/512/845/845646.png"
+                alt="success"
+                style={{ width: 100, height: 100, marginBottom: 20 }}
+            />
+            <h2 className="fw-bold text-success">Payment Successful!</h2>
+            <p className="text-muted" style={{ maxWidth: 400 }}>
+                Thank you for shopping with us. Redirecting to homepage...
+            </p>
+            <div className="spinner-border mt-4" style={{ color: '#f68b1e' }} role="status" />
         </div>
     );
 };
