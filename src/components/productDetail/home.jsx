@@ -93,11 +93,13 @@ const ProductDetailHome = () => {
         </div>
       </div>
       {/* recently viewed */}
+      {isLoggedIn && (  
       <div className="row mt-5">
         <div className="col-12">
           <ProductsBrowser title="recently viewed" filter="" recentlyViewed={true}/>
         </div>
       </div>
+      )}
     </div>
   );
 };

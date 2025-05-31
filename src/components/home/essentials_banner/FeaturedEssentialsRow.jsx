@@ -18,17 +18,17 @@ import fashionImg from "../../../assets/category_images/CAT-Fashion.png";
 
 const essentials = [
   { img: anniversaryImg, title: "Jumia Anniversary", link: "/" },
-  { img: phonesImg, title: "Phones & Accessories", link: "/" },
-  { img: fashionImg, title: "Fashion", link: "/" },
-  { img: smallAppliancesImg, title: "Small Appliances", link: "/" },
-  { img: freelinkImg, title: "Beauty Essentials", link: "/" },
-  { img: kitchenDiningImg, title: "Home & Decor", link: "/" },
-  { img: babyImg, title: "Baby Products", link: "/" },
-  { img: appliancesImg, title: "Large Appliances", link: "/" },
-  { img: supermarketImg, title: "Supermarket", link: "/" },
-  { img: laptopsImg, title: "Computing", link: "/" },
-  { img: tvImg, title: "Televisions", link: "/" },
-  { img: kitchenImg, title: "Kitchen Essentials", link: "/" },
+  { img: phonesImg, title: "Phones & Accessories", link: "/phones-tablets-mobile-phones-accessories" },
+  { img: fashionImg, title: "Fashion", link: "/fashion" },
+  { img: smallAppliancesImg, title: "Small Appliances", link: "/appliances-small-appliances" },
+  { img: freelinkImg, title: "Beauty Essentials", link: "/health-beauty" },
+  { img: kitchenDiningImg, title: "Home & Decor", link: "/home-furniture-kitchen-dining" },
+  { img: babyImg, title: "Baby Products", link: "/baby-products" },
+  { img: appliancesImg, title: "Large Appliances", link: "/appliances-large-appliances" },
+  { img: supermarketImg, title: "Supermarket", link: "/supermarket" },
+  { img: laptopsImg, title: "Computing", link: "/computing" },
+  { img: tvImg, title: "Televisions", link: "/televisions-audio" },
+  { img: kitchenImg, title: "Kitchen Essentials", link: "/home-furniture-kitchen-dining" },
 ];
 
 const FeaturedEssentialsRow = () => {
