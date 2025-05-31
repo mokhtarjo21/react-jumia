@@ -24,6 +24,10 @@ import VendorDashboard from "./components/VendorDashboard/home";
 // Layout & Shared
 import Layout from "./components/productDetail/Layout";
 import Cart from "./components/cart/CartPage";
+import PaymentFailed from './components/cart/PaymentFailed';
+import PaymentSuccess from './components/cart/PaymentSuccess';
+
+
 
 import "./App.css";
 
@@ -43,6 +47,11 @@ function App() {
               {/* <Route path="allproducts" element={<CategoryPage />} /> */}
               <Route path="cart/" element={<Cart />} />
               <Route path="checkout/" element={<CheckoutPage />} />
+              <Route path="/payment-failed" element={<PaymentFailed />} />
+              <Route path="/payment-success" element={<PaymentSuccess />} />
+
+
+              
               <Route path="/payment-success" element={<PaymentSuccess />} />
               <Route path="/profile" element={<ProfilePage />} />
             </Route>
