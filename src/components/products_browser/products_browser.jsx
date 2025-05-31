@@ -7,35 +7,76 @@ import { Link } from "react-router-dom";
 import { MdChevronRight } from "react-icons/md";
 import { MdChevronLeft } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import { instance } from '../../axiosInstance/instance';
+import { useSelector } from 'react-redux';
 
 const SCROLL_AMOUNT = 400; // Increased scroll amount for smoother scrolling
 
-const ProductsBrowser = ({ title = "pass title, pass the filter like is_featured=true, best_seller=true," , navigateTo = "best-sellers", filter = ""}) => {
+const ProductsBrowser = ({ title = "pass title, pass the filter like is_featured=true, best_seller=true," , navigateTo = "", filter = "", recentlyViewed = false}) => {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Get authentication state from Redux store
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const accessToken = isLoggedIn ? localStorage.getItem('access') : null;
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch(`http://127.0.0.1:8000/api/products/?${filter}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
+        // Configure request options based on authentication status
+        const requestConfig = {};
+        
+        // If user is authenticated, include the Authorization header
+        if (isLoggedIn && accessToken) {
+          requestConfig.headers = {
+            'Authorization': `Bearer ${accessToken}`
+          };
         }
-        const data = await response.json();
-        setProducts(data.products);
+        
+        let response;
+        if(recentlyViewed) {
+          // Use instance.get instead of fetch for recently viewed products
+          response = await instance.get('/api/products/recently-viewed/', requestConfig);
+        } else {
+          // Use instance.get instead of fetch for filtered products
+          response = await instance.get(`/api/products/?${filter}`, requestConfig);
+        }
+        
+        console.log("API Response:", response);
+        
+        // Extract data directly from the response (axios already parses JSON)
+        const data = response.data;
+        
+        // Check if products property exists in the response
+        if (data) {
+          if(data.products && Array.isArray(data.products)){
+            setProducts(data.products);
+          } else if (data.results && Array.isArray(data.results)) {
+            setProducts(data.results);
+          } else {
+            console.error("Unexpected response format:", data);
+            setProducts([]);
+          }
+        } else {
+          console.error("No data received from API");
+          setProducts([]);
+        }
+        
         setLoading(false);
       } catch (err) {
-        setError(err.message);
+        console.error("Error fetching products:", err);
+        setError(err.message || 'Failed to fetch products');
+        setProducts([]);
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [filter, recentlyViewed, isLoggedIn, accessToken]);
 
   const updateArrows = () => {
     if (scrollRef.current) {
@@ -76,15 +117,29 @@ const ProductsBrowser = ({ title = "pass title, pass the filter like is_featured
     </div>
   );
 
+  // If products is undefined or not an array, show empty state
+  if (!products || !Array.isArray(products) || products.length === 0) {
+    return (
+      <div className={styles.container}>
+        <h2 className={styles.header}>{title}</h2>
+        <div className={styles.emptyContainer}>
+          No products found, please check api settings in react products browsercomponents
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <h2 className={styles.header}>{title}</h2>
-      <Link 
-        className={styles.showAllButton}
-        to={`/${navigateTo}`}
-      >
-        Show All <MdChevronRight size={18} />
-      </Link>
+      {navigateTo && (
+        <Link 
+          className={styles.showAllButton}
+          to={`/${navigateTo}`}
+        >
+          Show All <MdChevronRight size={18} />
+        </Link>
+      )}
       
         <button 
           className={`${styles.scrollButton} ${styles.scrollButtonLeft} ${!canScrollLeft ? styles.scrollButtonHidden : ''}`}
