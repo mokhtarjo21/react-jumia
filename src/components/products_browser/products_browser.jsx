@@ -119,14 +119,7 @@ const ProductsBrowser = ({ title = "pass title, pass the filter like is_featured
 
   // If products is undefined or not an array, show empty state
   if (!products || !Array.isArray(products) || products.length === 0) {
-    return (
-      <div className={styles.container}>
-        <h2 className={styles.header}>{title}</h2>
-        <div className={styles.emptyContainer}>
-          No products found, please check api settings in react products browsercomponents
-        </div>
-      </div>
-    );
+    return null;
   }
 
   return (
