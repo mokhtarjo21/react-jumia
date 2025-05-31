@@ -93,7 +93,7 @@ const CartPage = () => {
         </div>
       ) : (
         <div className="alert alert-warning text-center">
-          Spend <strong>EGP {500 - finalPrice}</strong> more for free shipping!
+          Spend <strong>EGP {Math.round(500 - finalPrice)}</strong> more for free shipping!
         </div>
       )}
 

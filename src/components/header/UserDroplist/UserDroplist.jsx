@@ -62,7 +62,7 @@ const UserDroplist = () => {
       dispatch(clearCart());
       
       if (responsee.status === 200) {
-        navigate("/login");
+        navigate("/");
       } else {
         console.error("Logout failed");
         navigate("/login");
@@ -82,8 +82,8 @@ const UserDroplist = () => {
   // Get username - check all possible properties
   const getUserName = () => {
     if (!user) return null;
-    return user.first_name || user.username || 'User';
-  };
+    return user.first_name || user.username;
+  };  
   
   // Determine what text to display
   let displayText = "Login";
