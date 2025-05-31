@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import FiltersSidebar from "./filter_sidebar_component/filter_sidebar";
 import Products from "./products_list_component/products";
+import CategoryInfo from "./category_info/category_info";
+import BroductsBrowser from "../products_browser/products_browser";
 import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import CategoryGrid from "../category_grid/category_grid";
 import Breadcrumb from "../bread_crumb_navigator/nav";
@@ -226,6 +228,8 @@ function CategoryPage() {
             handlePageChange={handlePageChange}
           />
         </div>
+          <BroductsBrowser title="recently viewed" filter="" recentlyViewed={true}/>
+          <CategoryInfo category={category_details} />
       </div>
     </div>
   );

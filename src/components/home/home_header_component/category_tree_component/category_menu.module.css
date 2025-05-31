@@ -41,9 +41,8 @@
 
 /* Subcategory panel styles */
 .subcategoryPanel {
-
     height: 392px;
-    overflow-y: auto;
+    overflow: hidden; /* Changed from overflow-y: auto to hide all scrollbars */
     border-radius: 0 8px 8px 0;
     border: 2px solid #ffffff;
     border-left: none;
@@ -53,45 +52,60 @@
     top: 0;
     z-index: 200;
     box-shadow: 4px 0 8px rgba(0,0,0,0.08);
-    padding: 15px;
+    padding: 15px; 
+    box-sizing: border-box; 
+}
+
+.flexContainer {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr)); /* Use minmax to prevent overflow */
+    gap: 8px; /* Reduced from 10px */
+    width: 100%;
+    max-height: 368px; /* Adjusted to fit panel height */
+    overflow: hidden; /* Hide any overflow */
 }
 
 .subcategoryGroup {
-    margin-bottom: 20px;
-    /* width: 200px; */
-    padding-right: 15px;
+    width: 100%;
+    margin-bottom: 4px; /* Reduced from 5px */
+    padding-right: 0; /* Removed padding-right */
 }
 
 .subcategoryGroupTitle {
     display: block;
-    padding-bottom: 6px;
+    padding-bottom: 4px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px; 
     color: #333;
-    font-size: 14px;
+    font-size: 14px; 
     border-bottom: 1px solid #c2c2c2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .subcategoryList {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 0;
 }
 
 .subcategoryList a {
     color: #666;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 12px; 
     transition: color 0.2s;
+    padding: 2px 0; 
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%; /* Ensure text doesn't overflow */
+    margin-bottom: 2px;
 }
 
 .subcategoryList a:hover {
     font-weight: bold;
-}
-
-.flexContainer {
-    display: flex;
-    flex-wrap: wrap;
 }
 
 ._1stLevel {
@@ -100,7 +114,8 @@
 
 ._3rdLevel {
     color: #393939!important;
-    font-size: 13px;
+    font-size: 11px; /* Reduced from 12px */
+    margin: 0;
 }
 
 /* responsive styles for the subcategory panel and the sidebar */
@@ -108,13 +123,25 @@
     .subcategoryPanel {
         width: 752px;
     }
+    
+    .flexContainer {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
 }
 
 @media (max-width: 1199px) {
-
     .subcategoryPanel {
         width: 737px;
     }
+    
+    .flexContainer {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
 
+@media (max-width: 768px) {
+    .flexContainer {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 

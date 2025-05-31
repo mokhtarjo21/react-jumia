@@ -4,6 +4,27 @@ import ProductsDroplistMenu from './products_droplist_menu_component/products_dr
 import './products.css';
 
 function Products({ products, pagination, handlePageChange }) {
+  // Function to determine which page buttons to show
+  const getPageNumbers = (currentPage, totalPages) => {
+    // Always show at most 5 page numbers to prevent overflow
+    if (totalPages <= 5) {
+      return [...Array(totalPages)].map((_, i) => i + 1);
+    }
+    
+    // If current page is among the first 3 pages
+    if (currentPage <= 3) {
+      return [1, 2, 3, 4, 5];
+    }
+    
+    // If current page is among the last 3 pages
+    if (currentPage >= totalPages - 2) {
+      return [totalPages - 4, totalPages - 3, totalPages - 2, totalPages - 1, totalPages];
+    }
+    
+    // Otherwise show current page and 2 pages before and after
+    return [currentPage - 2, currentPage - 1, currentPage, currentPage + 1, currentPage + 2];
+  };
+
   return (
     <main className="products-div">
       <div className="category-header-wrapper d-flex justify-content-between align-items-center">
@@ -40,22 +61,39 @@ function Products({ products, pagination, handlePageChange }) {
       {/* Pagination Controls */}
       {pagination.total_pages > 1 && (
         <nav>
-          <ul className="pagination justify-content-center">
+          <ul className="pagination justify-content-center flex-wrap">
+            {/* First page button */}
             <li className={`page-item ${pagination.current_page === 1 ? 'disabled' : ''}`}>
-              <button className="page-link" onClick={() => handlePageChange(pagination.current_page - 1)}>
-                Previous
+              <button className="page-link" onClick={() => handlePageChange(1)}>
+                &laquo;
               </button>
             </li>
-            {[...Array(pagination.total_pages)].map((_, idx) => (
-              <li key={idx} className={`page-item ${pagination.current_page === idx + 1 ? 'active' : ''}`}>
-                <button className="page-link" onClick={() => handlePageChange(idx + 1)}>
-                  {idx + 1}
+            {/* Previous button */}
+            <li className={`page-item ${pagination.current_page === 1 ? 'disabled' : ''}`}>
+              <button className="page-link" onClick={() => handlePageChange(pagination.current_page - 1)}>
+                &lsaquo;
+              </button>
+            </li>
+            
+            {/* Limited page numbers */}
+            {getPageNumbers(pagination.current_page, pagination.total_pages).map(pageNum => (
+              <li key={pageNum} className={`page-item ${pagination.current_page === pageNum ? 'active' : ''}`}>
+                <button className="page-link" onClick={() => handlePageChange(pageNum)}>
+                  {pageNum}
                 </button>
               </li>
             ))}
+            
+            {/* Next button */}
             <li className={`page-item ${pagination.current_page === pagination.total_pages ? 'disabled' : ''}`}>
               <button className="page-link" onClick={() => handlePageChange(pagination.current_page + 1)}>
-                Next
+                &rsaquo;
+              </button>
+            </li>
+            {/* Last page button */}
+            <li className={`page-item ${pagination.current_page === pagination.total_pages ? 'disabled' : ''}`}>
+              <button className="page-link" onClick={() => handlePageChange(pagination.total_pages)}>
+                &raquo;
               </button>
             </li>
           </ul>
