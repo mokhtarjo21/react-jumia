@@ -115,7 +115,7 @@ const UserDroplist = () => {
               </span>
               <span 
                 className={styles.dropdownItem} 
-                onClick={() => navigate("/order")}
+                onClick={() => navigate("/profile")}
               >
                 Orders
               </span>

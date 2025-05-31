@@ -8,6 +8,7 @@ import { useParams, useSearchParams, useLocation } from "react-router-dom";
 import CategoryGrid from "../category_grid/category_grid";
 import Breadcrumb from "../bread_crumb_navigator/nav";
 import "./category_page.css";
+import { useSelector } from 'react-redux';
 
 function CategoryPage() {
   const { category } = useParams();
@@ -36,6 +37,9 @@ function CategoryPage() {
     express_delivery: false,
     shipped_from: "",
   });
+
+  // Get authentication state from Redux store
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   let search_brand = category?.match(/^brand_(.+)$/);
   let search_products = category?.match(/^all_(.+)$/);
@@ -228,7 +232,10 @@ function CategoryPage() {
             handlePageChange={handlePageChange}
           />
         </div>
-          <BroductsBrowser title="recently viewed" filter="" recentlyViewed={true}/>
+        
+          {isLoggedIn && (
+            <BroductsBrowser title="recently viewed" filter="" recentlyViewed={true}/>
+          )}
           <CategoryInfo category={category_details} />
       </div>
     </div>
