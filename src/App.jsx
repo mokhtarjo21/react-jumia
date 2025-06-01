@@ -7,10 +7,7 @@ import store from "./store";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CheckoutPage from './components/cart/CheckoutPage';
-import PaymentSuccess from './components/PaymentSuccess';
-
-
+import CheckoutPage from "./components/cart/CheckoutPage";
 
 // Screens & Pages
 import JumiaLogin from "./components/login/HomeLogin";
@@ -25,7 +22,7 @@ import VendorDashboard from "./components/VendorDashboard/home";
 import Layout from "./components/productDetail/Layout";
 import Cart from "./components/cart/CartPage";
 import PaymentFailed from './components/cart/PaymentFailed';
-import PaymentSuccess from './components/cart/PaymentSuccess';
+import PaymentSuccess from './components/cart/PaymentSucess';
 
 
 
